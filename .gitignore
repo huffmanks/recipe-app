@@ -15,7 +15,7 @@
 
 # production
 /build
-/drizzle
+/db/drizzle
 sqlite.db
 
 # misc
