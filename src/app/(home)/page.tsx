@@ -1,4 +1,8 @@
-export default function Home() {
+
+
+export default async function Home() {
+
+
   return (
     <>
       <h1 className="mb-6 text-3xl font-medium tracking-wide">Home</h1>

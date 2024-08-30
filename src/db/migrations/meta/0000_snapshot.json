@@ -1,5 +1,5 @@
 {
-  "id": "c77fdfec-1f62-429e-aaa7-5a7758423b70",
+  "id": "12b7e044-c43a-4bd7-af2a-2177ffa0b85d",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -8,11 +8,12 @@
       "name": "categories",
       "schema": "",
       "columns": {
-        "uuid": {
-          "name": "uuid",
-          "type": "text",
+        "id": {
+          "name": "id",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "title": {
           "name": "title",
@@ -44,11 +45,12 @@
       "name": "cuisines",
       "schema": "",
       "columns": {
-        "uuid": {
-          "name": "uuid",
-          "type": "text",
+        "id": {
+          "name": "id",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "title": {
           "name": "title",
@@ -80,11 +82,12 @@
       "name": "families",
       "schema": "",
       "columns": {
-        "uuid": {
-          "name": "uuid",
-          "type": "text",
+        "id": {
+          "name": "id",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "title": {
           "name": "title",
@@ -100,22 +103,22 @@
         },
         "organization_id": {
           "name": "organization_id",
-          "type": "text",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         }
       },
       "indexes": {},
       "foreignKeys": {
-        "families_organization_id_organizations_uuid_fk": {
-          "name": "families_organization_id_organizations_uuid_fk",
+        "families_organization_id_organizations_id_fk": {
+          "name": "families_organization_id_organizations_id_fk",
           "tableFrom": "families",
           "tableTo": "organizations",
           "columnsFrom": [
             "organization_id"
           ],
           "columnsTo": [
-            "uuid"
+            "id"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
@@ -128,49 +131,50 @@
       "name": "favorites",
       "schema": "",
       "columns": {
-        "uuid": {
-          "name": "uuid",
-          "type": "text",
+        "id": {
+          "name": "id",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "user_id": {
           "name": "user_id",
-          "type": "text",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         },
         "recipe_id": {
           "name": "recipe_id",
-          "type": "text",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         }
       },
       "indexes": {},
       "foreignKeys": {
-        "favorites_user_id_users_uuid_fk": {
-          "name": "favorites_user_id_users_uuid_fk",
+        "favorites_user_id_users_id_fk": {
+          "name": "favorites_user_id_users_id_fk",
           "tableFrom": "favorites",
           "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
           "columnsTo": [
-            "uuid"
+            "id"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "favorites_recipe_id_recipes_uuid_fk": {
-          "name": "favorites_recipe_id_recipes_uuid_fk",
+        "favorites_recipe_id_recipes_id_fk": {
+          "name": "favorites_recipe_id_recipes_id_fk",
           "tableFrom": "favorites",
           "tableTo": "recipes",
           "columnsFrom": [
             "recipe_id"
           ],
           "columnsTo": [
-            "uuid"
+            "id"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
@@ -183,11 +187,12 @@
       "name": "organizations",
       "schema": "",
       "columns": {
-        "uuid": {
-          "name": "uuid",
-          "type": "text",
+        "id": {
+          "name": "id",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "title": {
           "name": "title",
@@ -213,41 +218,41 @@
       "columns": {
         "recipe_id": {
           "name": "recipe_id",
-          "type": "text",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         },
         "cuisine_id": {
           "name": "cuisine_id",
-          "type": "text",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         }
       },
       "indexes": {},
       "foreignKeys": {
-        "recipe_cuisines_recipe_id_recipes_uuid_fk": {
-          "name": "recipe_cuisines_recipe_id_recipes_uuid_fk",
+        "recipe_cuisines_recipe_id_recipes_id_fk": {
+          "name": "recipe_cuisines_recipe_id_recipes_id_fk",
           "tableFrom": "recipe_cuisines",
           "tableTo": "recipes",
           "columnsFrom": [
             "recipe_id"
           ],
           "columnsTo": [
-            "uuid"
+            "id"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "recipe_cuisines_cuisine_id_cuisines_uuid_fk": {
-          "name": "recipe_cuisines_cuisine_id_cuisines_uuid_fk",
+        "recipe_cuisines_cuisine_id_cuisines_id_fk": {
+          "name": "recipe_cuisines_cuisine_id_cuisines_id_fk",
           "tableFrom": "recipe_cuisines",
           "tableTo": "cuisines",
           "columnsFrom": [
             "cuisine_id"
           ],
           "columnsTo": [
-            "uuid"
+            "id"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
@@ -262,41 +267,41 @@
       "columns": {
         "recipe_id": {
           "name": "recipe_id",
-          "type": "text",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         },
         "tag_id": {
           "name": "tag_id",
-          "type": "text",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         }
       },
       "indexes": {},
       "foreignKeys": {
-        "recipe_tags_recipe_id_recipes_uuid_fk": {
-          "name": "recipe_tags_recipe_id_recipes_uuid_fk",
+        "recipe_tags_recipe_id_recipes_id_fk": {
+          "name": "recipe_tags_recipe_id_recipes_id_fk",
           "tableFrom": "recipe_tags",
           "tableTo": "recipes",
           "columnsFrom": [
             "recipe_id"
           ],
           "columnsTo": [
-            "uuid"
+            "id"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "recipe_tags_tag_id_tags_uuid_fk": {
-          "name": "recipe_tags_tag_id_tags_uuid_fk",
+        "recipe_tags_tag_id_tags_id_fk": {
+          "name": "recipe_tags_tag_id_tags_id_fk",
           "tableFrom": "recipe_tags",
           "tableTo": "tags",
           "columnsFrom": [
             "tag_id"
           ],
           "columnsTo": [
-            "uuid"
+            "id"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
@@ -309,15 +314,16 @@
       "name": "recipes",
       "schema": "",
       "columns": {
-        "uuid": {
-          "name": "uuid",
-          "type": "text",
+        "id": {
+          "name": "id",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "user_id": {
           "name": "user_id",
-          "type": "text",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         },
@@ -347,7 +353,7 @@
         },
         "category_id": {
           "name": "category_id",
-          "type": "text",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         },
@@ -386,28 +392,28 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "recipes_user_id_users_uuid_fk": {
-          "name": "recipes_user_id_users_uuid_fk",
+        "recipes_user_id_users_id_fk": {
+          "name": "recipes_user_id_users_id_fk",
           "tableFrom": "recipes",
           "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
           "columnsTo": [
-            "uuid"
+            "id"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "recipes_category_id_categories_uuid_fk": {
-          "name": "recipes_category_id_categories_uuid_fk",
+        "recipes_category_id_categories_id_fk": {
+          "name": "recipes_category_id_categories_id_fk",
           "tableFrom": "recipes",
           "tableTo": "categories",
           "columnsFrom": [
             "category_id"
           ],
           "columnsTo": [
-            "uuid"
+            "id"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
@@ -428,21 +434,22 @@
       "name": "schedules",
       "schema": "",
       "columns": {
-        "uuid": {
-          "name": "uuid",
-          "type": "text",
+        "id": {
+          "name": "id",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "family_id": {
           "name": "family_id",
-          "type": "text",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         },
         "recipe_id": {
           "name": "recipe_id",
-          "type": "text",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         },
@@ -461,28 +468,28 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "schedules_family_id_families_uuid_fk": {
-          "name": "schedules_family_id_families_uuid_fk",
+        "schedules_family_id_families_id_fk": {
+          "name": "schedules_family_id_families_id_fk",
           "tableFrom": "schedules",
           "tableTo": "families",
           "columnsFrom": [
             "family_id"
           ],
           "columnsTo": [
-            "uuid"
+            "id"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "schedules_recipe_id_recipes_uuid_fk": {
-          "name": "schedules_recipe_id_recipes_uuid_fk",
+        "schedules_recipe_id_recipes_id_fk": {
+          "name": "schedules_recipe_id_recipes_id_fk",
           "tableFrom": "schedules",
           "tableTo": "recipes",
           "columnsFrom": [
             "recipe_id"
           ],
           "columnsTo": [
-            "uuid"
+            "id"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
@@ -495,11 +502,12 @@
       "name": "tags",
       "schema": "",
       "columns": {
-        "uuid": {
-          "name": "uuid",
-          "type": "text",
+        "id": {
+          "name": "id",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "title": {
           "name": "title",
@@ -531,11 +539,12 @@
       "name": "users",
       "schema": "",
       "columns": {
-        "uuid": {
-          "name": "uuid",
-          "type": "text",
+        "id": {
+          "name": "id",
+          "type": "uuid",
           "primaryKey": true,
-          "notNull": true
+          "notNull": true,
+          "default": "gen_random_uuid()"
         },
         "first_name": {
           "name": "first_name",
@@ -563,41 +572,41 @@
         },
         "organization_id": {
           "name": "organization_id",
-          "type": "text",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         },
         "family_id": {
           "name": "family_id",
-          "type": "text",
+          "type": "uuid",
           "primaryKey": false,
           "notNull": false
         }
       },
       "indexes": {},
       "foreignKeys": {
-        "users_organization_id_organizations_uuid_fk": {
-          "name": "users_organization_id_organizations_uuid_fk",
+        "users_organization_id_organizations_id_fk": {
+          "name": "users_organization_id_organizations_id_fk",
           "tableFrom": "users",
           "tableTo": "organizations",
           "columnsFrom": [
             "organization_id"
           ],
           "columnsTo": [
-            "uuid"
+            "id"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "users_family_id_families_uuid_fk": {
-          "name": "users_family_id_families_uuid_fk",
+        "users_family_id_families_id_fk": {
+          "name": "users_family_id_families_id_fk",
           "tableFrom": "users",
           "tableTo": "families",
           "columnsFrom": [
             "family_id"
           ],
           "columnsTo": [
-            "uuid"
+            "id"
           ],
           "onDelete": "no action",
           "onUpdate": "no action"

@@ -1,54 +1,55 @@
-import { integer, jsonb, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
+import { integer, jsonb, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 
 export const organizations = pgTable("organizations", {
-  id: text("uuid").primaryKey(),
+  id: uuid("id").primaryKey().defaultRandom().notNull(),
   title: text("title").notNull(),
   image: text("image"),
 });
 
 export const families = pgTable("families", {
-  id: text("uuid").primaryKey(),
+  id: uuid("id").primaryKey().defaultRandom().notNull(),
   title: text("title").notNull(),
   image: text("image"),
-  organizationId: text("organization_id").references(() => organizations.id),
+  organizationId: uuid("organization_id").references(() => organizations.id),
 });
 
 export const users = pgTable("users", {
-  id: text("uuid").primaryKey(),
+  id: uuid("id").primaryKey().defaultRandom().notNull(),
   firstName: text("first_name").notNull(),
   lastName: text("last_name").notNull(),
   username: text("username").notNull().unique(),
   image: text("image"),
-  organizationId: text("organization_id").references(() => organizations.id),
-  familyId: text("family_id").references(() => families.id),
+  organizationId: uuid("organization_id").references(() => organizations.id),
+  familyId: uuid("family_id").references(() => families.id),
 });
 
 export const categories = pgTable("categories", {
-  id: text("uuid").primaryKey(),
+  id: uuid("id").primaryKey().defaultRandom().notNull(),
   title: text("title").notNull(),
   slug: text("slug").notNull().unique(),
 });
 
 export const cuisines = pgTable("cuisines", {
-  id: text("uuid").primaryKey(),
+  id: uuid("id").primaryKey().defaultRandom().notNull(),
   title: text("title").notNull(),
   slug: text("slug").notNull().unique(),
 });
 
 export const tags = pgTable("tags", {
-  id: text("uuid").primaryKey(),
+  id: uuid("id").primaryKey().defaultRandom().notNull(),
   title: text("title").notNull(),
   slug: text("slug").notNull().unique(),
 });
 
 export const recipes = pgTable("recipes", {
-  id: text("uuid").primaryKey(),
-  userId: text("user_id").references(() => users.id),
+  id: uuid("id").primaryKey().defaultRandom().notNull(),
+  userId: uuid("user_id").references(() => users.id),
   title: text("title").notNull(),
   slug: text("slug").notNull().unique(),
   description: text("description"),
   image: text("image"),
-  categoryId: text("category_id").references(() => categories.id),
+  categoryId: uuid("category_id").references(() => categories.id),
   servingSize: integer("serving_size"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
@@ -57,62 +58,69 @@ export const recipes = pgTable("recipes", {
 });
 
 export const recipeCuisines = pgTable("recipe_cuisines", {
-  recipeId: text("recipe_id").references(() => recipes.id),
-  cuisineId: text("cuisine_id").references(() => cuisines.id),
+  recipeId: uuid("recipe_id").references(() => recipes.id),
+  cuisineId: uuid("cuisine_id").references(() => cuisines.id),
 });
 
 export const recipeTags = pgTable("recipe_tags", {
-  recipeId: text("recipe_id").references(() => recipes.id),
-  tagId: text("tag_id").references(() => tags.id),
+  recipeId: uuid("recipe_id").references(() => recipes.id),
+  tagId: uuid("tag_id").references(() => tags.id),
 });
 
 export const favorites = pgTable("favorites", {
-  id: text("uuid").primaryKey(),
-  userId: text("user_id").references(() => users.id),
-  recipeId: text("recipe_id").references(() => recipes.id),
+  id: uuid("id").primaryKey().defaultRandom().notNull(),
+  userId: uuid("user_id").references(() => users.id),
+  recipeId: uuid("recipe_id").references(() => recipes.id),
 });
 
 export const schedules = pgTable("schedules", {
-  id: text("uuid").primaryKey(),
-  familyId: text("family_id").references(() => families.id),
-  recipeId: text("recipe_id").references(() => recipes.id),
+  id: uuid("id").primaryKey().defaultRandom().notNull(),
+  familyId: uuid("family_id").references(() => families.id),
+  recipeId: uuid("recipe_id").references(() => recipes.id),
   dateTime: timestamp("date_time").notNull(),
   meal: text("meal").notNull(), // breakfast, lunch, dinner
 });
 
-// export const userRelations = relations(users, ({ one, many }) => ({
-//   organization: one(organizations, {
-//     fields: [users.organizationId],
-//     references: [organizations.id],
-//   }),
-//   family: one(families, {
-//     fields: [users.familyId],
-//     references: [families.id],
-//   }),
-//   recipes: many(recipes),
-//   favorites: many(favorites),
-// }));
+export const userRelations = relations(users, ({ one, many }) => ({
+  organization: one(organizations, {
+    fields: [users.organizationId],
+    references: [organizations.id],
+  }),
+  family: one(families, {
+    fields: [users.familyId],
+    references: [families.id],
+  }),
+  recipes: many(recipes),
+  favorites: many(favorites),
+}));
 
-// export const familyRelations = relations(families, ({ one, many }) => ({
-//   organization: one(organizations, {
-//     fields: [families.organizationId],
-//     references: [organizations.id],
-//   }),
-//   users: many(users),
-//   schedules: many(schedules),
-// }));
+export const familyRelations = relations(families, ({ one, many }) => ({
+  organization: one(organizations, {
+    fields: [families.organizationId],
+    references: [organizations.id],
+  }),
+  users: many(users),
+  schedules: many(schedules),
+}));
 
-// export const recipeRelations = relations(recipes, ({ one, many }) => ({
-//   user: one(users, {
-//     fields: [recipes.userId],
-//     references: [users.id],
-//   }),
-//   category: one(categories, {
-//     fields: [recipes.categoryId],
-//     references: [categories.id],
-//   }),
-//   cuisines: many(recipeCuisines),
-//   tags: many(recipeTags),
-//   favorites: many(favorites),
-//   schedules: many(schedules),
-// }));
+export const recipeRelations = relations(recipes, ({ one, many }) => ({
+  user: one(users, {
+    fields: [recipes.userId],
+    references: [users.id],
+  }),
+  category: one(categories, {
+    fields: [recipes.categoryId],
+    references: [categories.id],
+  }),
+  cuisines: many(recipeCuisines),
+  tags: many(recipeTags),
+  favorites: many(favorites),
+  schedules: many(schedules),
+}));
+
+export type SelectOrganization = typeof organizations.$inferSelect;
+export type InsertOrganization = typeof organizations.$inferInsert;
+export type SelectFamily = typeof families.$inferSelect;
+export type InsertFamily = typeof families.$inferInsert;
+export type SelectUser = typeof users.$inferSelect;
+export type InsertUser = typeof users.$inferInsert;
