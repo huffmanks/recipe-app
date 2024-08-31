@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -26,7 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createUser } from "../actions";
+import { createUser, updateUser } from "./actions";
 
 const FormSchema = z.object({
   firstName: z.string().min(2, {
@@ -42,19 +43,28 @@ const FormSchema = z.object({
   familyId: z.string().nullish(),
 });
 
-interface UpdateUserFormProps {
-  userData: Omit<SelectUser, "image">;
+interface UserFormProps {
+  userData?: Omit<SelectUser, "image">;
   orgData: SelectOrganization[] | null;
   famData: SelectFamily[] | null;
 }
 
-export function UpdateUserForm({ userData, orgData, famData }: UpdateUserFormProps) {
+export function UserForm({ userData, orgData, famData }: UserFormProps) {
   const [familyArr, setFamilyArr] = useState<SelectFamily[] | null>(famData);
   const [isLoaded, setIsLoaded] = useState(false);
+  const isUpdateMode = !!userData;
+
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: { ...userData },
+    defaultValues: userData || {
+      firstName: "",
+      lastName: "",
+      username: "",
+      organizationId: "",
+      familyId: "",
+    },
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
@@ -63,31 +73,42 @@ export function UpdateUserForm({ userData, orgData, famData }: UpdateUserFormPro
       ...data,
     };
 
-    const createdUser = await createUser(newUser);
+    const result = isUpdateMode ? await updateUser(userData.id, data) : await createUser(newUser);
 
-    if (createdUser) {
-      toast.success("Successfully created user!", {
-        description: createdUser[0].firstName,
+    if (result) {
+      toast.success(isUpdateMode ? "Successfully updated user!" : "Successfully created user!", {
+        description: result[0].firstName,
       });
+
+      router.push("/admin/users");
     } else {
-      toast.error("Creating user failed!");
+      toast.error(isUpdateMode ? "Updating user failed!" : "Creating user failed!");
     }
   }
 
-  const orgSelect = form.getValues("organizationId");
+  const orgSelect = form.watch("organizationId");
+
+  function updateFamilySelect() {
+    const filteredFam = famData?.filter((fam) => fam.organizationId === orgSelect);
+
+    if (filteredFam && filteredFam.length > 0) {
+      setFamilyArr(filteredFam);
+    }
+  }
 
   useEffect(() => {
     if (!isLoaded) {
       setIsLoaded(true);
+
+      if (orgSelect !== "") {
+        updateFamilySelect();
+      }
       return;
     }
-    if (famData) {
-      const filteredFam = famData.filter((fam) => fam.organizationId === orgSelect);
 
-      if (filteredFam.length > 0) {
-        setFamilyArr(filteredFam);
-        form.setValue("familyId", "");
-      }
+    if (famData && orgSelect !== "") {
+      updateFamilySelect();
+      form.setValue("familyId", "");
     }
   }, [orgSelect]);
 
@@ -213,7 +234,7 @@ export function UpdateUserForm({ userData, orgData, famData }: UpdateUserFormPro
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit">{isUpdateMode ? "Update" : "Create"}</Button>
       </form>
     </Form>
   );

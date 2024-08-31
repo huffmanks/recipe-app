@@ -23,7 +23,9 @@ export default function UserRow({ user }: UserRowProps) {
 
   return (
     <>
-      <TableRow onClick={() => handleClick(user.id)}>
+      <TableRow
+        className="cursor-pointer"
+        onClick={() => handleClick(user.id)}>
         <TableCell>{user.firstName}</TableCell>
         <TableCell>{user.lastName}</TableCell>
         <TableCell>{user.username}</TableCell>

@@ -1,8 +1,8 @@
 import { eq, getTableColumns } from "drizzle-orm";
 
+import { UserForm } from "@/app/admin/users/form";
 import db from "@/db";
 import { families, organizations, users } from "@/db/schema";
-import { UpdateUserForm } from "./form";
 
 export default async function AdminUpdateUsersPage({ params }: { params: { id: string } }) {
   const { image, ...rest } = getTableColumns(users);
@@ -19,7 +19,7 @@ export default async function AdminUpdateUsersPage({ params }: { params: { id: s
     <>
       <h1 className="mb-6 text-3xl font-medium tracking-wide">AdminUpdateUsersPage</h1>
 
-      <UpdateUserForm
+      <UserForm
         userData={user[0]}
         orgData={orgData}
         famData={famData}

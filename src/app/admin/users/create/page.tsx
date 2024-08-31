@@ -1,19 +1,20 @@
 import db from "@/db";
 import { families, organizations } from "@/db/schema";
 
-import { CreateUserForm } from "./form";
+import { UserForm } from "@/app/admin/users/form";
 
 export default async function AdminCreateUsersPage() {
-  const orgData = await db.select().from(organizations)
-  const famData = await db.select().from(families)
+  const orgData = await db.select().from(organizations);
+  const famData = await db.select().from(families);
 
   return (
     <>
-      <h1 className="mb-6 text-3xl font-medium tracking-wide">
-        AdminCreateUsersPage
-      </h1>
+      <h1 className="mb-6 text-3xl font-medium tracking-wide">AdminCreateUsersPage</h1>
 
-      <CreateUserForm orgData={orgData} famData={famData} />
+      <UserForm
+        orgData={orgData}
+        famData={famData}
+      />
     </>
   );
 }
