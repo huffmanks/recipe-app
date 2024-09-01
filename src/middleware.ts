@@ -17,7 +17,7 @@ export async function middleware(req: NextRequest) {
 
   const isProtectedRoute = req.nextUrl.pathname.startsWith("/admin");
 
-  if (isProtectedRoute && session.email !== "test@example.com") {
+  if (isProtectedRoute && session.role !== "admin") {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
@@ -25,5 +25,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: "/((?!api|_next/static|_next/image|favicon.ico|!admin).*)",
+  matcher: "/((?!api|_next/static|_next/image|favicon.ic|!admin).*)",
 };

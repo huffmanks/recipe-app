@@ -10,8 +10,8 @@ export default function SidebarAvatar() {
 
   if (!session.data?.user) return null;
 
-  const userInitial = session.data.user.email
-    ? session.data.user.email.substring(0, 1).toUpperCase()
+  const userInitial = session.data.user.name
+    ? session.data.user.name.substring(0, 1).toUpperCase()
     : "A";
   return (
     <div className="flex w-full items-center justify-between">
@@ -20,7 +20,7 @@ export default function SidebarAvatar() {
           <AvatarImage src={session.data.user.image!} />
           <AvatarFallback>{userInitial}</AvatarFallback>
         </Avatar>
-        <span>{session.data.user.email}</span>
+        <span>{session.data.user.name}</span>
       </div>
       <MoreHorizontalIcon size={20} />
     </div>

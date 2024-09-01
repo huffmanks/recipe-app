@@ -1,7 +1,9 @@
+import { eq } from "drizzle-orm";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
 import db from "@/db";
+import { users } from "@/db/schema";
 import env from "@/env";
 import { signInSchema } from "./schema";
 
@@ -12,19 +14,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         username: {},
         password: {},
       },
-
       authorize: async (credentials) => {
-        let user = null;
+        const { username } = await signInSchema.parseAsync(credentials);
 
-        const { username, password } = await signInSchema.parseAsync(credentials);
-
-        // user = {username, password}
-
-        user = await db.query.users.findFirst();
+        const user = await db.query.users.findFirst({
+          where: eq(users.username, username),
+        });
 
         if (!user) {
-          // No user found, so this is their first attempt to login
-          // meaning this is also the place you could do registration
           throw new Error("User not found.");
         }
 
@@ -34,26 +31,23 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
   callbacks: {
     async jwt({ token, user }) {
-      // If user is available (sign in)
       if (user) {
         token.id = user.id;
         token.username = user.username;
         token.name = `${user.firstName} ${user.lastName}`;
-        token.picture = user.image;
+        token.picture = user.image ?? "";
+        token.role = user.role;
       }
 
-      // If you need to customize the token further here
-      // Example: add custom claims or modify existing ones
       return token;
     },
     async session({ session, token }) {
-      // Attach additional properties from the token to the session
       if (token) {
         session.user.id = token.id;
         session.user.username = token.username;
         session.user.name = token.name;
         session.user.image = token.picture;
-        // Attach any other properties you want to the session object
+        session.user.role = token.role;
       }
       return session;
     },

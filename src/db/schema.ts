@@ -1,4 +1,5 @@
-import { integer, jsonb, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
+import { integer, jsonb, pgEnum, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 
 export const organizations = pgTable("organizations", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
@@ -13,12 +14,15 @@ export const families = pgTable("families", {
   organizationId: uuid("organization_id").references(() => organizations.id),
 });
 
+export const UserRole = pgEnum("role", ["admin", "user"]);
+
 export const users = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
   firstName: text("first_name").notNull(),
   lastName: text("last_name").notNull(),
   username: text("username").unique().notNull(),
   image: text("image"),
+  role: UserRole("role").default("user").notNull(),
   organizationId: uuid("organization_id").references(() => organizations.id),
   familyId: uuid("family_id").references(() => families.id),
 });
@@ -80,42 +84,42 @@ export const schedules = pgTable("schedules", {
   meal: text("meal").notNull(), // breakfast, lunch, dinner
 });
 
-// export const userRelations = relations(users, ({ one, many }) => ({
-//   organization: one(organizations, {
-//     fields: [users.organizationId],
-//     references: [organizations.id],
-//   }),
-//   family: one(families, {
-//     fields: [users.familyId],
-//     references: [families.id],
-//   }),
-//   recipes: many(recipes),
-//   favorites: many(favorites),
-// }));
+export const userRelations = relations(users, ({ one, many }) => ({
+  organization: one(organizations, {
+    fields: [users.organizationId],
+    references: [organizations.id],
+  }),
+  family: one(families, {
+    fields: [users.familyId],
+    references: [families.id],
+  }),
+  recipes: many(recipes),
+  favorites: many(favorites),
+}));
 
-// export const familyRelations = relations(families, ({ one, many }) => ({
-//   organization: one(organizations, {
-//     fields: [families.organizationId],
-//     references: [organizations.id],
-//   }),
-//   users: many(users),
-//   schedules: many(schedules),
-// }));
+export const familyRelations = relations(families, ({ one, many }) => ({
+  organization: one(organizations, {
+    fields: [families.organizationId],
+    references: [organizations.id],
+  }),
+  users: many(users),
+  schedules: many(schedules),
+}));
 
-// export const recipeRelations = relations(recipes, ({ one, many }) => ({
-//   user: one(users, {
-//     fields: [recipes.userId],
-//     references: [users.id],
-//   }),
-//   category: one(categories, {
-//     fields: [recipes.categoryId],
-//     references: [categories.id],
-//   }),
-//   cuisines: many(recipeCuisines),
-//   tags: many(recipeTags),
-//   favorites: many(favorites),
-//   schedules: many(schedules),
-// }));
+export const recipeRelations = relations(recipes, ({ one, many }) => ({
+  user: one(users, {
+    fields: [recipes.userId],
+    references: [users.id],
+  }),
+  category: one(categories, {
+    fields: [recipes.categoryId],
+    references: [categories.id],
+  }),
+  cuisines: many(recipeCuisines),
+  tags: many(recipeTags),
+  favorites: many(favorites),
+  schedules: many(schedules),
+}));
 
 export type SelectOrganization = typeof organizations.$inferSelect;
 export type InsertOrganization = typeof organizations.$inferInsert;

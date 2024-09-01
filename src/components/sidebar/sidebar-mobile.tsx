@@ -5,25 +5,28 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { adminLinks, siteLinks } from "@/config/site";
+
 import SidebarAccount from "@/components/sidebar/sidebar-account";
 import SidebarAvatar from "@/components/sidebar/sidebar-avatar";
 import { SidebarButtonSheet as SidebarButton } from "@/components/sidebar/sidebar-button";
 import SidebarLogo from "@/components/sidebar/sidebar-logo";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTrigger } from "@/components/ui/sheet";
-import { adminLinks, siteLinks } from "@/config/site";
 
 export default function SidebarMobile() {
   const pathname = usePathname();
   const session = useSession();
+
+  const isAdmin = session?.data?.user?.role === "admin" ? true : false;
 
   return (
     <Sheet>
@@ -50,49 +53,49 @@ export default function SidebarMobile() {
           </SheetClose>
         </SheetHeader>
         <div className="h-full">
-          <div className="mt-5 flex w-full flex-col gap-1">
-            {siteLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}>
-                <SidebarButton
-                  className="w-full"
-                  variant={pathname === link.href ? "secondary" : "ghost"}>
-                  {link.label}
-                </SidebarButton>
-              </Link>
-            ))}
+          <div className="mt-5">
+            <Accordion
+              type="single"
+              className="w-full"
+              defaultValue={pathname.startsWith("/admin") ? "admin" : "dashboard"}>
+              <AccordionItem value="dashboard">
+                <AccordionTrigger className="px-2.5 hover:no-underline">Dashboard</AccordionTrigger>
+                <AccordionContent className="flex w-full flex-col gap-1">
+                  {siteLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}>
+                      <SidebarButton
+                        className="w-full"
+                        variant={pathname === link.href ? "default" : "ghost"}>
+                        {link.label}
+                      </SidebarButton>
+                    </Link>
+                  ))}
+                </AccordionContent>
+              </AccordionItem>
 
-            {session && (
-              <>
-                <Separator className="mb-4 mt-2" />
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      className="w-full justify-start gap-2"
-                      variant={pathname.startsWith("/admin") ? "default" : "ghost"}>
-                      <span>Admin</span>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-[354px]">
+              {isAdmin && (
+                <AccordionItem value="admin">
+                  <AccordionTrigger className="px-2.5 hover:no-underline">Admin</AccordionTrigger>
+                  <AccordionContent className="flex w-full flex-col gap-1">
                     {adminLinks.map((link) => (
-                      <DropdownMenuItem
+                      <Link
                         key={link.href}
-                        asChild>
-                        <Link href={link.href}>
-                          <SidebarButton
-                            className="w-full"
-                            variant={pathname === link.href ? "secondary" : "ghost"}>
-                            {link.label}
-                          </SidebarButton>
-                        </Link>
-                      </DropdownMenuItem>
+                        href={link.href}>
+                        <SidebarButton
+                          className="w-full"
+                          variant={pathname === link.href ? "default" : "ghost"}>
+                          {link.label}
+                        </SidebarButton>
+                      </Link>
                     ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </>
-            )}
+                  </AccordionContent>
+                </AccordionItem>
+              )}
+            </Accordion>
           </div>
+
           <div className="absolute bottom-4 left-0 w-full px-1">
             <Separator className="absolute -top-3 left-0 w-full" />
             <Drawer>

@@ -15,11 +15,9 @@ export default async function ProfilePage() {
       image: false,
     },
   });
-
-  console.log("session", session);
-  console.log("user", userData);
   const orgData = await db.select().from(organizations);
   const famData = await db.select().from(families);
+
   return (
     <>
       <h1 className="mb-6 text-3xl font-medium tracking-wide">Profile</h1>

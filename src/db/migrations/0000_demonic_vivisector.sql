@@ -1,3 +1,9 @@
+DO $$ BEGIN
+ CREATE TYPE "public"."role" AS ENUM('admin', 'user');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "categories" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"title" text NOT NULL,
@@ -78,6 +84,7 @@ CREATE TABLE IF NOT EXISTS "users" (
 	"last_name" text NOT NULL,
 	"username" text NOT NULL,
 	"image" text,
+	"role" "role" DEFAULT 'user' NOT NULL,
 	"organization_id" uuid,
 	"family_id" uuid,
 	CONSTRAINT "users_username_unique" UNIQUE("username")

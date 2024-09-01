@@ -1,5 +1,5 @@
 {
-  "id": "12b7e044-c43a-4bd7-af2a-2177ffa0b85d",
+  "id": "e90f7c24-4a1a-4ed6-adc7-6b14890960f9",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -570,6 +570,14 @@
           "primaryKey": false,
           "notNull": false
         },
+        "role": {
+          "name": "role",
+          "type": "role",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'user'"
+        },
         "organization_id": {
           "name": "organization_id",
           "type": "uuid",
@@ -624,7 +632,16 @@
       }
     }
   },
-  "enums": {},
+  "enums": {
+    "public.role": {
+      "name": "role",
+      "schema": "public",
+      "values": [
+        "admin",
+        "user"
+      ]
+    }
+  },
   "schemas": {},
   "sequences": {},
   "_meta": {

@@ -1,7 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -39,6 +40,7 @@ const FormSchema = z.object({
   username: z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),
+  role: z.enum(["admin", "user"]),
   organizationId: z.string().nullish(),
   familyId: z.string().nullish(),
 });
@@ -52,9 +54,14 @@ interface UserFormProps {
 export function UserForm({ userData, orgData, famData }: UserFormProps) {
   const [familyArr, setFamilyArr] = useState<SelectFamily[] | null>(famData);
   const [isLoaded, setIsLoaded] = useState(false);
-  const isUpdateMode = !!userData;
 
+  const pathname = usePathname();
   const router = useRouter();
+  const session = useSession();
+
+  const isUpdateMode = !!userData;
+  const isProfilePage = pathname === "/profile";
+  const isAdmin = session?.data?.user?.role === "admin" ? true : false;
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -62,6 +69,7 @@ export function UserForm({ userData, orgData, famData }: UserFormProps) {
       firstName: "",
       lastName: "",
       username: "",
+      role: "user",
       organizationId: "",
       familyId: "",
     },
@@ -73,16 +81,32 @@ export function UserForm({ userData, orgData, famData }: UserFormProps) {
       ...data,
     };
 
-    const result = isUpdateMode ? await updateUser(userData.id, data) : await createUser(newUser);
+    const { role, ...rest } = data;
+
+    const result = isUpdateMode
+      ? await updateUser(userData.id, isAdmin ? data : rest)
+      : await createUser(newUser);
 
     if (result) {
-      toast.success(isUpdateMode ? "Successfully updated user!" : "Successfully created user!", {
-        description: result[0].firstName,
-      });
+      toast.success(
+        isProfilePage
+          ? "Successfully updated your profile!"
+          : isUpdateMode
+            ? `Successfully updated user ${result[0].firstName}!`
+            : `Successfully created user ${result[0].firstName}!`
+      );
 
-      router.push("/admin/users");
+      if (!isProfilePage) {
+        router.push("/admin/users");
+      }
     } else {
-      toast.error(isUpdateMode ? "Updating user failed!" : "Creating user failed!");
+      toast.error(
+        isProfilePage
+          ? "Updating your profile failed!"
+          : isUpdateMode
+            ? "Updating user failed!"
+            : "Creating user failed!"
+      );
     }
   }
 
@@ -170,6 +194,33 @@ export function UserForm({ userData, orgData, famData }: UserFormProps) {
             </FormItem>
           )}
         />
+
+        {isAdmin && (
+          <FormField
+            control={form.control}
+            name="role"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Role</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  value={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a role" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="user">User</SelectItem>
+                    <SelectItem value="admin">Admin</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormDescription>You must select a role.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
 
         <FormField
           control={form.control}

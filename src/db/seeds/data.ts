@@ -214,6 +214,7 @@ export const userData = [
     lastName: "Nyx",
     username: "echonyx",
     image: "https://placehold.co/600x600/blue/white.png?text=E",
+    role: "admin",
     organizationId: org2,
     familyId: fam4,
   },

@@ -21,6 +21,7 @@ export default async function AdminUsersPage() {
               <TableHead>First name</TableHead>
               <TableHead>Last name</TableHead>
               <TableHead>Username</TableHead>
+              <TableHead>Role</TableHead>
               <TableHead>Organization</TableHead>
               <TableHead>Family</TableHead>
             </TableRow>

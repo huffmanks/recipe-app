@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
+import { SITE_DESCRIPTION, SITE_TITLE } from "@/config/site";
+
 import { NextAuthProvider, ThemeProvider } from "@/components/provider";
 import Sidebar from "@/components/sidebar";
 import { Toaster } from "@/components/ui/sonner";
-
-import { SITE_DESCRIPTION, SITE_TITLE } from "@/config/site";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,7 +37,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange>
             <Sidebar />
-            <main className="px-5 pt-20 sm:pl-[300px] sm:pt-5">{children}</main>
+            <main className="px-5 pb-8 pt-20 sm:pl-[300px] sm:pt-5">{children}</main>
             <Toaster richColors />
           </ThemeProvider>
         </NextAuthProvider>
