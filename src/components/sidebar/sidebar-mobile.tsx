@@ -1,43 +1,30 @@
-"use client";
-
 import { MenuIcon, XIcon } from "lucide-react";
-import { useSession } from "next-auth/react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-
-import { adminLinks, siteLinks } from "@/config/site";
 
 import SidebarAccount from "@/components/sidebar/sidebar-account";
 import SidebarAvatar from "@/components/sidebar/sidebar-avatar";
-import { SidebarButtonSheet as SidebarButton } from "@/components/sidebar/sidebar-button";
+import SidebarItems from "@/components/sidebar/sidebar-items";
 import SidebarLogo from "@/components/sidebar/sidebar-logo";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTrigger } from "@/components/ui/sheet";
 
 export default function SidebarMobile() {
-  const pathname = usePathname();
-  const session = useSession();
-
-  const isAdmin = session?.data?.user?.role === "admin" ? true : false;
-
   return (
     <Sheet>
-      <SheetTrigger asChild>
-        <Button
-          size="icon"
-          variant="ghost"
-          className="fixed left-3 top-3">
-          <MenuIcon size={20} />
-        </Button>
-      </SheetTrigger>
+      <header className="fixed left-0 right-0 top-0 z-20 bg-secondary pb-2 pt-1.5">
+        <SheetTrigger asChild>
+          <Button
+            size="icon"
+            variant="ghost"
+            className="absolute left-3 top-3">
+            <MenuIcon size={20} />
+          </Button>
+        </SheetTrigger>
+        <div className="flex items-center justify-center px-3">
+          <SidebarLogo />
+        </div>
+      </header>
       <SheetContent
         side="left"
         className="px-3 py-4"
@@ -54,46 +41,7 @@ export default function SidebarMobile() {
         </SheetHeader>
         <div className="h-full">
           <div className="mt-5">
-            <Accordion
-              type="single"
-              className="w-full"
-              defaultValue={pathname.startsWith("/admin") ? "admin" : "dashboard"}>
-              <AccordionItem value="dashboard">
-                <AccordionTrigger className="px-2.5 hover:no-underline">Dashboard</AccordionTrigger>
-                <AccordionContent className="flex w-full flex-col gap-1">
-                  {siteLinks.map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}>
-                      <SidebarButton
-                        className="w-full"
-                        variant={pathname === link.href ? "default" : "ghost"}>
-                        {link.label}
-                      </SidebarButton>
-                    </Link>
-                  ))}
-                </AccordionContent>
-              </AccordionItem>
-
-              {isAdmin && (
-                <AccordionItem value="admin">
-                  <AccordionTrigger className="px-2.5 hover:no-underline">Admin</AccordionTrigger>
-                  <AccordionContent className="flex w-full flex-col gap-1">
-                    {adminLinks.map((link) => (
-                      <Link
-                        key={link.href}
-                        href={link.href}>
-                        <SidebarButton
-                          className="w-full"
-                          variant={pathname === link.href ? "default" : "ghost"}>
-                          {link.label}
-                        </SidebarButton>
-                      </Link>
-                    ))}
-                  </AccordionContent>
-                </AccordionItem>
-              )}
-            </Accordion>
+            <SidebarItems />
           </div>
 
           <div className="absolute bottom-4 left-0 w-full px-1">
