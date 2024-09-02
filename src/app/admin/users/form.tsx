@@ -40,13 +40,13 @@ const FormSchema = z.object({
   username: z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),
-  role: z.enum(["admin", "user"]),
+  role: z.enum(["admin", "member", "guest"]),
   organizationId: z.string().nullish(),
   familyId: z.string().nullish(),
 });
 
 interface UserFormProps {
-  userData?: Omit<SelectUser, "image">;
+  userData?: SelectUser;
   orgData: SelectOrganization[] | null;
   famData: SelectFamily[] | null;
 }
@@ -69,23 +69,18 @@ export function UserForm({ userData, orgData, famData }: UserFormProps) {
       firstName: "",
       lastName: "",
       username: "",
-      role: "user",
+      role: "member",
       organizationId: "",
       familyId: "",
     },
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    const newUser = {
-      image: `https://placehold.co/600x600/purple/white.png?text=${data.firstName[0].toUpperCase()}`,
-      ...data,
-    };
-
     const { role, ...rest } = data;
 
     const result = isUpdateMode
       ? await updateUser(userData.id, isAdmin ? data : rest)
-      : await createUser(newUser);
+      : await createUser(data);
 
     if (result) {
       toast.success(
@@ -149,7 +144,7 @@ export function UserForm({ userData, orgData, famData }: UserFormProps) {
               <FormLabel>First name</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="John"
+                  placeholder="Mira"
                   {...field}
                 />
               </FormControl>
@@ -167,7 +162,7 @@ export function UserForm({ userData, orgData, famData }: UserFormProps) {
               <FormLabel>Last name</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Doe"
+                  placeholder="Artemis"
                   {...field}
                 />
               </FormControl>
@@ -185,7 +180,7 @@ export function UserForm({ userData, orgData, famData }: UserFormProps) {
               <FormLabel>Username</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="doej"
+                  placeholder="artemism"
                   {...field}
                 />
               </FormControl>
@@ -211,7 +206,8 @@ export function UserForm({ userData, orgData, famData }: UserFormProps) {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="user">User</SelectItem>
+                    <SelectItem value="member">Member</SelectItem>
+                    <SelectItem value="guest">Guest</SelectItem>
                     <SelectItem value="admin">Admin</SelectItem>
                   </SelectContent>
                 </Select>

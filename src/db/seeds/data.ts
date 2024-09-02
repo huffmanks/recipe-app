@@ -34,11 +34,15 @@ const user15 = uuidv4();
 const user16 = uuidv4();
 const user17 = uuidv4();
 const user18 = uuidv4();
+const user19 = uuidv4();
+const user20 = uuidv4();
+const user21 = uuidv4();
 const cat1 = uuidv4();
 const cat2 = uuidv4();
 const cat3 = uuidv4();
 const cat4 = uuidv4();
 const cat5 = uuidv4();
+const cat6 = uuidv4();
 const cuisine1 = uuidv4();
 const cuisine2 = uuidv4();
 const cuisine3 = uuidv4();
@@ -69,11 +73,13 @@ export const orgData = [
   {
     id: org1,
     title: "Aurelia",
+    slug: "aurelia",
     image: "https://placehold.co/600x600/purple/white.png?text=A",
   },
   {
     id: org2,
     title: "Nebulon",
+    slug: "nebulon",
     image: "https://placehold.co/600x600/orange/white.png?text=N",
   },
 ];
@@ -82,36 +88,42 @@ export const familyData = [
   {
     id: fam1,
     title: "Artemis",
+    slug: "artemis",
     image: "https://placehold.co/600x600/purple/white.png?text=A",
     organizationId: org1,
   },
   {
     id: fam2,
     title: "Bellona",
+    slug: "bellona",
     image: "https://placehold.co/600x600/purple/white.png?text=B",
     organizationId: org1,
   },
   {
     id: fam3,
     title: "Calliope",
+    slug: "calliope",
     image: "https://placehold.co/600x600/purple/white.png?text=C",
     organizationId: org1,
   },
   {
     id: fam4,
     title: "Nyx",
+    slug: "nyx",
     image: "https://placehold.co/600x600/orange/white.png?text=N",
     organizationId: org2,
   },
   {
     id: fam5,
     title: "Oberon",
+    slug: "oberon",
     image: "https://placehold.co/600x600/orange/white.png?text=O",
     organizationId: org2,
   },
   {
     id: fam6,
     title: "Pyxis",
+    slug: "pyxis",
     image: "https://placehold.co/600x600/orange/white.png?text=P",
     organizationId: org2,
   },
@@ -133,6 +145,7 @@ export const userData = [
     lastName: "Artemis",
     username: "lysanderartemis",
     image: "https://placehold.co/600x600/purple/white.png?text=L",
+    role: "guest",
     organizationId: org1,
     familyId: fam1,
   },
@@ -160,6 +173,7 @@ export const userData = [
     lastName: "Bellona",
     username: "erisbellona",
     image: "https://placehold.co/600x600/purple/white.png?text=E",
+    role: "guest",
     organizationId: org1,
     familyId: fam2,
   },
@@ -187,6 +201,7 @@ export const userData = [
     lastName: "Calliope",
     username: "heracalliope",
     image: "https://placehold.co/600x600/purple/white.png?text=H",
+    role: "guest",
     organizationId: org1,
     familyId: fam3,
   },
@@ -224,6 +239,7 @@ export const userData = [
     lastName: "Nyx",
     username: "zephyrnyx",
     image: "https://placehold.co/600x600/blue/white.png?text=Z",
+    role: "guest",
     organizationId: org2,
     familyId: fam4,
   },
@@ -242,6 +258,7 @@ export const userData = [
     lastName: "Oberon",
     username: "lunaoberon",
     image: "https://placehold.co/600x600/blue/white.png?text=L",
+    role: "guest",
     organizationId: org2,
     familyId: fam5,
   },
@@ -269,6 +286,7 @@ export const userData = [
     lastName: "Pyxis",
     username: "novapyxis",
     image: "https://placehold.co/600x600/blue/white.png?text=N",
+    role: "guest",
     organizationId: org2,
     familyId: fam6,
   },
@@ -281,6 +299,36 @@ export const userData = [
     organizationId: org2,
     familyId: fam6,
   },
+  {
+    id: user19,
+    firstName: "Admin",
+    lastName: "Account",
+    username: "admin",
+    image: "https://placehold.co/600x600/blue/white.png?text=A",
+    role: "admin",
+    organizationId: org1,
+    familyId: fam1,
+  },
+  {
+    id: user20,
+    firstName: "Member",
+    lastName: "Account",
+    username: "member",
+    image: "https://placehold.co/600x600/blue/white.png?text=M",
+    role: "member",
+    organizationId: org1,
+    familyId: fam1,
+  },
+  {
+    id: user21,
+    firstName: "Guest",
+    lastName: "Account",
+    username: "guest",
+    image: "https://placehold.co/600x600/blue/white.png?text=G",
+    role: "guest",
+    organizationId: org1,
+    familyId: fam1,
+  },
 ];
 
 export const categoryData = [
@@ -291,21 +339,26 @@ export const categoryData = [
   },
   {
     id: cat2,
+    title: "Brunch",
+    slug: "brunch",
+  },
+  {
+    id: cat3,
     title: "Lunch",
     slug: "lunch",
   },
   {
-    id: cat3,
+    id: cat4,
     title: "Dinner",
     slug: "dinner",
   },
   {
-    id: cat4,
+    id: cat5,
     title: "Snack",
     slug: "snack",
   },
   {
-    id: cat5,
+    id: cat6,
     title: "Dessert",
     slug: "dessert",
   },
@@ -415,7 +468,7 @@ export const tagData = [
 export const recipeData = [
   {
     id: recipe1,
-    userId: user1,
+    userId: user19,
     title: "Spaghetti Bolognese",
     slug: "spaghetti-bolognese",
     description: "A classic Italian pasta dish.",
@@ -433,7 +486,7 @@ export const recipeData = [
   },
   {
     id: recipe2,
-    userId: user2,
+    userId: user19,
     title: "Tacos",
     slug: "tacos",
     description: "Delicious Mexican tacos.",
@@ -476,12 +529,12 @@ export const recipeTagData = [
 export const favoriteData = [
   {
     id: fav1,
-    userId: user1,
+    userId: user19,
     recipeId: recipe1,
   },
   {
     id: fav2,
-    userId: user2,
+    userId: user19,
     recipeId: recipe2,
   },
 ];

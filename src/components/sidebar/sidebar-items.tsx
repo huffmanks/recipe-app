@@ -25,7 +25,9 @@ export default function SidebarItems() {
       type="single"
       className="w-full"
       defaultValue={pathname.startsWith("/admin") ? "admin" : "dashboard"}>
-      <AccordionItem value="dashboard">
+      <AccordionItem
+        value="dashboard"
+        hideToggle={!isAdmin}>
         <AccordionTrigger
           className="px-2.5 hover:no-underline"
           hideToggle={!isAdmin}>

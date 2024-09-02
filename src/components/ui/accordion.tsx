@@ -8,13 +8,18 @@ import { cn } from "@/lib/utils";
 
 const Accordion = AccordionPrimitive.Root;
 
+interface AccordionItemProps
+  extends React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item> {
+  hideToggle?: boolean;
+}
+
 const AccordionItem = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>
->(({ className, ...props }, ref) => (
+  AccordionItemProps
+>(({ className, hideToggle, ...props }, ref) => (
   <AccordionPrimitive.Item
     ref={ref}
-    className={cn("border-b", className)}
+    className={cn(!hideToggle && "border-b", className)}
     {...props}
   />
 ));

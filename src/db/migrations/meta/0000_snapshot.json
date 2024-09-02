@@ -1,5 +1,5 @@
 {
-  "id": "e90f7c24-4a1a-4ed6-adc7-6b14890960f9",
+  "id": "ff10e7c1-7d9e-4758-9f95-82ee194408f7",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -32,6 +32,13 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
+        "categories_title_unique": {
+          "name": "categories_title_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "title"
+          ]
+        },
         "categories_slug_unique": {
           "name": "categories_slug_unique",
           "nullsNotDistinct": false,
@@ -69,6 +76,13 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
+        "cuisines_title_unique": {
+          "name": "cuisines_title_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "title"
+          ]
+        },
         "cuisines_slug_unique": {
           "name": "cuisines_slug_unique",
           "nullsNotDistinct": false,
@@ -95,11 +109,17 @@
           "primaryKey": false,
           "notNull": true
         },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
         "image": {
           "name": "image",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "organization_id": {
           "name": "organization_id",
@@ -125,7 +145,22 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {
+        "families_title_unique": {
+          "name": "families_title_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "title"
+          ]
+        },
+        "families_slug_unique": {
+          "name": "families_slug_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "slug"
+          ]
+        }
+      }
     },
     "public.favorites": {
       "name": "favorites",
@@ -142,13 +177,13 @@
           "name": "user_id",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "recipe_id": {
           "name": "recipe_id",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         }
       },
       "indexes": {},
@@ -200,17 +235,38 @@
           "primaryKey": false,
           "notNull": true
         },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
         "image": {
           "name": "image",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         }
       },
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
+      "uniqueConstraints": {
+        "organizations_title_unique": {
+          "name": "organizations_title_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "title"
+          ]
+        },
+        "organizations_slug_unique": {
+          "name": "organizations_slug_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "slug"
+          ]
+        }
+      }
     },
     "public.recipe_cuisines": {
       "name": "recipe_cuisines",
@@ -220,13 +276,13 @@
           "name": "recipe_id",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "cuisine_id": {
           "name": "cuisine_id",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         }
       },
       "indexes": {},
@@ -269,13 +325,13 @@
           "name": "recipe_id",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "tag_id": {
           "name": "tag_id",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         }
       },
       "indexes": {},
@@ -321,12 +377,6 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
-        "user_id": {
-          "name": "user_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": false
-        },
         "title": {
           "name": "title",
           "type": "text",
@@ -343,25 +393,43 @@
           "name": "description",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "image": {
           "name": "image",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
-        },
-        "category_id": {
-          "name": "category_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "serving_size": {
           "name": "serving_size",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "category_id": {
+          "name": "category_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "instructions": {
+          "name": "instructions",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ingredients": {
+          "name": "ingredients",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
         },
         "created_at": {
           "name": "created_at",
@@ -376,18 +444,6 @@
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
-        },
-        "instructions": {
-          "name": "instructions",
-          "type": "jsonb",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "ingredients": {
-          "name": "ingredients",
-          "type": "jsonb",
-          "primaryKey": false,
-          "notNull": true
         }
       },
       "indexes": {},
@@ -421,6 +477,13 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
+        "recipes_title_unique": {
+          "name": "recipes_title_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "title"
+          ]
+        },
         "recipes_slug_unique": {
           "name": "recipes_slug_unique",
           "nullsNotDistinct": false,
@@ -445,13 +508,13 @@
           "name": "family_id",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "recipe_id": {
           "name": "recipe_id",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "date_time": {
           "name": "date_time",
@@ -461,7 +524,8 @@
         },
         "meal": {
           "name": "meal",
-          "type": "text",
+          "type": "meal",
+          "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
         }
@@ -526,6 +590,13 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
+        "tags_title_unique": {
+          "name": "tags_title_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "title"
+          ]
+        },
         "tags_slug_unique": {
           "name": "tags_slug_unique",
           "nullsNotDistinct": false,
@@ -568,7 +639,7 @@
           "name": "image",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "role": {
           "name": "role",
@@ -576,7 +647,7 @@
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": true,
-          "default": "'user'"
+          "default": "'member'"
         },
         "organization_id": {
           "name": "organization_id",
@@ -633,12 +704,23 @@
     }
   },
   "enums": {
+    "public.meal": {
+      "name": "meal",
+      "schema": "public",
+      "values": [
+        "breakfast",
+        "brunch",
+        "lunch",
+        "dinner"
+      ]
+    },
     "public.role": {
       "name": "role",
       "schema": "public",
       "values": [
         "admin",
-        "user"
+        "member",
+        "guest"
       ]
     }
   },

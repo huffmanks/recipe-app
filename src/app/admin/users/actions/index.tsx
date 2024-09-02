@@ -19,3 +19,11 @@ export async function updateUser(id: string, user: Partial<InsertUser>) {
     console.log(error);
   }
 }
+
+export async function deleteUser(id: string) {
+  try {
+    return db.delete(users).where(eq(users.id, id)).returning();
+  } catch (error) {
+    console.log(error);
+  }
+}

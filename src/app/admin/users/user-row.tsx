@@ -17,15 +17,15 @@ interface UserRowProps {
 
 export default function UserRow({ user }: UserRowProps) {
   const router = useRouter();
-  function handleClick(id: string) {
-    router.push(`/admin/users/${id}`);
+  function handleClick(slug: string) {
+    router.push(`/admin/users/${slug}`);
   }
 
   return (
     <>
       <TableRow
         className="cursor-pointer"
-        onClick={() => handleClick(user.id)}>
+        onClick={() => handleClick(user.username)}>
         <TableCell>{user.firstName}</TableCell>
         <TableCell>{user.lastName}</TableCell>
         <TableCell>{user.username}</TableCell>

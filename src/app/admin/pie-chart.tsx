@@ -19,21 +19,27 @@ const chartConfig = {
     label: "Admin",
     color: "hsl(var(--chart-1))",
   },
-  user: {
-    label: "User",
+  member: {
+    label: "Member",
     color: "hsl(var(--chart-3))",
+  },
+  guest: {
+    label: "Guest",
+    color: "hsl(var(--chart-5))",
   },
 } satisfies ChartConfig;
 
 interface UserPieChartProps {
   adminCount: number;
-  userCount: number;
+  memberCount: number;
+  guestCount: number;
 }
 
-export function UserPieChart({ adminCount, userCount }: UserPieChartProps) {
+export function UserPieChart({ adminCount, memberCount, guestCount }: UserPieChartProps) {
   const chartData = [
     { role: "admin", users: adminCount, fill: "var(--color-admin)" },
-    { role: "user", users: userCount, fill: "var(--color-user)" },
+    { role: "member", users: memberCount, fill: "var(--color-member)" },
+    { role: "guest", users: guestCount, fill: "var(--color-guest)" },
   ];
 
   const totalUsers = useMemo(() => {

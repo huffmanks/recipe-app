@@ -9,7 +9,7 @@ declare module "next-auth" {
     firstName: string;
     lastName: string;
     image: string;
-    role: "admin" | "user";
+    role: "admin" | "member" | "guest";
   }
 
   interface Session {
@@ -18,7 +18,7 @@ declare module "next-auth" {
       username: string;
       name: string;
       image: string;
-      role: "admin" | "user";
+      role: "admin" | "member" | "guest";
     } & DefaultUser;
   }
 }

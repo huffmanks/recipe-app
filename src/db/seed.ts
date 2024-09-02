@@ -16,8 +16,8 @@ import {
   seedUsers,
 } from "./seeds";
 
-if (!env.DATABASE_SEEDING) {
-  throw new Error('You must set DATABASE_SEEDING to "true" when running seeds');
+if (!env.DATABASE_DROP && !env.DATABASE_SEEDING) {
+  throw new Error('You must set DATABASE_SEEDING or DATABASE_DROP to "true" run this!');
 }
 
 async function resetTable(db: db, table: Table) {
@@ -39,6 +39,11 @@ async function run() {
     schema.schedules,
   ]) {
     await resetTable(db, table);
+  }
+
+  if (env.DATABASE_DROP) {
+    await connection.end();
+    return;
   }
 
   await seedOrganizations(db);
