@@ -47,6 +47,9 @@ export const tags = pgTable("tags", {
   slug: text("slug").notNull().unique(),
 });
 
+export const Status = pgEnum("status", ["publish", "draft"]);
+export const Visibility = pgEnum("visibility", ["public", "private"]);
+
 export const recipes = pgTable("recipes", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
   title: text("title").notNull().unique(),
@@ -54,6 +57,8 @@ export const recipes = pgTable("recipes", {
   description: text("description").notNull(),
   image: text("image").notNull(),
   servingSize: integer("serving_size").notNull(),
+  status: Status("status").default("draft").notNull(),
+  visibility: Visibility("visibility").default("public").notNull(),
   userId: uuid("user_id")
     .references(() => users.id)
     .notNull(),
