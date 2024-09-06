@@ -1,5 +1,5 @@
 {
-  "id": "ff10e7c1-7d9e-4758-9f95-82ee194408f7",
+  "id": "07e8dc43-d37c-4f5b-a82a-4982f0e8ff51",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -407,6 +407,22 @@
           "primaryKey": false,
           "notNull": true
         },
+        "status": {
+          "name": "status",
+          "type": "status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'draft'"
+        },
+        "visibility": {
+          "name": "visibility",
+          "type": "visibility",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'public'"
+        },
         "user_id": {
           "name": "user_id",
           "type": "uuid",
@@ -714,6 +730,14 @@
         "dinner"
       ]
     },
+    "public.status": {
+      "name": "status",
+      "schema": "public",
+      "values": [
+        "publish",
+        "draft"
+      ]
+    },
     "public.role": {
       "name": "role",
       "schema": "public",
@@ -721,6 +745,14 @@
         "admin",
         "member",
         "guest"
+      ]
+    },
+    "public.visibility": {
+      "name": "visibility",
+      "schema": "public",
+      "values": [
+        "public",
+        "private"
       ]
     }
   },

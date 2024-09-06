@@ -5,7 +5,19 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
+ CREATE TYPE "public"."status" AS ENUM('publish', 'draft');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
  CREATE TYPE "public"."role" AS ENUM('admin', 'member', 'guest');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ CREATE TYPE "public"."visibility" AS ENUM('public', 'private');
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
@@ -68,6 +80,8 @@ CREATE TABLE IF NOT EXISTS "recipes" (
 	"description" text NOT NULL,
 	"image" text NOT NULL,
 	"serving_size" integer NOT NULL,
+	"status" "status" DEFAULT 'draft' NOT NULL,
+	"visibility" "visibility" DEFAULT 'public' NOT NULL,
 	"user_id" uuid NOT NULL,
 	"category_id" uuid NOT NULL,
 	"instructions" jsonb NOT NULL,

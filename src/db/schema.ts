@@ -150,6 +150,50 @@ export const recipeRelations = relations(recipes, ({ one, many }) => ({
   schedules: many(schedules),
 }));
 
+export const recipeCuisinesRelations = relations(recipeCuisines, ({ one }) => ({
+  recipe: one(recipes, {
+    fields: [recipeCuisines.recipeId],
+    references: [recipes.id],
+  }),
+  cuisine: one(cuisines, {
+    fields: [recipeCuisines.cuisineId],
+    references: [cuisines.id],
+  }),
+}));
+
+export const recipeTagsRelations = relations(recipeTags, ({ one }) => ({
+  recipe: one(recipes, {
+    fields: [recipeTags.recipeId],
+    references: [recipes.id],
+  }),
+  tag: one(tags, {
+    fields: [recipeTags.tagId],
+    references: [tags.id],
+  }),
+}));
+
+export const favoritesRelations = relations(favorites, ({ one }) => ({
+  user: one(users, {
+    fields: [favorites.userId],
+    references: [users.id],
+  }),
+  recipe: one(recipes, {
+    fields: [favorites.recipeId],
+    references: [recipes.id],
+  }),
+}));
+
+export const scheduleRelations = relations(schedules, ({ one }) => ({
+  family: one(families, {
+    fields: [schedules.familyId],
+    references: [families.id],
+  }),
+  recipe: one(recipes, {
+    fields: [schedules.recipeId],
+    references: [recipes.id],
+  }),
+}));
+
 export type SelectOrganization = typeof organizations.$inferSelect;
 export type InsertOrganization = typeof organizations.$inferInsert;
 export type SelectFamily = typeof families.$inferSelect;
