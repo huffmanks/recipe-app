@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS "recipe_organizations" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "recipe_password_reset_tokens" (
-	"id" uuid PRIMARY KEY NOT NULL,
+	"id" text PRIMARY KEY NOT NULL,
 	"userId" uuid NOT NULL,
 	"expires_at" timestamp with time zone NOT NULL
 );
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS "recipe_schedules" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "recipe_sessions" (
-	"id" uuid PRIMARY KEY NOT NULL,
+	"id" text PRIMARY KEY NOT NULL,
 	"userId" uuid NOT NULL,
 	"expires_at" timestamp with time zone NOT NULL
 );

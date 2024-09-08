@@ -24,7 +24,7 @@ export default function SidebarMobile({ user, isAdmin }: SidebarMobileProps) {
 
   return (
     <Sheet>
-      <header className="fixed left-0 right-0 top-0 z-20 bg-secondary pb-2 pt-1.5">
+      <header className="fixed left-0 right-0 top-0 z-20 border border-border bg-background py-4">
         <SheetTrigger asChild>
           <Button
             size="icon"
@@ -41,7 +41,7 @@ export default function SidebarMobile({ user, isAdmin }: SidebarMobileProps) {
         side="left"
         className="px-3 py-4"
         hideClose>
-        <SheetHeader className="flex flex-row items-center justify-between space-y-0">
+        <SheetHeader className="flex flex-row items-center justify-between space-y-0 pl-2">
           <LogoLink />
           <SheetClose asChild>
             <Button

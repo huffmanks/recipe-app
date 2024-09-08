@@ -10,6 +10,7 @@ import { handleLogin } from "@/auth/actions";
 import { loginSchema } from "@/auth/schema";
 
 import LoadingButton from "@/components/custom/loading-button";
+import LogoLink from "@/components/logo-link";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
@@ -45,8 +46,9 @@ export default function LoginForm() {
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
       <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle className="text-center text-3xl font-bold">Welcome Back</CardTitle>
+        <CardHeader className="gap-8 space-y-0">
+          <LogoLink />
+          <CardTitle className="text-center text-2xl font-bold">Welcome back!</CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -76,7 +78,14 @@ export default function LoginForm() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <div className="flex items-center justify-between gap-4">
+                      <FormLabel>Password</FormLabel>
+                      <Link
+                        href="/forgot-password"
+                        className="text-sm underline decoration-primary underline-offset-4">
+                        Forgot?
+                      </Link>
+                    </div>
                     <FormControl>
                       <Input
                         type="password"
@@ -132,21 +141,13 @@ export default function LoginForm() {
         </CardContent>
 
         <CardFooter>
-          <div>
-            <p>
-              Don&rsquo;t have an account?{" "}
+          <div className="px-1.5 pb-2 pt-3">
+            <p className="text-sm">
+              <span>Need an account? </span>
               <Link
                 href="/register"
-                className="text-primary underline underline-offset-4">
-                Register
-              </Link>
-            </p>
-            <p>
-              Forgot your password?{" "}
-              <Link
-                href="/forgot-password"
-                className="text-primary underline underline-offset-4">
-                Reset password
+                className="underline decoration-primary underline-offset-4">
+                Sign up
               </Link>
             </p>
           </div>

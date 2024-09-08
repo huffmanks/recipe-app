@@ -9,6 +9,7 @@ import { handleResetPassword } from "@/auth/actions";
 import { resetPasswordSchema } from "@/auth/schema";
 
 import LoadingButton from "@/components/custom/loading-button";
+import LogoLink from "@/components/logo-link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
@@ -48,8 +49,9 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
       <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle className="text-center text-3xl font-bold">Forgot password</CardTitle>
+        <CardHeader className="gap-8 space-y-0">
+          <LogoLink />
+          <CardTitle className="text-center text-2xl font-bold">Reset password</CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>

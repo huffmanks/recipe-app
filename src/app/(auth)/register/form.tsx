@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -9,7 +10,8 @@ import { handleRegister } from "@/auth/actions";
 import { registerSchema } from "@/auth/schema";
 
 import LoadingButton from "@/components/custom/loading-button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import LogoLink from "@/components/logo-link";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -46,8 +48,9 @@ export default function RegisterForm() {
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
       <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle className="text-center text-3xl font-bold">Register</CardTitle>
+        <CardHeader className="gap-8 space-y-0">
+          <LogoLink />
+          <CardTitle className="text-center text-2xl font-bold">Create an account</CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -167,6 +170,18 @@ export default function RegisterForm() {
             </Button>
           </form> */}
         </CardContent>
+        <CardFooter className="justify-center">
+          <div className="px-1.5 pb-2 pt-3">
+            <p className="text-sm">
+              <span>Already have an account? </span>
+              <Link
+                href="/login"
+                className="underline decoration-primary underline-offset-4">
+                Log in
+              </Link>
+            </p>
+          </div>
+        </CardFooter>
       </Card>
     </div>
   );

@@ -10,11 +10,11 @@ interface NavbarProps {
 export default function Navbar({ isLoggedIn }: NavbarProps) {
   return (
     <>
-      <nav className="flex items-center justify-between px-4 py-3">
+      <nav className="flex items-center justify-between p-4 sm:px-8">
         <LogoLink />
         <div className="flex items-center gap-4">
-          <UserToggle isLoggedIn={isLoggedIn} />
           <NavbarThemeToggle />
+          <UserToggle isLoggedIn={isLoggedIn} />
         </div>
       </nav>
       <Separator />

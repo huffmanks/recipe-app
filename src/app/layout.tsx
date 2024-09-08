@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
 import { SITE_DESCRIPTION, SITE_TITLE } from "@/config/site";
@@ -7,7 +7,19 @@ import { SITE_DESCRIPTION, SITE_TITLE } from "@/config/site";
 import { ThemeProvider } from "@/components/providers";
 import { Toaster } from "@/components/ui/sonner";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = localFont({
+  src: [
+    {
+      path: "./fonts/inter.ttf",
+      style: "normal",
+    },
+    {
+      path: "./fonts/inter-italic.ttf",
+      style: "italic",
+    },
+  ],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: SITE_TITLE,
