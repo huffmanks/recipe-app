@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -9,7 +10,7 @@ import { handleLogin } from "@/auth/actions";
 import { loginSchema } from "@/auth/schema";
 
 import LoadingButton from "@/components/custom/loading-button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -129,6 +130,27 @@ export default function LoginForm() {
             </Button>
           </form> */}
         </CardContent>
+
+        <CardFooter>
+          <div>
+            <p>
+              Don&rsquo;t have an account?{" "}
+              <Link
+                href="/register"
+                className="text-primary underline underline-offset-4">
+                Register
+              </Link>
+            </p>
+            <p>
+              Forgot your password?{" "}
+              <Link
+                href="/forgot-password"
+                className="text-primary underline underline-offset-4">
+                Reset password
+              </Link>
+            </p>
+          </div>
+        </CardFooter>
       </Card>
     </div>
   );

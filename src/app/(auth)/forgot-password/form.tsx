@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -21,6 +22,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 export default function ForgotPasswordForm() {
+  const router = useRouter();
   const form = useForm<z.infer<typeof forgotPasswordSchema>>({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
@@ -30,10 +32,14 @@ export default function ForgotPasswordForm() {
 
   const onSubmit = async (values: z.infer<typeof forgotPasswordSchema>) => {
     try {
-      const result = await handleForgotPassword(values.email);
+      const result = await handleForgotPassword(values);
 
       if (result?.error) {
         toast.error(result.error);
+      }
+
+      if (result?.token) {
+        router.push(`/reset-password/${result.token}`);
       }
     } catch (error) {
       toast.error("An unexpected error occurred. Please try again.");

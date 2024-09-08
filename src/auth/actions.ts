@@ -1,7 +1,7 @@
 "use server";
 
 import { eq } from "drizzle-orm";
-import { Scrypt } from "lucia";
+import { generateId, Scrypt } from "lucia";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { createDate, isWithinExpirationDate, TimeSpan } from "oslo";
@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { lucia } from "@/auth";
 import {
+  ForgotPasswordInput,
   forgotPasswordSchema,
   LoginInput,
   loginSchema,
@@ -20,7 +21,6 @@ import {
 import { auth } from "@/auth/validate-request";
 import { db } from "@/db";
 import { passwordResetTokens, users } from "@/db/schema";
-import env from "@/env";
 
 export interface ActionResponse<T> {
   error: string;
@@ -129,8 +129,10 @@ export async function handleLogout(): Promise<{ error: string } | void> {
   return redirect("/");
 }
 
-export async function handleForgotPassword(email: string): Promise<{ error?: string }> {
-  const parsed = forgotPasswordSchema.safeParse(email);
+export async function handleForgotPassword(
+  values: ForgotPasswordInput
+): Promise<{ error?: string; token?: string }> {
+  const parsed = forgotPasswordSchema.safeParse(values);
 
   if (!parsed.success) {
     return { error: "Provided email is invalid." };
@@ -138,15 +140,14 @@ export async function handleForgotPassword(email: string): Promise<{ error?: str
 
   try {
     const user = await db.query.users.findFirst({
-      where: (table, { eq }) => eq(table.email, email),
+      where: (table, { eq }) => eq(table.email, parsed.data.email),
     });
 
     if (!user) return { error: "Provided email is invalid." };
 
-    const verificationToken = await generatePasswordResetToken(user.id);
-    const verificationLink = `${env.NEXT_PUBLIC_APP_URL}/reset-password/${verificationToken}`;
+    const token = await generatePasswordResetToken(user.id);
 
-    redirect(verificationLink);
+    return { token };
   } catch (error) {
     return { error: "Failed to send verification email." };
   }
@@ -192,7 +193,7 @@ export async function handleResetPassword(values: ResetPasswordInput): Promise<{
 async function generatePasswordResetToken(userId: string): Promise<string> {
   await db.delete(passwordResetTokens).where(eq(passwordResetTokens.userId, userId));
 
-  const tokenId = uuidv4();
+  const tokenId = generateId(40);
 
   await db.insert(passwordResetTokens).values({
     id: tokenId,

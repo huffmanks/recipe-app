@@ -1,9 +1,13 @@
 import { User } from "lucia";
-import { MenuIcon, XIcon } from "lucide-react";
+import { LogOutIcon, MenuIcon, MoonIcon, SettingsIcon, SunIcon, XIcon } from "lucide-react";
+import { useTheme } from "next-themes";
+import Link from "next/link";
+
+import { handleLogout } from "@/auth/actions";
 
 import LogoLink from "@/components/logo-link";
-import SidebarAccount from "@/components/sidebar/sidebar-account";
 import SidebarAvatar from "@/components/sidebar/sidebar-avatar";
+import { SidebarButtonSheet as SidebarButton } from "@/components/sidebar/sidebar-button";
 import SidebarItems from "@/components/sidebar/sidebar-items";
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
@@ -16,6 +20,8 @@ interface SidebarMobileProps {
 }
 
 export default function SidebarMobile({ user, isAdmin }: SidebarMobileProps) {
+  const { setTheme, theme } = useTheme();
+
   return (
     <Sheet>
       <header className="fixed left-0 right-0 top-0 z-20 bg-secondary pb-2 pt-1.5">
@@ -61,7 +67,32 @@ export default function SidebarMobile({ user, isAdmin }: SidebarMobileProps) {
                 </Button>
               </DrawerTrigger>
               <DrawerContent className="mb-2 p-2">
-                <SidebarAccount className="mt-2 flex flex-col space-y-2" />
+                <div className="mt-2 flex flex-col space-y-2">
+                  <Link href="/dashboard/profile">
+                    <SidebarButton
+                      className="w-full"
+                      size="sm"
+                      icon={SettingsIcon}>
+                      Profile
+                    </SidebarButton>
+                  </Link>
+                  <SidebarButton
+                    className="w-full"
+                    size="sm"
+                    icon={theme === "dark" ? SunIcon : MoonIcon}
+                    onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
+                    Toggle theme
+                  </SidebarButton>
+                  <form action={handleLogout}>
+                    <SidebarButton
+                      className="w-full"
+                      type="submit"
+                      size="sm"
+                      icon={LogOutIcon}>
+                      Sign out
+                    </SidebarButton>
+                  </form>
+                </div>
               </DrawerContent>
             </Drawer>
           </div>

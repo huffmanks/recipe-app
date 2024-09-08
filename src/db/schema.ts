@@ -49,7 +49,7 @@ export const sessions = pgTable("sessions", {
 });
 
 export const passwordResetTokens = pgTable("password_reset_tokens", {
-  id: uuid("id").primaryKey().notNull(),
+  id: text("id").primaryKey().notNull(),
   userId: uuid("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),

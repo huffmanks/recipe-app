@@ -28,14 +28,14 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
   const form = useForm<z.infer<typeof resetPasswordSchema>>({
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
+      token,
       password: "",
     },
   });
 
   const onSubmit = async (values: z.infer<typeof resetPasswordSchema>) => {
     try {
-      const data = { token, password: values.password };
-      const result = await handleResetPassword(data);
+      const result = await handleResetPassword(values);
 
       if (result?.error) {
         toast.error(result.error);
@@ -56,6 +56,21 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
             <form
               onSubmit={form.handleSubmit(onSubmit)}
               className="space-y-8">
+              <FormField
+                control={form.control}
+                name="token"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        type="hidden"
+                        {...field}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
               <FormField
                 control={form.control}
                 name="password"

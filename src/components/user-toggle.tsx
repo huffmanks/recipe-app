@@ -28,17 +28,15 @@ export default function UserToggle({ isLoggedIn }: UserToggleProps) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         {isLoggedIn && (
-          <DropdownMenuItem asChild>
-            <Link
-              href="/dashboard"
-              className="flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground">
-              Dashboard
-            </Link>
+          <DropdownMenuItem
+            className="cursor-pointer"
+            asChild>
+            <Link href="/dashboard">Dashboard</Link>
           </DropdownMenuItem>
         )}
         <DropdownMenuItem
-          asChild
-          className="cursor-pointer">
+          className="cursor-pointer"
+          asChild>
           {isLoggedIn ? (
             <form action={handleLogout}>
               <Button
@@ -49,13 +47,16 @@ export default function UserToggle({ isLoggedIn }: UserToggleProps) {
               </Button>
             </form>
           ) : (
-            <Link
-              href="/login"
-              className="flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground">
-              Login
-            </Link>
+            <Link href="/login">Login</Link>
           )}
         </DropdownMenuItem>
+        {!isLoggedIn && (
+          <DropdownMenuItem
+            className="cursor-pointer"
+            asChild>
+            <Link href="/register">Register</Link>
+          </DropdownMenuItem>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );
