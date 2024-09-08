@@ -1,3 +1,4 @@
+export const DATABASE_PREFIX = "recipe";
 export const SITE_TITLE = "Recipe Vault";
 export const SITE_DESCRIPTION = "Store and manage your recipes with ease.";
 
@@ -9,23 +10,23 @@ export interface SiteLink {
 export const siteLinks = [
   {
     label: "Home",
-    href: "/",
+    href: "/dashboard",
   },
   {
     label: "Schedule",
-    href: "/schedule",
+    href: "/dashboard/schedule",
   },
   {
     label: "Search",
-    href: "/search",
+    href: "/dashboard/search",
   },
   {
     label: "Favorites",
-    href: "/favorites",
+    href: "/dashboard/favorites",
   },
   {
     label: "Profile",
-    href: "/profile",
+    href: "/dashboard/profile",
   },
 ];
 

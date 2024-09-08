@@ -1,6 +1,5 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -14,11 +13,12 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-export default function SidebarItems() {
-  const pathname = usePathname();
-  const session = useSession();
+interface SidebarItemsProps {
+  isAdmin: boolean;
+}
 
-  const isAdmin = session?.data?.user?.role === "admin" ? true : false;
+export default function SidebarItems({ isAdmin }: SidebarItemsProps) {
+  const pathname = usePathname();
 
   return (
     <Accordion

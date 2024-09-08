@@ -1,7 +1,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -9,6 +8,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 import { SelectFamily, SelectOrganization, SelectUser } from "@/db/schema";
+import { createUser, updateUser } from "./actions";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -28,7 +28,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createUser, updateUser } from "./actions";
 
 const FormSchema = z.object({
   firstName: z.string().min(2, {
@@ -37,7 +36,7 @@ const FormSchema = z.object({
   lastName: z.string().min(2, {
     message: "Last name must be at least 2 characters.",
   }),
-  username: z.string().min(2, {
+  email: z.string().email({
     message: "Username must be at least 2 characters.",
   }),
   role: z.enum(["admin", "member", "guest"]),
@@ -46,29 +45,28 @@ const FormSchema = z.object({
 });
 
 interface UserFormProps {
+  isAdmin: boolean;
   userData?: SelectUser;
   orgData: SelectOrganization[] | null;
   famData: SelectFamily[] | null;
 }
 
-export function UserForm({ userData, orgData, famData }: UserFormProps) {
+export function UserForm({ isAdmin, userData, orgData, famData }: UserFormProps) {
   const [familyArr, setFamilyArr] = useState<SelectFamily[] | null>(famData);
   const [isLoaded, setIsLoaded] = useState(false);
 
   const pathname = usePathname();
   const router = useRouter();
-  const session = useSession();
 
   const isUpdateMode = !!userData;
-  const isProfilePage = pathname === "/profile";
-  const isAdmin = session?.data?.user?.role === "admin" ? true : false;
+  const isProfilePage = pathname === "/dashboard/profile";
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: userData || {
       firstName: "",
       lastName: "",
-      username: "",
+      email: "",
       role: "member",
       organizationId: "",
       familyId: "",
@@ -174,17 +172,16 @@ export function UserForm({ userData, orgData, famData }: UserFormProps) {
 
         <FormField
           control={form.control}
-          name="username"
+          name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="artemism"
+                  placeholder="artemism@example.com"
                   {...field}
                 />
               </FormControl>
-              <FormDescription>This is your public display name.</FormDescription>
               <FormMessage />
             </FormItem>
           )}

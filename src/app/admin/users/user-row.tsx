@@ -28,7 +28,7 @@ export default function UserRow({ user }: UserRowProps) {
         onClick={() => handleClick(user.username)}>
         <TableCell>{user.firstName}</TableCell>
         <TableCell>{user.lastName}</TableCell>
-        <TableCell>{user.username}</TableCell>
+        <TableCell>{user.email}</TableCell>
         <TableCell>{user.role}</TableCell>
         <TableCell>{user.organization?.title}</TableCell>
         <TableCell>{user.family?.title}</TableCell>

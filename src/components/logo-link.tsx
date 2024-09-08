@@ -1,14 +1,18 @@
-export default function SidebarLogo() {
+import Link from "next/link";
+
+export default function LogoLink() {
   return (
-    <div className="flex items-center gap-2">
+    <Link
+      href="/"
+      className="flex items-center gap-2">
       <div className="size-12">
         <img
-          className=""
+          className="w-full"
           src="/icons/icon-1024x1024.png"
           alt="logo"
         />
       </div>
       <div>Recipe Vault</div>
-    </div>
+    </Link>
   );
 }

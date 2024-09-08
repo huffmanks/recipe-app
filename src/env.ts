@@ -23,7 +23,7 @@ const EnvSchema = z.object({
   DATABASE_MIGRATING: stringBoolean,
   DATABASE_SEEDING: stringBoolean,
   DATABASE_DROP: stringBoolean,
-  AUTH_SECRET: z.string(),
+  NEXT_PUBLIC_APP_URL: z.string(),
 });
 
 export type EnvSchema = z.infer<typeof EnvSchema>;

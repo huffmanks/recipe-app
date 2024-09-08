@@ -1,18 +1,22 @@
-import { relations } from "drizzle-orm";
-import { integer, jsonb, pgEnum, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { relations, SQL, sql } from "drizzle-orm";
+import { integer, jsonb, pgEnum, pgTableCreator, text, timestamp, uuid } from "drizzle-orm/pg-core";
+
+import { DATABASE_PREFIX } from "@/config/site";
+
+export const pgTable = pgTableCreator((name) => `${DATABASE_PREFIX}_${name}`);
 
 export const organizations = pgTable("organizations", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
   title: text("title").notNull().unique(),
   slug: text("slug").notNull().unique(),
-  image: text("image").notNull(),
+  image: text("image"),
 });
 
 export const families = pgTable("families", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
   title: text("title").notNull().unique(),
   slug: text("slug").notNull().unique(),
-  image: text("image").notNull(),
+  image: text("image"),
   organizationId: uuid("organization_id").references(() => organizations.id),
 });
 
@@ -22,11 +26,37 @@ export const users = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
   firstName: text("first_name").notNull(),
   lastName: text("last_name").notNull(),
-  username: text("username").notNull().unique(),
-  image: text("image").notNull(),
+  email: text("email").notNull().unique(),
+  username: text("username")
+    .generatedAlwaysAs((): SQL => sql`substring(${users.email} from '^[^@]+')`)
+    .notNull(),
+  hashedPassword: text("hashed_password").notNull(),
+  image: text("image"),
   role: UserRole("role").default("member").notNull(),
   organizationId: uuid("organization_id").references(() => organizations.id),
   familyId: uuid("family_id").references(() => families.id),
+});
+
+export const sessions = pgTable("sessions", {
+  id: text("id").primaryKey().notNull(),
+  userId: uuid("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  expiresAt: timestamp("expires_at", {
+    withTimezone: true,
+    mode: "date",
+  }).notNull(),
+});
+
+export const passwordResetTokens = pgTable("password_reset_tokens", {
+  id: uuid("id").primaryKey().notNull(),
+  userId: uuid("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  expiresAt: timestamp("expires_at", {
+    withTimezone: true,
+    mode: "date",
+  }).notNull(),
 });
 
 export const categories = pgTable("categories", {
@@ -55,7 +85,7 @@ export const recipes = pgTable("recipes", {
   title: text("title").notNull().unique(),
   slug: text("slug").notNull().unique(),
   description: text("description").notNull(),
-  image: text("image").notNull(),
+  image: text("image"),
   servingSize: integer("serving_size").notNull(),
   status: Status("status").default("draft").notNull(),
   visibility: Visibility("visibility").default("public").notNull(),
@@ -198,8 +228,8 @@ export type SelectOrganization = typeof organizations.$inferSelect;
 export type InsertOrganization = typeof organizations.$inferInsert;
 export type SelectFamily = typeof families.$inferSelect;
 export type InsertFamily = typeof families.$inferInsert;
-export type SelectUser = typeof users.$inferSelect;
-export type InsertUser = typeof users.$inferInsert;
+export type SelectUser = Omit<typeof users.$inferSelect, "hashedPassword">;
+export type InsertUser = Omit<typeof users.$inferInsert, "hashedPassword">;
 export type SelectCategory = typeof categories.$inferSelect;
 export type InsertCategory = typeof categories.$inferInsert;
 export type SelectCuisine = typeof cuisines.$inferSelect;

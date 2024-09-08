@@ -8,6 +8,9 @@ import UserRow from "./user-row";
 
 export default async function AdminUsersPage() {
   const userData = await db.query.users.findMany({
+    columns: {
+      hashedPassword: false,
+    },
     with: {
       organization: true,
       family: true,
@@ -34,7 +37,7 @@ export default async function AdminUsersPage() {
             <TableRow>
               <TableHead>First name</TableHead>
               <TableHead>Last name</TableHead>
-              <TableHead>Username</TableHead>
+              <TableHead>Email</TableHead>
               <TableHead>Role</TableHead>
               <TableHead>Organization</TableHead>
               <TableHead>Family</TableHead>

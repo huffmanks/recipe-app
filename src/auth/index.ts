@@ -1,56 +1,33 @@
-import { eq } from "drizzle-orm";
-import NextAuth from "next-auth";
-import Credentials from "next-auth/providers/credentials";
+import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
+import { Lucia } from "lucia";
 
 import db from "@/db";
-import { users } from "@/db/schema";
-import env from "@/env";
-import { signInSchema } from "./schema";
+import { SelectUser, sessions, users } from "@/db/schema";
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
-  providers: [
-    Credentials({
-      credentials: {
-        username: {},
-        password: {},
-      },
-      authorize: async (credentials) => {
-        const { username } = await signInSchema.parseAsync(credentials);
+export const adapter = new DrizzlePostgreSQLAdapter(db, sessions, users);
 
-        const user = await db.query.users.findFirst({
-          where: eq(users.username, username),
-        });
-
-        if (!user) {
-          throw new Error("User not found.");
-        }
-
-        return user;
-      },
-    }),
-  ],
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-        token.username = user.username;
-        token.name = `${user.firstName} ${user.lastName}`;
-        token.picture = user.image ?? "";
-        token.role = user.role;
-      }
-
-      return token;
-    },
-    async session({ session, token }) {
-      if (token) {
-        session.user.id = token.id;
-        session.user.username = token.username;
-        session.user.name = token.name;
-        session.user.image = token.picture;
-        session.user.role = token.role;
-      }
-      return session;
+export const lucia = new Lucia(adapter, {
+  sessionCookie: {
+    expires: false,
+    attributes: {
+      secure: process.env.NODE_ENV === "production",
     },
   },
-  secret: env.AUTH_SECRET,
+  getUserAttributes: (attributes) => {
+    return {
+      name: attributes.firstName,
+      email: attributes.email,
+      image: attributes.image,
+      role: attributes.role,
+    };
+  },
 });
+
+declare module "lucia" {
+  interface Register {
+    Lucia: typeof lucia;
+    DatabaseUserAttributes: DatabaseUserAttributes;
+  }
+}
+
+interface DatabaseUserAttributes extends Omit<SelectUser, "organizationId" | "familyId"> {}

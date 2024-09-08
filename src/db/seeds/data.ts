@@ -1,5 +1,8 @@
 import { addDays, set } from "date-fns";
+import { Scrypt } from "lucia";
 import { v4 as uuidv4 } from "uuid";
+
+const hashedPassword = await new Scrypt().hash("password");
 
 const todayNoon = set(new Date(), {
   hours: 12,
@@ -8,79 +11,69 @@ const todayNoon = set(new Date(), {
   milliseconds: 0,
 });
 
-const org1 = uuidv4();
-const org2 = uuidv4();
-const fam1 = uuidv4();
-const fam2 = uuidv4();
-const fam3 = uuidv4();
-const fam4 = uuidv4();
-const fam5 = uuidv4();
-const fam6 = uuidv4();
-const user1 = uuidv4();
-const user2 = uuidv4();
-const user3 = uuidv4();
-const user4 = uuidv4();
-const user5 = uuidv4();
-const user6 = uuidv4();
-const user7 = uuidv4();
-const user8 = uuidv4();
-const user9 = uuidv4();
-const user10 = uuidv4();
-const user11 = uuidv4();
-const user12 = uuidv4();
-const user13 = uuidv4();
-const user14 = uuidv4();
-const user15 = uuidv4();
-const user16 = uuidv4();
-const user17 = uuidv4();
-const user18 = uuidv4();
-const user19 = uuidv4();
-const user20 = uuidv4();
-const user21 = uuidv4();
-const cat1 = uuidv4();
-const cat2 = uuidv4();
-const cat3 = uuidv4();
-const cat4 = uuidv4();
-const cat5 = uuidv4();
-const cat6 = uuidv4();
-const cuisine1 = uuidv4();
-const cuisine2 = uuidv4();
-const cuisine3 = uuidv4();
-const cuisine4 = uuidv4();
-const cuisine5 = uuidv4();
-const cuisine6 = uuidv4();
-const cuisine7 = uuidv4();
-const cuisine8 = uuidv4();
-const cuisine9 = uuidv4();
-const cuisine11 = uuidv4();
-const tag1 = uuidv4();
-const tag2 = uuidv4();
-const tag3 = uuidv4();
-const tag4 = uuidv4();
-const tag5 = uuidv4();
-const tag6 = uuidv4();
-const tag7 = uuidv4();
-const tag8 = uuidv4();
-const tag9 = uuidv4();
-const recipe1 = uuidv4();
-const recipe2 = uuidv4();
-const fav1 = uuidv4();
-const fav2 = uuidv4();
-const sched1 = uuidv4();
-const sched2 = uuidv4();
+const generateUUIDs = (count: number) => Array.from({ length: count }, () => uuidv4());
+
+const [
+  org1,
+  org2,
+  fam1,
+  fam2,
+  fam3,
+  fam4,
+  user1,
+  user2,
+  user3,
+  user4,
+  user5,
+  user6,
+  user7,
+  user8,
+  user9,
+  user10,
+  user11,
+  cat1,
+  cat2,
+  cat3,
+  cat4,
+  cat5,
+  cat6,
+  cuisine1,
+  cuisine2,
+  cuisine3,
+  cuisine4,
+  cuisine5,
+  cuisine6,
+  cuisine7,
+  cuisine8,
+  cuisine9,
+  cuisine11,
+  tag1,
+  tag2,
+  tag3,
+  tag4,
+  tag5,
+  tag6,
+  tag7,
+  tag8,
+  tag9,
+  recipe1,
+  recipe2,
+  fav1,
+  fav2,
+  sched1,
+  sched2,
+] = generateUUIDs(52);
 
 export const orgData = [
   {
     id: org1,
     title: "Aurelia",
     slug: "aurelia",
-    image: "https://placehold.co/600x600/purple/white.png?text=A",
   },
   {
     id: org2,
     title: "Nebulon",
     slug: "nebulon",
-    image: "https://placehold.co/600x600/orange/white.png?text=N",
   },
 ];
 
@@ -89,42 +82,24 @@ export const familyData = [
     id: fam1,
     title: "Artemis",
     slug: "artemis",
-    image: "https://placehold.co/600x600/purple/white.png?text=A",
     organizationId: org1,
   },
   {
     id: fam2,
     title: "Bellona",
     slug: "bellona",
-    image: "https://placehold.co/600x600/purple/white.png?text=B",
     organizationId: org1,
   },
   {
     id: fam3,
-    title: "Calliope",
-    slug: "calliope",
-    image: "https://placehold.co/600x600/purple/white.png?text=C",
-    organizationId: org1,
+    title: "Nyx",
+    slug: "nyx",
+    organizationId: org2,
   },
   {
     id: fam4,
-    title: "Nyx",
-    slug: "nyx",
-    image: "https://placehold.co/600x600/orange/white.png?text=N",
-    organizationId: org2,
-  },
-  {
-    id: fam5,
     title: "Oberon",
     slug: "oberon",
-    image: "https://placehold.co/600x600/orange/white.png?text=O",
-    organizationId: org2,
-  },
-  {
-    id: fam6,
-    title: "Pyxis",
-    slug: "pyxis",
-    image: "https://placehold.co/600x600/orange/white.png?text=P",
     organizationId: org2,
   },
 ];
@@ -134,8 +109,9 @@ export const userData = [
     id: user1,
     firstName: "Aquila",
     lastName: "Artemis",
-    username: "aquilaartemis",
-    image: "https://placehold.co/600x600/purple/white.png?text=A",
+    email: "aquilaartemis@example.com",
+    hashedPassword,
+    role: "member",
     organizationId: org1,
     familyId: fam1,
   },
@@ -143,188 +119,98 @@ export const userData = [
     id: user2,
     firstName: "Lysander",
     lastName: "Artemis",
-    username: "lysanderartemis",
-    image: "https://placehold.co/600x600/purple/white.png?text=L",
+    email: "lysanderartemis@example.com",
+    hashedPassword,
     role: "guest",
     organizationId: org1,
     familyId: fam1,
   },
   {
     id: user3,
-    firstName: "Mira",
-    lastName: "Artemis",
-    username: "miraartemis",
-    image: "https://placehold.co/600x600/purple/white.png?text=M",
+    firstName: "Ceres",
+    lastName: "Bellona",
+    email: "ceresbellona@example.com",
+    hashedPassword,
+    role: "member",
     organizationId: org1,
-    familyId: fam1,
+    familyId: fam2,
   },
   {
     id: user4,
-    firstName: "Ceres",
+    firstName: "Eris",
     lastName: "Bellona",
-    username: "ceresbellona",
-    image: "https://placehold.co/600x600/purple/white.png?text=C",
+    email: "erisbellona@example.com",
+    hashedPassword,
+    role: "guest",
     organizationId: org1,
     familyId: fam2,
   },
   {
     id: user5,
-    firstName: "Eris",
-    lastName: "Bellona",
-    username: "erisbellona",
-    image: "https://placehold.co/600x600/purple/white.png?text=E",
-    role: "guest",
+    firstName: "Gaia",
+    lastName: "Calliope",
+    email: "gaiacalliope@example.com",
+    hashedPassword,
+    role: "member",
     organizationId: org1,
-    familyId: fam2,
+    familyId: fam3,
   },
   {
     id: user6,
-    firstName: "Fides",
-    lastName: "Bellona",
-    username: "fidesbellona",
-    image: "https://placehold.co/600x600/purple/white.png?text=F",
+    firstName: "Hera",
+    lastName: "Calliope",
+    email: "heracalliope@example.com",
+    hashedPassword,
+    role: "guest",
     organizationId: org1,
-    familyId: fam2,
+    familyId: fam3,
   },
   {
     id: user7,
-    firstName: "Gaia",
-    lastName: "Calliope",
-    username: "gaiacalliope",
-    image: "https://placehold.co/600x600/purple/white.png?text=G",
-    organizationId: org1,
-    familyId: fam3,
+    firstName: "Aegis",
+    lastName: "Nyx",
+    email: "aegisnyx@example.com",
+    hashedPassword,
+    role: "member",
+    organizationId: org2,
+    familyId: fam4,
   },
   {
     id: user8,
-    firstName: "Hera",
-    lastName: "Calliope",
-    username: "heracalliope",
-    image: "https://placehold.co/600x600/purple/white.png?text=H",
+    firstName: "Echo",
+    lastName: "Nyx",
+    email: "echonyx@example.com",
+    hashedPassword,
     role: "guest",
-    organizationId: org1,
-    familyId: fam3,
+    organizationId: org2,
+    familyId: fam4,
   },
   {
     id: user9,
-    firstName: "Juno",
-    lastName: "Calliope",
-    username: "junocalliope",
-    image: "https://placehold.co/600x600/purple/white.png?text=J",
-    organizationId: org1,
-    familyId: fam3,
-  },
-  {
-    id: user10,
-    firstName: "Aegis",
-    lastName: "Nyx",
-    username: "aegisnyx",
-    image: "https://placehold.co/600x600/blue/white.png?text=A",
-    organizationId: org2,
-    familyId: fam4,
-  },
-  {
-    id: user11,
-    firstName: "Echo",
-    lastName: "Nyx",
-    username: "echonyx",
-    image: "https://placehold.co/600x600/blue/white.png?text=E",
-    role: "admin",
-    organizationId: org2,
-    familyId: fam4,
-  },
-  {
-    id: user12,
-    firstName: "Zephyr",
-    lastName: "Nyx",
-    username: "zephyrnyx",
-    image: "https://placehold.co/600x600/blue/white.png?text=Z",
-    role: "guest",
-    organizationId: org2,
-    familyId: fam4,
-  },
-  {
-    id: user13,
-    firstName: "Hades",
-    lastName: "Oberon",
-    username: "hadesoberon",
-    image: "https://placehold.co/600x600/blue/white.png?text=H",
-    organizationId: org2,
-    familyId: fam5,
-  },
-  {
-    id: user14,
-    firstName: "Luna",
-    lastName: "Oberon",
-    username: "lunaoberon",
-    image: "https://placehold.co/600x600/blue/white.png?text=L",
-    role: "guest",
-    organizationId: org2,
-    familyId: fam5,
-  },
-  {
-    id: user15,
-    firstName: "Triton",
-    lastName: "Oberon",
-    username: "tritonoberon",
-    image: "https://placehold.co/600x600/blue/white.png?text=T",
-    organizationId: org2,
-    familyId: fam5,
-  },
-  {
-    id: user16,
-    firstName: "Astrid",
-    lastName: "Pyxis",
-    username: "astridpyxis",
-    image: "https://placehold.co/600x600/blue/white.png?text=A",
-    organizationId: org2,
-    familyId: fam6,
-  },
-  {
-    id: user17,
-    firstName: "Nova",
-    lastName: "Pyxis",
-    username: "novapyxis",
-    image: "https://placehold.co/600x600/blue/white.png?text=N",
-    role: "guest",
-    organizationId: org2,
-    familyId: fam6,
-  },
-  {
-    id: user18,
-    firstName: "Orion",
-    lastName: "Pyxis",
-    username: "orionpyxis",
-    image: "https://placehold.co/600x600/blue/white.png?text=O",
-    organizationId: org2,
-    familyId: fam6,
-  },
-  {
-    id: user19,
     firstName: "Admin",
     lastName: "Account",
-    username: "admin",
-    image: "https://placehold.co/600x600/blue/white.png?text=A",
+    email: "admin@example.com",
+    hashedPassword,
     role: "admin",
     organizationId: org1,
     familyId: fam1,
   },
   {
-    id: user20,
+    id: user10,
     firstName: "Member",
     lastName: "Account",
-    username: "member",
-    image: "https://placehold.co/600x600/blue/white.png?text=M",
+    email: "member@example.com",
+    hashedPassword,
     role: "member",
     organizationId: org1,
     familyId: fam1,
   },
   {
-    id: user21,
+    id: user11,
     firstName: "Guest",
     lastName: "Account",
-    username: "guest",
-    image: "https://placehold.co/600x600/blue/white.png?text=G",
+    email: "guest@example.com",
+    hashedPassword,
     role: "guest",
     organizationId: org1,
     familyId: fam1,
@@ -468,7 +354,7 @@ export const tagData = [
 export const recipeData = [
   {
     id: recipe1,
-    userId: user19,
+    userId: user9,
     title: "Spaghetti Bolognese",
     slug: "spaghetti-bolognese",
     description: "A classic Italian pasta dish.",
@@ -486,7 +372,7 @@ export const recipeData = [
   },
   {
     id: recipe2,
-    userId: user19,
+    userId: user9,
     title: "Tacos",
     slug: "tacos",
     description: "Delicious Mexican tacos.",
@@ -529,12 +415,12 @@ export const recipeTagData = [
 export const favoriteData = [
   {
     id: fav1,
-    userId: user19,
+    userId: user9,
     recipeId: recipe1,
   },
   {
     id: fav2,
-    userId: user19,
+    userId: user9,
     recipeId: recipe2,
   },
 ];
@@ -549,7 +435,7 @@ export const scheduleData = [
   },
   {
     id: sched2,
-    familyId: fam2,
+    familyId: fam1,
     recipeId: recipe2,
     dateTime: addDays(todayNoon, 3),
     meal: "lunch",

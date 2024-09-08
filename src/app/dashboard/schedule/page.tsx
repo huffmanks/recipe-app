@@ -1,10 +1,11 @@
-import { auth } from "@/auth";
-import db from "@/db";
-import { recipes, schedules, users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
+import { auth } from "@/auth/validate-request";
+import db from "@/db";
+import { recipes, schedules, users } from "@/db/schema";
+
 export default async function SchedulesPage() {
-  const session = await auth();
+  const { user } = await auth();
   const userFamilySchedules = await db
     .select({
       id: schedules.id,
@@ -25,7 +26,7 @@ export default async function SchedulesPage() {
     .from(schedules)
     .innerJoin(users, eq(schedules.familyId, users.familyId))
     .innerJoin(recipes, eq(schedules.recipeId, recipes.id))
-    .where(eq(users.id, session?.user.id));
+    .where(eq(users.id, user?.id!));
 
   return (
     <>

@@ -4,8 +4,7 @@ import "./globals.css";
 
 import { SITE_DESCRIPTION, SITE_TITLE } from "@/config/site";
 
-import { NextAuthProvider, ThemeProvider } from "@/components/provider";
-import Sidebar from "@/components/sidebar";
+import { ThemeProvider } from "@/components/providers";
 import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -30,17 +29,14 @@ export default function RootLayout({
       lang="en"
       suppressHydrationWarning>
       <body className={inter.className}>
-        <NextAuthProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange>
-            <Sidebar />
-            <main className="px-5 pb-8 pt-20 sm:pl-[300px] sm:pt-5">{children}</main>
-            <Toaster richColors />
-          </ThemeProvider>
-        </NextAuthProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange>
+          {children}
+          <Toaster richColors />
+        </ThemeProvider>
       </body>
     </html>
   );
