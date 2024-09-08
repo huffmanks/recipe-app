@@ -1,5 +1,6 @@
 export const DATABASE_PREFIX = "recipe";
 export const SITE_TITLE = "Recipe Vault";
+export const SITE_TITLE_TEMPLATE = "%s - Recipe Vault";
 export const SITE_DESCRIPTION = "Store and manage your recipes with ease.";
 
 export interface SiteLink {

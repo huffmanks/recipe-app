@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 
-import { SITE_DESCRIPTION, SITE_TITLE } from "@/config/site";
+import { SITE_DESCRIPTION, SITE_TITLE, SITE_TITLE_TEMPLATE } from "@/config/site";
 
 import { ThemeProvider } from "@/components/providers";
 import { Toaster } from "@/components/ui/sonner";
@@ -22,13 +22,42 @@ const inter = localFont({
 });
 
 export const metadata: Metadata = {
-  title: SITE_TITLE,
+  applicationName: SITE_TITLE,
+  title: {
+    default: SITE_TITLE,
+    template: SITE_TITLE_TEMPLATE,
+  },
   description: SITE_DESCRIPTION,
-  manifest: "/manifest.json",
-  icons: [
-    { rel: "apple-touch-icon", url: "/icons/icon-192x192.png" },
-    { rel: "icon", url: "/icons/icon-192x192.png" },
-  ],
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: SITE_TITLE,
+    // startUpImage: [],
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    siteName: SITE_TITLE,
+    title: {
+      default: SITE_TITLE,
+      template: SITE_TITLE_TEMPLATE,
+    },
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary",
+    title: {
+      default: SITE_TITLE,
+      template: SITE_TITLE_TEMPLATE,
+    },
+    description: SITE_DESCRIPTION,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#e11d48",
 };
 
 export default function RootLayout({

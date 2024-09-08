@@ -13,6 +13,10 @@
 /.next/
 /out/
 
+# sw
+public/sw*
+public/swe-worker*
+
 # production
 /build
 
