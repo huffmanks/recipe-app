@@ -1,15 +1,15 @@
-import { auth } from "@/auth";
+import { auth } from "@/auth/validate-request";
 import db from "@/db";
 import { favorites, recipes } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 export default async function FavoritesPage() {
-  const session = await auth();
+  const { user } = await auth();
   const result = await db
     .select()
     .from(recipes)
     .innerJoin(favorites, eq(favorites.recipeId, recipes.id))
-    .where(eq(favorites.userId, session?.user.id));
+    .where(eq(favorites.userId, user?.id!));
 
   const favoriteRecipes = result.map(({ recipes }) => recipes);
 

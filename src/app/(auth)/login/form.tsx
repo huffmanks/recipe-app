@@ -46,7 +46,7 @@ export default function LoginForm() {
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
       <Card className="w-full max-w-md">
-        <CardHeader className="gap-8 space-y-0">
+        <CardHeader className="items-center gap-8 space-y-0">
           <LogoLink />
           <CardTitle className="text-center text-2xl font-bold">Welcome back!</CardTitle>
         </CardHeader>
@@ -140,7 +140,7 @@ export default function LoginForm() {
           </form> */}
         </CardContent>
 
-        <CardFooter>
+        <CardFooter className="justify-center">
           <div className="px-1.5 pb-2 pt-3">
             <p className="text-sm">
               <span>Need an account? </span>

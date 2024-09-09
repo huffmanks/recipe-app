@@ -30,7 +30,7 @@ export const users = pgTable("users", {
   username: text("username")
     .generatedAlwaysAs((): SQL => sql`substring(${users.email} from '^[^@]+')`)
     .notNull(),
-  hashedPassword: text("hashed_password").notNull(),
+  hashedPassword: text("hashed_password").default("password").notNull(),
   image: text("image"),
   role: UserRole("role").default("member").notNull(),
   organizationId: uuid("organization_id").references(() => organizations.id),

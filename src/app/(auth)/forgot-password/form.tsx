@@ -9,6 +9,7 @@ import { z } from "zod";
 import { handleForgotPassword } from "@/auth/actions";
 import { forgotPasswordSchema } from "@/auth/schema";
 
+import GoBackButton from "@/components/custom/go-back-button";
 import LoadingButton from "@/components/custom/loading-button";
 import LogoLink from "@/components/logo-link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -50,7 +51,8 @@ export default function ForgotPasswordForm() {
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
       <Card className="w-full max-w-md">
-        <CardHeader className="gap-8 space-y-0">
+        <GoBackButton href="/login" />
+        <CardHeader className="items-center gap-8 space-y-0">
           <LogoLink />
           <CardTitle className="text-center text-2xl font-bold">Forgot password</CardTitle>
         </CardHeader>
