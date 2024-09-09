@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm";
 import { auth } from "@/auth/validate-request";
 import db from "@/db";
 import { recipes, schedules, users } from "@/db/schema";
+import WeekCalendar from "./week-calendar";
 
 export default async function SchedulesPage() {
   const { user } = await auth();
@@ -31,6 +32,8 @@ export default async function SchedulesPage() {
   return (
     <>
       <h1 className="mb-6 text-3xl font-medium tracking-wide">Schedules</h1>
+
+      <WeekCalendar />
 
       {userFamilySchedules &&
         userFamilySchedules.map((item) => (
