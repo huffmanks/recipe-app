@@ -1,5 +1,5 @@
 {
-  "id": "6e7cecc7-62cf-427c-bc7d-0899768a9883",
+  "id": "d58f7a7b-f6ad-446c-a06d-44da4df92da5",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -749,7 +749,8 @@
           "name": "hashed_password",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "'password'"
         },
         "image": {
           "name": "image",

@@ -27,23 +27,14 @@ export default async function SchedulesPage() {
     .from(schedules)
     .innerJoin(users, eq(schedules.familyId, users.familyId))
     .innerJoin(recipes, eq(schedules.recipeId, recipes.id))
-    .where(eq(users.id, user?.id!));
+    .where(eq(users.id, user?.id!))
+    .orderBy(schedules.dateTime, schedules.meal);
 
   return (
     <>
       <h1 className="mb-6 text-3xl font-medium tracking-wide">Schedules</h1>
 
-      <WeekCalendar />
-
-      {userFamilySchedules &&
-        userFamilySchedules.map((item) => (
-          <div key={item.id}>
-            <div>{item.recipeTitle}</div>
-            <div>
-              {item.dateTime.toLocaleDateString()}, {item.meal}
-            </div>
-          </div>
-        ))}
+      <WeekCalendar schedules={userFamilySchedules} />
     </>
   );
 }

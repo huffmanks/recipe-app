@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS "recipe_users" (
 	"last_name" text NOT NULL,
 	"email" text NOT NULL,
 	"username" text NOT NULL GENERATED ALWAYS AS (substring("recipe_users"."email" from '^[^@]+')) STORED,
-	"hashed_password" text NOT NULL,
+	"hashed_password" text DEFAULT 'password' NOT NULL,
 	"image" text,
 	"role" "role" DEFAULT 'member' NOT NULL,
 	"organization_id" uuid,

@@ -1,15 +1,10 @@
-import { addDays, set } from "date-fns";
+import { addDays, startOfToday } from "date-fns";
 import { Scrypt } from "lucia";
 import { v4 as uuidv4 } from "uuid";
 
 const hashedPassword = await new Scrypt().hash("password");
 
-const todayNoon = set(new Date(), {
-  hours: 12,
-  minutes: 0,
-  seconds: 0,
-  milliseconds: 0,
-});
+const today = startOfToday();
 
 const generateUUIDs = (count: number) => Array.from({ length: count }, () => uuidv4());
 
@@ -58,10 +53,15 @@ const [
   tag9,
   recipe1,
   recipe2,
+  recipe3,
   fav1,
   fav2,
   sched1,
   sched2,
+  sched3,
+  sched4,
+  sched5,
+  sched6,
 ] = generateUUIDs(52);
 
 export const orgData = [
@@ -355,20 +355,20 @@ export const recipeData = [
   {
     id: recipe1,
     userId: user9,
-    title: "Spaghetti Bolognese",
-    slug: "spaghetti-bolognese",
-    description: "A classic Italian pasta dish.",
-    image: "spaghetti.png",
+    title: "Blueberry Pancakes",
+    slug: "blueberry-pancakes",
+    description: "A decadent, fluffy cake.",
+    image: "/recipes/pancakes.jpg",
     categoryId: cat1,
     servingSize: 4,
     instructions: [
       {
         step: 1,
         title: "Prepare Ingredients",
-        items: [{ step: 1, text: "Chop onions" }],
+        items: [{ step: 1, text: "Mix flour" }],
       },
     ],
-    ingredients: [{ count: 1, unit: "cup", text: "Tomato Sauce" }],
+    ingredients: [{ count: 1, unit: "cup", text: "Blueberries" }],
   },
   {
     id: recipe2,
@@ -376,8 +376,8 @@ export const recipeData = [
     title: "Tacos",
     slug: "tacos",
     description: "Delicious Mexican tacos.",
-    image: "tacos.png",
-    categoryId: cat2,
+    image: "/recipes/tacos.jpg",
+    categoryId: cat3,
     servingSize: 2,
     instructions: [
       {
@@ -387,6 +387,24 @@ export const recipeData = [
       },
     ],
     ingredients: [{ count: 1, unit: "lb", text: "Ground Beef" }],
+  },
+  {
+    id: recipe3,
+    userId: user9,
+    title: "Spaghetti Bolognese",
+    slug: "spaghetti-bolognese",
+    description: "A classic Italian pasta dish.",
+    image: "/recipes/spaghetti.jpg",
+    categoryId: cat4,
+    servingSize: 4,
+    instructions: [
+      {
+        step: 1,
+        title: "Prepare Ingredients",
+        items: [{ step: 1, text: "Chop onions" }],
+      },
+    ],
+    ingredients: [{ count: 1, unit: "cup", text: "Tomato Sauce" }],
   },
 ];
 
@@ -430,14 +448,42 @@ export const scheduleData = [
     id: sched1,
     familyId: fam1,
     recipeId: recipe1,
-    dateTime: addDays(todayNoon, 2),
-    meal: "lunch",
+    dateTime: addDays(today, 2),
+    meal: "breakfast",
   },
   {
     id: sched2,
     familyId: fam1,
     recipeId: recipe2,
-    dateTime: addDays(todayNoon, 3),
+    dateTime: addDays(today, 2),
     meal: "lunch",
+  },
+  {
+    id: sched3,
+    familyId: fam1,
+    recipeId: recipe3,
+    dateTime: addDays(today, 2),
+    meal: "dinner",
+  },
+  {
+    id: sched4,
+    familyId: fam1,
+    recipeId: recipe1,
+    dateTime: addDays(today, 3),
+    meal: "breakfast",
+  },
+  {
+    id: sched5,
+    familyId: fam1,
+    recipeId: recipe2,
+    dateTime: addDays(today, 3),
+    meal: "lunch",
+  },
+  {
+    id: sched6,
+    familyId: fam1,
+    recipeId: recipe3,
+    dateTime: addDays(today, 3),
+    meal: "dinner",
   },
 ];
