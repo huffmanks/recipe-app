@@ -14,12 +14,12 @@ export const siteLinks = [
     href: "/dashboard",
   },
   {
-    label: "Schedule",
-    href: "/dashboard/schedule",
+    label: "Recipes",
+    href: "/dashboard/recipes",
   },
   {
-    label: "Search",
-    href: "/dashboard/search",
+    label: "Schedule",
+    href: "/dashboard/schedule",
   },
   {
     label: "Favorites",

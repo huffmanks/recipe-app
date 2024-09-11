@@ -14,13 +14,13 @@ import {
   subWeeks,
 } from "date-fns";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import RecipeItem from "@/components/custom/recipe-item";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-interface Schedule {
+export interface ScheduleItem {
   id: string;
   familyId: string;
   recipeId: string;
@@ -38,7 +38,7 @@ interface Schedule {
 }
 
 interface WeekCalendarProps {
-  schedules: Schedule[];
+  schedules: ScheduleItem[];
 }
 
 export default function WeekCalendar({ schedules }: WeekCalendarProps) {
@@ -55,7 +55,7 @@ export default function WeekCalendar({ schedules }: WeekCalendarProps) {
       weekDays: eachDayOfInterval({ start: startDay, end: endDay }),
     };
   });
-  const [currentDayMeals, setCurrentDayMeals] = useState<Schedule[] | undefined>();
+  const [currentDayMeals, setCurrentDayMeals] = useState<ScheduleItem[] | undefined>();
 
   useEffect(() => {
     const meals = schedules.filter((item) => isSameDay(item.dateTime, weekInfo.selectedDate));
@@ -154,23 +154,10 @@ export default function WeekCalendar({ schedules }: WeekCalendarProps) {
       <div>
         {currentDayMeals && currentDayMeals.length > 0 ? (
           currentDayMeals.map((item) => (
-            <Link
-              className="mb-8 block"
+            <RecipeItem
               key={item.id}
-              href={`/dashboard/recipes/${item.recipeSlug}`}>
-              {item.recipeImage && (
-                <div className="mb-3">
-                  <img
-                    className="rounded-md"
-                    src={item.recipeImage}
-                    alt={item.recipeTitle}
-                  />
-                </div>
-              )}
-              <div className="mb-1 text-sm tracking-widest">{item.meal.toLocaleUpperCase()}</div>
-              <div className="mb-2 text-lg font-bold">{item.recipeTitle}</div>
-              <div>{item.recipeDescription}</div>
-            </Link>
+              item={item}
+            />
           ))
         ) : (
           <div className="text-center">No meals scheduled.</div>
