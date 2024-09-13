@@ -16,9 +16,9 @@ import {
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import RecipeItem from "@/components/custom/recipe-item";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import RecipeItem from "./recipe-item";
 
 export interface ScheduleItem {
   id: string;
@@ -30,11 +30,6 @@ export interface ScheduleItem {
   recipeSlug: string;
   recipeDescription: string;
   recipeImage: string | null;
-  recipeServingSize: number;
-  recipeIngredients: any; // update
-  recipeInstructions: any; // update
-  recipeCreatedAt: Date;
-  recipeUpdatedAt: Date;
 }
 
 interface WeekCalendarProps {

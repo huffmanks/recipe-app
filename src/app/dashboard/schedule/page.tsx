@@ -18,11 +18,6 @@ export default async function SchedulesPage() {
       recipeSlug: recipes.slug,
       recipeDescription: recipes.description,
       recipeImage: recipes.image,
-      recipeServingSize: recipes.servingSize,
-      recipeInstructions: recipes.instructions,
-      recipeIngredients: recipes.ingredients,
-      recipeCreatedAt: recipes.createdAt,
-      recipeUpdatedAt: recipes.updatedAt,
     })
     .from(schedules)
     .innerJoin(users, eq(schedules.familyId, users.familyId))

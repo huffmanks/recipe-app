@@ -23,7 +23,11 @@ export default async function RecipePage({ params }: { params: { slug: string } 
           />
         </div>
       )}
-      <div className="mb-1 text-sm uppercase tracking-widest">{categories.map((cat) => cat)}</div>
+      <div className="mb-1 text-sm uppercase tracking-widest">
+        {categories.map((cat) => (
+          <div key={cat}>{cat}</div>
+        ))}
+      </div>
       <div>{description}</div>
     </>
   );
