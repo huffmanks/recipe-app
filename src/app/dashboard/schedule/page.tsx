@@ -14,10 +14,10 @@ export default async function SchedulesPage() {
       recipeId: schedules.recipeId,
       dateTime: schedules.dateTime,
       meal: schedules.meal,
-      recipeTitle: recipes.title,
-      recipeSlug: recipes.slug,
-      recipeDescription: recipes.description,
-      recipeImage: recipes.image,
+      title: recipes.title,
+      slug: recipes.slug,
+      description: recipes.description,
+      image: recipes.image,
     })
     .from(schedules)
     .innerJoin(users, eq(schedules.familyId, users.familyId))

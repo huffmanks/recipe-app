@@ -1,4 +1,5 @@
 import { auth } from "@/auth/validate-request";
+import RecipeCard from "@/components/custom/recipe-card";
 import db from "@/db";
 import { favorites, recipes } from "@/db/schema";
 import { eq } from "drizzle-orm";
@@ -19,10 +20,10 @@ export default async function FavoritesPage() {
 
       {favoriteRecipes &&
         favoriteRecipes.map((recipe) => (
-          <div key={recipe.id}>
-            <div>{recipe.title}</div>
-            <div>{recipe.description}</div>
-          </div>
+          <RecipeCard
+            key={recipe.id}
+            item={recipe}
+          />
         ))}
     </>
   );

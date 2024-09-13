@@ -16,9 +16,9 @@ import {
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
+import RecipeCard from "@/components/custom/recipe-card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import RecipeItem from "./recipe-item";
 
 export interface ScheduleItem {
   id: string;
@@ -26,10 +26,10 @@ export interface ScheduleItem {
   recipeId: string;
   dateTime: Date;
   meal: "breakfast" | "brunch" | "lunch" | "dinner";
-  recipeTitle: string;
-  recipeSlug: string;
-  recipeDescription: string;
-  recipeImage: string | null;
+  title: string;
+  slug: string;
+  description: string;
+  image?: string;
 }
 
 interface WeekCalendarProps {
@@ -149,7 +149,7 @@ export default function WeekCalendar({ schedules }: WeekCalendarProps) {
       <div>
         {currentDayMeals && currentDayMeals.length > 0 ? (
           currentDayMeals.map((item) => (
-            <RecipeItem
+            <RecipeCard
               key={item.id}
               item={item}
             />
