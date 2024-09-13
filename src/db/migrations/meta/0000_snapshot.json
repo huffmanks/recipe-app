@@ -1,97 +1,9 @@
 {
-  "id": "d58f7a7b-f6ad-446c-a06d-44da4df92da5",
+  "id": "a424b7d6-6fce-437e-9ac9-3f1e24a37e16",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.recipe_categories": {
-      "name": "recipe_categories",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "title": {
-          "name": "title",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "slug": {
-          "name": "slug",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "recipe_categories_title_unique": {
-          "name": "recipe_categories_title_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "title"
-          ]
-        },
-        "recipe_categories_slug_unique": {
-          "name": "recipe_categories_slug_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "slug"
-          ]
-        }
-      }
-    },
-    "public.recipe_cuisines": {
-      "name": "recipe_cuisines",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "title": {
-          "name": "title",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "slug": {
-          "name": "slug",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "recipe_cuisines_title_unique": {
-          "name": "recipe_cuisines_title_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "title"
-          ]
-        },
-        "recipe_cuisines_slug_unique": {
-          "name": "recipe_cuisines_slug_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "slug"
-          ]
-        }
-      }
-    },
     "public.recipe_families": {
       "name": "recipe_families",
       "schema": "",
@@ -310,104 +222,6 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "public.recipe_recipe_cuisines": {
-      "name": "recipe_recipe_cuisines",
-      "schema": "",
-      "columns": {
-        "recipe_id": {
-          "name": "recipe_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "cuisine_id": {
-          "name": "cuisine_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "recipe_recipe_cuisines_recipe_id_recipe_recipes_id_fk": {
-          "name": "recipe_recipe_cuisines_recipe_id_recipe_recipes_id_fk",
-          "tableFrom": "recipe_recipe_cuisines",
-          "tableTo": "recipe_recipes",
-          "columnsFrom": [
-            "recipe_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "recipe_recipe_cuisines_cuisine_id_recipe_cuisines_id_fk": {
-          "name": "recipe_recipe_cuisines_cuisine_id_recipe_cuisines_id_fk",
-          "tableFrom": "recipe_recipe_cuisines",
-          "tableTo": "recipe_cuisines",
-          "columnsFrom": [
-            "cuisine_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.recipe_recipe_tags": {
-      "name": "recipe_recipe_tags",
-      "schema": "",
-      "columns": {
-        "recipe_id": {
-          "name": "recipe_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "tag_id": {
-          "name": "tag_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "recipe_recipe_tags_recipe_id_recipe_recipes_id_fk": {
-          "name": "recipe_recipe_tags_recipe_id_recipe_recipes_id_fk",
-          "tableFrom": "recipe_recipe_tags",
-          "tableTo": "recipe_recipes",
-          "columnsFrom": [
-            "recipe_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "recipe_recipe_tags_tag_id_recipe_tags_id_fk": {
-          "name": "recipe_recipe_tags_tag_id_recipe_tags_id_fk",
-          "tableFrom": "recipe_recipe_tags",
-          "tableTo": "recipe_tags",
-          "columnsFrom": [
-            "tag_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
     "public.recipe_recipes": {
       "name": "recipe_recipes",
       "schema": "",
@@ -441,11 +255,59 @@
           "name": "image",
           "type": "text",
           "primaryKey": false,
+          "notNull": true
+        },
+        "prep_time": {
+          "name": "prep_time",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cook_time": {
+          "name": "cook_time",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "total_time": {
+          "name": "total_time",
+          "type": "text",
+          "primaryKey": false,
           "notNull": false
         },
         "serving_size": {
           "name": "serving_size",
           "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "categories": {
+          "name": "categories",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cuisines": {
+          "name": "cuisines",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tags": {
+          "name": "tags",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ingredients": {
+          "name": "ingredients",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "instructions": {
+          "name": "instructions",
+          "type": "text[]",
           "primaryKey": false,
           "notNull": true
         },
@@ -468,24 +330,6 @@
         "user_id": {
           "name": "user_id",
           "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "category_id": {
-          "name": "category_id",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "instructions": {
-          "name": "instructions",
-          "type": "jsonb",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "ingredients": {
-          "name": "ingredients",
-          "type": "jsonb",
           "primaryKey": false,
           "notNull": true
         },
@@ -512,19 +356,6 @@
           "tableTo": "recipe_users",
           "columnsFrom": [
             "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "recipe_recipes_category_id_recipe_categories_id_fk": {
-          "name": "recipe_recipes_category_id_recipe_categories_id_fk",
-          "tableFrom": "recipe_recipes",
-          "tableTo": "recipe_categories",
-          "columnsFrom": [
-            "category_id"
           ],
           "columnsTo": [
             "id"
@@ -661,50 +492,6 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
-    },
-    "public.recipe_tags": {
-      "name": "recipe_tags",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "title": {
-          "name": "title",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "slug": {
-          "name": "slug",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "recipe_tags_title_unique": {
-          "name": "recipe_tags_title_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "title"
-          ]
-        },
-        "recipe_tags_slug_unique": {
-          "name": "recipe_tags_slug_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "slug"
-          ]
-        }
-      }
     },
     "public.recipe_users": {
       "name": "recipe_users",

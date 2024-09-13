@@ -1,5 +1,5 @@
 import { relations, SQL, sql } from "drizzle-orm";
-import { integer, jsonb, pgEnum, pgTableCreator, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { integer, pgEnum, pgTableCreator, text, timestamp, uuid } from "drizzle-orm/pg-core";
 
 import { DATABASE_PREFIX } from "@/config/site";
 
@@ -59,24 +59,6 @@ export const passwordResetTokens = pgTable("password_reset_tokens", {
   }).notNull(),
 });
 
-export const categories = pgTable("categories", {
-  id: uuid("id").primaryKey().defaultRandom().notNull(),
-  title: text("title").notNull().unique(),
-  slug: text("slug").notNull().unique(),
-});
-
-export const cuisines = pgTable("cuisines", {
-  id: uuid("id").primaryKey().defaultRandom().notNull(),
-  title: text("title").notNull().unique(),
-  slug: text("slug").notNull().unique(),
-});
-
-export const tags = pgTable("tags", {
-  id: uuid("id").primaryKey().defaultRandom().notNull(),
-  title: text("title").notNull().unique(),
-  slug: text("slug").notNull().unique(),
-});
-
 export const Status = pgEnum("status", ["publish", "draft"]);
 export const Visibility = pgEnum("visibility", ["public", "private"]);
 
@@ -85,38 +67,23 @@ export const recipes = pgTable("recipes", {
   title: text("title").notNull().unique(),
   slug: text("slug").notNull().unique(),
   description: text("description").notNull(),
-  image: text("image"),
+  image: text("image").notNull(),
+  prepTime: text("prep_time"),
+  cookTime: text("cook_time"),
+  totalTime: text("total_time"),
   servingSize: integer("serving_size").notNull(),
+  categories: text("categories").array().notNull(),
+  cuisines: text("cuisines").array().notNull(),
+  tags: text("tags").array(),
+  ingredients: text("ingredients").array().notNull(),
+  instructions: text("instructions").array().notNull(),
   status: Status("status").default("draft").notNull(),
   visibility: Visibility("visibility").default("public").notNull(),
   userId: uuid("user_id")
     .references(() => users.id)
     .notNull(),
-  categoryId: uuid("category_id")
-    .references(() => categories.id)
-    .notNull(),
-  instructions: jsonb("instructions").notNull(), // Array of objects [{step, title, items: [{step, text}]}]
-  ingredients: jsonb("ingredients").notNull(), // Array of objects [{count, unit, text}]
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
-});
-
-export const recipeCuisines = pgTable("recipe_cuisines", {
-  recipeId: uuid("recipe_id")
-    .references(() => recipes.id)
-    .notNull(),
-  cuisineId: uuid("cuisine_id")
-    .references(() => cuisines.id)
-    .notNull(),
-});
-
-export const recipeTags = pgTable("recipe_tags", {
-  recipeId: uuid("recipe_id")
-    .references(() => recipes.id)
-    .notNull(),
-  tagId: uuid("tag_id")
-    .references(() => tags.id)
-    .notNull(),
 });
 
 export const favorites = pgTable("favorites", {
@@ -170,36 +137,8 @@ export const recipeRelations = relations(recipes, ({ one, many }) => ({
     fields: [recipes.userId],
     references: [users.id],
   }),
-  category: one(categories, {
-    fields: [recipes.categoryId],
-    references: [categories.id],
-  }),
-  cuisines: many(recipeCuisines),
-  tags: many(recipeTags),
   favorites: many(favorites),
   schedules: many(schedules),
-}));
-
-export const recipeCuisinesRelations = relations(recipeCuisines, ({ one }) => ({
-  recipe: one(recipes, {
-    fields: [recipeCuisines.recipeId],
-    references: [recipes.id],
-  }),
-  cuisine: one(cuisines, {
-    fields: [recipeCuisines.cuisineId],
-    references: [cuisines.id],
-  }),
-}));
-
-export const recipeTagsRelations = relations(recipeTags, ({ one }) => ({
-  recipe: one(recipes, {
-    fields: [recipeTags.recipeId],
-    references: [recipes.id],
-  }),
-  tag: one(tags, {
-    fields: [recipeTags.tagId],
-    references: [tags.id],
-  }),
 }));
 
 export const favoritesRelations = relations(favorites, ({ one }) => ({
@@ -230,18 +169,8 @@ export type SelectFamily = typeof families.$inferSelect;
 export type InsertFamily = typeof families.$inferInsert;
 export type SelectUser = Omit<typeof users.$inferSelect, "hashedPassword">;
 export type InsertUser = Omit<typeof users.$inferInsert, "hashedPassword">;
-export type SelectCategory = typeof categories.$inferSelect;
-export type InsertCategory = typeof categories.$inferInsert;
-export type SelectCuisine = typeof cuisines.$inferSelect;
-export type InsertCuisine = typeof cuisines.$inferInsert;
-export type SelectTag = typeof tags.$inferSelect;
-export type InsertTag = typeof tags.$inferInsert;
 export type SelectRecipe = typeof recipes.$inferSelect;
 export type InsertRecipe = typeof recipes.$inferInsert;
-export type SelectRecipeCuisine = typeof recipeCuisines.$inferSelect;
-export type InsertRecipeCuisine = typeof recipeCuisines.$inferInsert;
-export type SelectRecipeTag = typeof recipeTags.$inferSelect;
-export type InsertRecipeTag = typeof recipeTags.$inferInsert;
 export type SelectFavorite = typeof favorites.$inferSelect;
 export type InsertFavorite = typeof favorites.$inferInsert;
 export type SelectSchedule = typeof schedules.$inferSelect;

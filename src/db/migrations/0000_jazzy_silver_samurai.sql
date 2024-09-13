@@ -22,22 +22,6 @@ EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "recipe_categories" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"title" text NOT NULL,
-	"slug" text NOT NULL,
-	CONSTRAINT "recipe_categories_title_unique" UNIQUE("title"),
-	CONSTRAINT "recipe_categories_slug_unique" UNIQUE("slug")
-);
---> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "recipe_cuisines" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"title" text NOT NULL,
-	"slug" text NOT NULL,
-	CONSTRAINT "recipe_cuisines_title_unique" UNIQUE("title"),
-	CONSTRAINT "recipe_cuisines_slug_unique" UNIQUE("slug")
-);
---> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "recipe_families" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"title" text NOT NULL,
@@ -69,29 +53,24 @@ CREATE TABLE IF NOT EXISTS "recipe_password_reset_tokens" (
 	"expires_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "recipe_recipe_cuisines" (
-	"recipe_id" uuid NOT NULL,
-	"cuisine_id" uuid NOT NULL
-);
---> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "recipe_recipe_tags" (
-	"recipe_id" uuid NOT NULL,
-	"tag_id" uuid NOT NULL
-);
---> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "recipe_recipes" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"title" text NOT NULL,
 	"slug" text NOT NULL,
 	"description" text NOT NULL,
-	"image" text,
+	"image" text NOT NULL,
+	"prep_time" text,
+	"cook_time" text,
+	"total_time" text,
 	"serving_size" integer NOT NULL,
+	"categories" text[] NOT NULL,
+	"cuisines" text[] NOT NULL,
+	"tags" text[],
+	"ingredients" text[] NOT NULL,
+	"instructions" text[] NOT NULL,
 	"status" "status" DEFAULT 'draft' NOT NULL,
 	"visibility" "visibility" DEFAULT 'public' NOT NULL,
 	"user_id" uuid NOT NULL,
-	"category_id" uuid NOT NULL,
-	"instructions" jsonb NOT NULL,
-	"ingredients" jsonb NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL,
 	CONSTRAINT "recipe_recipes_title_unique" UNIQUE("title"),
@@ -110,14 +89,6 @@ CREATE TABLE IF NOT EXISTS "recipe_sessions" (
 	"id" text PRIMARY KEY NOT NULL,
 	"userId" uuid NOT NULL,
 	"expires_at" timestamp with time zone NOT NULL
-);
---> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "recipe_tags" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"title" text NOT NULL,
-	"slug" text NOT NULL,
-	CONSTRAINT "recipe_tags_title_unique" UNIQUE("title"),
-	CONSTRAINT "recipe_tags_slug_unique" UNIQUE("slug")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "recipe_users" (
@@ -159,37 +130,7 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "recipe_recipe_cuisines" ADD CONSTRAINT "recipe_recipe_cuisines_recipe_id_recipe_recipes_id_fk" FOREIGN KEY ("recipe_id") REFERENCES "public"."recipe_recipes"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "recipe_recipe_cuisines" ADD CONSTRAINT "recipe_recipe_cuisines_cuisine_id_recipe_cuisines_id_fk" FOREIGN KEY ("cuisine_id") REFERENCES "public"."recipe_cuisines"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "recipe_recipe_tags" ADD CONSTRAINT "recipe_recipe_tags_recipe_id_recipe_recipes_id_fk" FOREIGN KEY ("recipe_id") REFERENCES "public"."recipe_recipes"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "recipe_recipe_tags" ADD CONSTRAINT "recipe_recipe_tags_tag_id_recipe_tags_id_fk" FOREIGN KEY ("tag_id") REFERENCES "public"."recipe_tags"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
  ALTER TABLE "recipe_recipes" ADD CONSTRAINT "recipe_recipes_user_id_recipe_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."recipe_users"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "recipe_recipes" ADD CONSTRAINT "recipe_recipes_category_id_recipe_categories_id_fk" FOREIGN KEY ("category_id") REFERENCES "public"."recipe_categories"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

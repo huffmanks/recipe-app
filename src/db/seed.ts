@@ -3,16 +3,11 @@ import * as schema from "@/db/schema";
 import env from "@/env";
 import { Table, getTableName, sql } from "drizzle-orm";
 import {
-  seedCategories,
-  seedCuisines,
   seedFamilies,
   seedFavorites,
   seedOrganizations,
-  seedRecipeCuisines,
-  seedRecipeTags,
   seedRecipes,
   seedSchedules,
-  seedTags,
   seedUsers,
 } from "./seeds";
 
@@ -29,12 +24,7 @@ async function run() {
     schema.organizations,
     schema.families,
     schema.users,
-    schema.categories,
-    schema.cuisines,
-    schema.tags,
     schema.recipes,
-    schema.recipeCuisines,
-    schema.recipeTags,
     schema.favorites,
     schema.schedules,
   ]) {
@@ -49,12 +39,7 @@ async function run() {
   await seedOrganizations(db);
   await seedFamilies(db);
   await seedUsers(db);
-  await seedCategories(db);
-  await seedCuisines(db);
-  await seedTags(db);
   await seedRecipes(db);
-  await seedRecipeCuisines(db);
-  await seedRecipeTags(db);
   await seedFavorites(db);
   await seedSchedules(db);
 

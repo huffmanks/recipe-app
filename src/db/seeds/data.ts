@@ -26,31 +26,6 @@ const [
   user9,
   user10,
   user11,
-  cat1,
-  cat2,
-  cat3,
-  cat4,
-  cat5,
-  cat6,
-  cuisine1,
-  cuisine2,
-  cuisine3,
-  cuisine4,
-  cuisine5,
-  cuisine6,
-  cuisine7,
-  cuisine8,
-  cuisine9,
-  cuisine11,
-  tag1,
-  tag2,
-  tag3,
-  tag4,
-  tag5,
-  tag6,
-  tag7,
-  tag8,
-  tag9,
   recipe1,
   recipe2,
   recipe3,
@@ -217,140 +192,6 @@ export const userData = [
   },
 ];
 
-export const categoryData = [
-  {
-    id: cat1,
-    title: "Breakfast",
-    slug: "breakfast",
-  },
-  {
-    id: cat2,
-    title: "Brunch",
-    slug: "brunch",
-  },
-  {
-    id: cat3,
-    title: "Lunch",
-    slug: "lunch",
-  },
-  {
-    id: cat4,
-    title: "Dinner",
-    slug: "dinner",
-  },
-  {
-    id: cat5,
-    title: "Snack",
-    slug: "snack",
-  },
-  {
-    id: cat6,
-    title: "Dessert",
-    slug: "dessert",
-  },
-];
-
-export const cuisineData = [
-  {
-    id: cuisine1,
-    title: "American",
-    slug: "american",
-  },
-  {
-    id: cuisine2,
-    title: "Chinese",
-    slug: "chinese",
-  },
-  {
-    id: cuisine3,
-    title: "French",
-    slug: "french",
-  },
-  {
-    id: cuisine4,
-    title: "Greek",
-    slug: "greek",
-  },
-  {
-    id: cuisine5,
-    title: "Indian",
-    slug: "indian",
-  },
-  {
-    id: cuisine6,
-    title: "Italian",
-    slug: "italian",
-  },
-  {
-    id: cuisine7,
-    title: "Japanese",
-    slug: "japanese",
-  },
-  {
-    id: cuisine8,
-    title: "Korean",
-    slug: "korean",
-  },
-  {
-    id: cuisine9,
-    title: "Mexican",
-    slug: "mexican",
-  },
-  {
-    id: cuisine11,
-    title: "Thai",
-    slug: "thai",
-  },
-];
-
-export const tagData = [
-  {
-    id: tag1,
-    title: "30 min",
-    slug: "30-min",
-  },
-  {
-    id: tag2,
-    title: "Dairy free",
-    slug: "dairy-free",
-  },
-  {
-    id: tag3,
-    title: "Gluten free",
-    slug: "gluten-free",
-  },
-  {
-    id: tag4,
-    title: "Low carb",
-    slug: "low-carb",
-  },
-  {
-    id: tag5,
-    title: "Nut free",
-    slug: "nut-free",
-  },
-  {
-    id: tag6,
-    title: "Quick",
-    slug: "quick",
-  },
-  {
-    id: tag7,
-    title: "Spicy",
-    slug: "spicy",
-  },
-  {
-    id: tag8,
-    title: "Vegan",
-    slug: "vegan",
-  },
-  {
-    id: tag9,
-    title: "Vegetarian",
-    slug: "vegetarian",
-  },
-];
-
 export const recipeData = [
   {
     id: recipe1,
@@ -359,16 +200,15 @@ export const recipeData = [
     slug: "blueberry-pancakes",
     description: "A decadent, fluffy cake.",
     image: "/recipes/pancakes.jpg",
-    categoryId: cat1,
+    prepTime: "PT5M",
+    cookTime: "PT10M",
+    totalTime: "PT15M",
     servingSize: 4,
-    instructions: [
-      {
-        step: 1,
-        title: "Prepare Ingredients",
-        items: [{ step: 1, text: "Mix flour" }],
-      },
-    ],
-    ingredients: [{ count: 1, unit: "cup", text: "Blueberries" }],
+    categories: ["Breakfast", "Brunch"],
+    cuisines: ["American"],
+    tags: ["blueberries"],
+    ingredients: ["1 cup of blueberries", "1 cup of flour"],
+    instructions: ["Mix flour with water", "Add blueberries"],
   },
   {
     id: recipe2,
@@ -377,16 +217,15 @@ export const recipeData = [
     slug: "tacos",
     description: "Delicious Mexican tacos.",
     image: "/recipes/tacos.jpg",
-    categoryId: cat3,
-    servingSize: 2,
-    instructions: [
-      {
-        step: 1,
-        title: "Cook Meat",
-        items: [{ step: 1, text: "Season beef" }],
-      },
-    ],
-    ingredients: [{ count: 1, unit: "lb", text: "Ground Beef" }],
+    prepTime: "PT5M",
+    cookTime: "PT15M",
+    totalTime: "PT20M",
+    servingSize: 4,
+    categories: ["Lunch", "Dinner"],
+    cuisines: ["Mexican"],
+    tags: ["beef"],
+    ingredients: ["1 lb. ground beef", "12 taco shells"],
+    instructions: ["Cook ground beef", "Add seasonings"],
   },
   {
     id: recipe3,
@@ -395,38 +234,15 @@ export const recipeData = [
     slug: "spaghetti-bolognese",
     description: "A classic Italian pasta dish.",
     image: "/recipes/spaghetti.jpg",
-    categoryId: cat4,
+    prepTime: "PT5M",
+    cookTime: "PT20M",
+    totalTime: "PT25M",
     servingSize: 4,
-    instructions: [
-      {
-        step: 1,
-        title: "Prepare Ingredients",
-        items: [{ step: 1, text: "Chop onions" }],
-      },
-    ],
-    ingredients: [{ count: 1, unit: "cup", text: "Tomato Sauce" }],
-  },
-];
-
-export const recipeCuisineData = [
-  {
-    recipeId: recipe1,
-    cuisineId: cuisine1,
-  },
-  {
-    recipeId: recipe2,
-    cuisineId: cuisine2,
-  },
-];
-
-export const recipeTagData = [
-  {
-    recipeId: recipe1,
-    tagId: tag1,
-  },
-  {
-    recipeId: recipe2,
-    tagId: tag2,
+    categories: ["Dinner"],
+    cuisines: ["Italian"],
+    tags: ["pasta", "beef"],
+    ingredients: ["1 lb ground beef", "1 lb. spaghetti"],
+    instructions: ["Boil water", "Cook ground beef"],
   },
 ];
 

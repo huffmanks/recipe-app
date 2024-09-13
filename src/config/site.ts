@@ -33,24 +33,12 @@ export const siteLinks = [
 
 export const adminLinks = [
   {
-    label: "Categories",
-    href: "/admin/categories",
-  },
-  {
-    label: "Cuisines",
-    href: "/admin/cuisines",
-  },
-  {
     label: "Families",
     href: "/admin/families",
   },
   {
     label: "Organizations",
     href: "/admin/organizations",
-  },
-  {
-    label: "Tags",
-    href: "/admin/tags",
   },
   {
     label: "Users",
