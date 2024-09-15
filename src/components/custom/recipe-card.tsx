@@ -33,8 +33,10 @@ export default function RecipeCard({ item, className }: RecipeCardProps) {
             {item?.meal && (
               <div className="mb-1 text-sm uppercase tracking-widest">{item.meal}</div>
             )}
-            <CardTitle className="text-lg">{item.title}</CardTitle>
-            <CardDescription>{item.description}</CardDescription>
+            <CardTitle className="line-clamp-1 text-sm lg:text-lg">{item.title}</CardTitle>
+            <CardDescription className="line-clamp-1 text-xs lg:text-sm">
+              {item.description}
+            </CardDescription>
           </CardContent>
         </Card>
       </Link>
