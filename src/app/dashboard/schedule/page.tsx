@@ -3,7 +3,10 @@ import { eq } from "drizzle-orm";
 import { auth } from "@/auth/validate-request";
 import db from "@/db";
 import { recipes, schedules, users } from "@/db/schema";
-import WeekCalendar from "./week-calendar";
+import { SchedulerProvider } from "@/providers/scheduler";
+
+import Scheduler from "./scheduler";
+import UpcomingItems from "./upcoming-items";
 
 export default async function SchedulesPage() {
   const { user } = await auth();
@@ -26,10 +29,10 @@ export default async function SchedulesPage() {
     .orderBy(schedules.dateTime, schedules.meal);
 
   return (
-    <>
-      <h1 className="mb-6 text-3xl font-medium tracking-wide">Schedules</h1>
-
-      <WeekCalendar schedules={userFamilySchedules} />
-    </>
+    <SchedulerProvider schedules={userFamilySchedules}>
+      <h1 className="mb-6 text-3xl font-medium tracking-wide">Schedule</h1>
+      <Scheduler />
+      <UpcomingItems />
+    </SchedulerProvider>
   );
 }

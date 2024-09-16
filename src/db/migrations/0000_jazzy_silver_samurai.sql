@@ -1,5 +1,5 @@
 DO $$ BEGIN
- CREATE TYPE "public"."meal" AS ENUM('breakfast', 'brunch', 'lunch', 'dinner');
+ CREATE TYPE "public"."meal" AS ENUM('breakfast', 'lunch', 'dinner');
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

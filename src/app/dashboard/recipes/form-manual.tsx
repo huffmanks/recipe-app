@@ -314,7 +314,7 @@ export function RecipeFormManual({ recipeData }: RecipeFormProps) {
               <FormLabel>Categories</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Breakfast,Brunch"
+                  placeholder="Breakfast,Lunch"
                   {...field}
                 />
               </FormControl>

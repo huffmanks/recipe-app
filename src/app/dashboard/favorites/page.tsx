@@ -18,13 +18,15 @@ export default async function FavoritesPage() {
     <>
       <h1 className="mb-6 text-3xl font-medium tracking-wide">Favorites</h1>
 
-      {favoriteRecipes &&
-        favoriteRecipes.map((recipe) => (
-          <RecipeCard
-            key={recipe.id}
-            item={recipe}
-          />
-        ))}
+      <div className="grid gap-8">
+        {favoriteRecipes &&
+          favoriteRecipes.map((recipe) => (
+            <RecipeCard
+              key={recipe.id}
+              item={recipe}
+            />
+          ))}
+      </div>
     </>
   );
 }

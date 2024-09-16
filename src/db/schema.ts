@@ -96,7 +96,7 @@ export const favorites = pgTable("favorites", {
     .notNull(),
 });
 
-export const ScheduleMeal = pgEnum("meal", ["breakfast", "brunch", "lunch", "dinner"]);
+export const ScheduleMeal = pgEnum("meal", ["breakfast", "lunch", "dinner"]);
 
 export const schedules = pgTable("schedules", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),

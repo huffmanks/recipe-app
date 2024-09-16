@@ -49,9 +49,9 @@ export default async function DashboardPage() {
       </div>
 
       <h3 className="text-bold mb-4 text-xl">Upcoming</h3>
-      <div className="mb-10">scheduled meals</div>
+      <div className="mb-10">TODO: scheduled meals</div>
 
-      <h3 className="text-bold mb-4 text-xl">Recent recipes</h3>
+      <h3 className="text-bold mb-4 text-xl">Recently added</h3>
       <RecentCarousel recentRecipes={recentRecipes} />
     </>
   );

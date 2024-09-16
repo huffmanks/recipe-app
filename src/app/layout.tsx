@@ -4,8 +4,8 @@ import "./globals.css";
 
 import { SITE_DESCRIPTION, SITE_TITLE, SITE_TITLE_TEMPLATE } from "@/config/site";
 
-import { ThemeProvider } from "@/components/providers";
 import { Toaster } from "@/components/ui/sonner";
+import { ThemeProvider } from "@/providers/theme";
 
 const inter = localFont({
   src: [
