@@ -6,14 +6,15 @@
   "scripts": {
     "dev": "next dev",
     "db:generate": "drizzle-kit generate",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "format": "prettier src/ --write",
     "db:push": "drizzle-kit push",
     "db:migrate": "cross-env DATABASE_MIGRATING=true tsx src/db/migrate.ts",
     "db:seed": "cross-env DATABASE_SEEDING=true tsx src/db/seed.ts",
     "db:drop": "cross-env DATABASE_DROP=true tsx src/db/seed.ts",
-    "db:studio": "drizzle-kit studio",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.4.2",
@@ -32,6 +33,7 @@
     "@radix-ui/react-switch": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",
     "@serwist/next": "^9.0.7",
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
@@ -69,12 +71,16 @@
     "@types/uuid": "^10.0.0",
     "cross-env": "^7.0.3",
     "drizzle-kit": "^0.23.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.13",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-check-file": "^2.8.0",
+    "eslint-plugin-n": "^17.10.3",
     "postcss": "^8",
-    "prettier": "^3.3.0",
-    "prettier-plugin-organize-imports": "^4.0.0",
-    "prettier-plugin-tailwindcss": "^0.6.1",
+    "prettier": "^3.3.3",
+    "prettier-plugin-tailwindcss": "^0.6.6",
     "serwist": "^9.0.7",
-    "tailwindcss": "^3.4.1",
+    "tailwindcss": "^3.4.12",
     "tsx": "^4.19.0",
     "typescript": "^5"
   }
