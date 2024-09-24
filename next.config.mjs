@@ -1,7 +1,11 @@
 /** @type {import('next').NextConfig} */
 import withSerwistInit from "@serwist/next";
+import createJiti from "jiti";
+import { fileURLToPath } from "node:url";
 
-import env from "@/env";
+const jiti = createJiti(fileURLToPath(import.meta.url));
+
+const env = jiti("./src/env/index.ts");
 
 const withSerwist = withSerwistInit({
   swSrc: "src/app/sw.ts",

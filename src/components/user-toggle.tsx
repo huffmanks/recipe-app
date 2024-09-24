@@ -1,5 +1,6 @@
-import { UserIcon } from "lucide-react";
 import Link from "next/link";
+
+import { UserIcon } from "lucide-react";
 
 import { handleLogout } from "@/auth/actions";
 

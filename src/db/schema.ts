@@ -1,4 +1,4 @@
-import { relations, SQL, sql } from "drizzle-orm";
+import { SQL, relations, sql } from "drizzle-orm";
 import { integer, pgEnum, pgTableCreator, text, timestamp, uuid } from "drizzle-orm/pg-core";
 
 import { DATABASE_PREFIX } from "@/config/site";

@@ -1,9 +1,9 @@
 "use client";
 
+import { User } from "lucia";
 import { MoreHorizontalIcon } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { User } from "lucia";
 
 interface SidebarAvatarProps {
   user: User;

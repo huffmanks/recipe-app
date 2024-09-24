@@ -1,7 +1,8 @@
+import Link from "next/link";
+
 import { User } from "lucia";
 import { LogOutIcon, MoonIcon, SettingsIcon, SunIcon } from "lucide-react";
 import { useTheme } from "next-themes";
-import Link from "next/link";
 
 import { handleLogout } from "@/auth/actions";
 

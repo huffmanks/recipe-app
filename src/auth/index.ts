@@ -3,6 +3,7 @@ import { Lucia } from "lucia";
 
 import db from "@/db";
 import { SelectUser, sessions, users } from "@/db/schema";
+import { env } from "@/env";
 
 export const adapter = new DrizzlePostgreSQLAdapter(db, sessions, users);
 
@@ -10,7 +11,7 @@ export const lucia = new Lucia(adapter, {
   sessionCookie: {
     expires: false,
     attributes: {
-      secure: process.env.NODE_ENV === "production",
+      secure: env.NODE_ENV === "production",
     },
   },
   getUserAttributes: (attributes) => {

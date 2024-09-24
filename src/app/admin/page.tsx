@@ -1,6 +1,8 @@
+import { count, eq } from "drizzle-orm";
+
 import db from "@/db";
 import { users } from "@/db/schema";
-import { count, eq } from "drizzle-orm";
+
 import { UserPieChart } from "./pie-chart";
 
 export default async function AdminPage() {

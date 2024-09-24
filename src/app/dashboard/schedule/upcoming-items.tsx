@@ -4,6 +4,7 @@ import { formatWeekHeading } from "@/lib/formatWeekHeading";
 import { useScheduler } from "@/providers/scheduler";
 
 import { Separator } from "@/components/ui/separator";
+
 import MealItem from "./meal-item";
 
 export default function UpcomingItems() {

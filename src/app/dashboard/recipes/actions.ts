@@ -1,8 +1,9 @@
 "use server";
 
+import { eq } from "drizzle-orm";
+
 import db from "@/db";
 import { InsertRecipe, recipes } from "@/db/schema";
-import { eq } from "drizzle-orm";
 
 export async function createRecipe(recipe: InsertRecipe) {
   try {

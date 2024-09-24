@@ -1,6 +1,7 @@
-import { verifyRequestOrigin } from "lucia";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+
+import { verifyRequestOrigin } from "lucia";
 
 export async function middleware(request: NextRequest): Promise<NextResponse> {
   if (request.method === "GET") {

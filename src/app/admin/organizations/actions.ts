@@ -1,8 +1,9 @@
 "use server";
 
+import { eq } from "drizzle-orm";
+
 import db from "@/db";
 import { InsertOrganization, organizations } from "@/db/schema";
-import { eq } from "drizzle-orm";
 
 export async function createOrganization(organization: InsertOrganization) {
   try {

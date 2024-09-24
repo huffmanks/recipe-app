@@ -1,10 +1,9 @@
 import { eq } from "drizzle-orm";
 
+import { UserForm } from "@/app/admin/users/form";
 import { auth } from "@/auth/validate-request";
 import db from "@/db";
 import { families, organizations, users } from "@/db/schema";
-
-import { UserForm } from "@/app/admin/users/form";
 
 export default async function ProfilePage() {
   const { user } = await auth();

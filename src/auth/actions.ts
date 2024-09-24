@@ -1,21 +1,22 @@
 "use server";
 
-import { eq } from "drizzle-orm";
-import { generateId, Scrypt } from "lucia";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { createDate, isWithinExpirationDate, TimeSpan } from "oslo";
+
+import { eq } from "drizzle-orm";
+import { Scrypt, generateId } from "lucia";
+import { TimeSpan, createDate, isWithinExpirationDate } from "oslo";
 import { v4 as uuidv4 } from "uuid";
 
 import { lucia } from "@/auth";
 import {
   ForgotPasswordInput,
-  forgotPasswordSchema,
   LoginInput,
-  loginSchema,
   RegisterInput,
-  registerSchema,
   ResetPasswordInput,
+  forgotPasswordSchema,
+  loginSchema,
+  registerSchema,
   resetPasswordSchema,
 } from "@/auth/schema";
 import { auth } from "@/auth/validate-request";

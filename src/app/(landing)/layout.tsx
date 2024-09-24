@@ -1,4 +1,5 @@
 import { auth } from "@/auth/validate-request";
+
 import Navbar from "@/components/navbar";
 
 export default async function LandingLayout({

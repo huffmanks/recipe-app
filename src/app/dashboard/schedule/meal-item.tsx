@@ -1,8 +1,11 @@
+import Link from "next/link";
+
+import { PlusIcon } from "lucide-react";
+
+import { ScheduleItem } from "@/providers/scheduler";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ScheduleItem } from "@/providers/scheduler";
-import { PlusIcon } from "lucide-react";
-import Link from "next/link";
 
 interface MealItemProps {
   item: ScheduleItem;

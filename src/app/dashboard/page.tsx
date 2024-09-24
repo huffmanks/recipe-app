@@ -1,10 +1,12 @@
+import Link from "next/link";
+
 import { desc, sql } from "drizzle-orm";
 
 import db from "@/db";
 import { recipes } from "@/db/schema";
 
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+
 import RecentCarousel from "./recent-carousel";
 
 // Grid, box, dashboard thing

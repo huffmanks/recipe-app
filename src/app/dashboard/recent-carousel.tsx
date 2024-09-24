@@ -1,10 +1,11 @@
 "use client";
 
+import { useMediaQuery } from "usehooks-ts";
+
 import { SelectRecipe } from "@/db/schema";
 
 import RecipeCard from "@/components/custom/recipe-card";
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
-import { useMediaQuery } from "usehooks-ts";
 
 interface RecentCarouselProps {
   recentRecipes: SelectRecipe[];

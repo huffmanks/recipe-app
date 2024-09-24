@@ -1,9 +1,10 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { PlusIcon, Trash2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { PlusIcon, Trash2Icon } from "lucide-react";
 import { useFieldArray, useForm } from "react-hook-form";
 import slugify from "slugify";
 import { toast } from "sonner";
@@ -11,7 +12,6 @@ import { z } from "zod";
 
 import { SelectRecipe } from "@/db/schema";
 import { cn } from "@/lib/utils";
-import { createRecipe, updateRecipe } from "./actions";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -25,6 +25,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+
+import { createRecipe, updateRecipe } from "./actions";
 
 const FormSchema = z.object({
   title: z.string().min(2, {

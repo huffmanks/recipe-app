@@ -1,7 +1,9 @@
+import { Table, getTableName, sql } from "drizzle-orm";
+
 import { connection, db } from "@/db";
 import * as schema from "@/db/schema";
 import env from "@/env";
-import { Table, getTableName, sql } from "drizzle-orm";
+
 import {
   seedFamilies,
   seedFavorites,

@@ -1,9 +1,12 @@
-import { PlusIcon } from "lucide-react";
 import Link from "next/link";
+
+import { PlusIcon } from "lucide-react";
+
+import db from "@/db";
 
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import db from "@/db";
+
 import OrganizationRow from "./organization-row";
 
 export default async function AdminOrganizationsPage() {

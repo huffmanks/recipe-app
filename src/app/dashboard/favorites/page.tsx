@@ -1,8 +1,10 @@
+import { eq } from "drizzle-orm";
+
 import { auth } from "@/auth/validate-request";
-import RecipeCard from "@/components/custom/recipe-card";
 import db from "@/db";
 import { favorites, recipes } from "@/db/schema";
-import { eq } from "drizzle-orm";
+
+import RecipeCard from "@/components/custom/recipe-card";
 
 export default async function FavoritesPage() {
   const { user } = await auth();
