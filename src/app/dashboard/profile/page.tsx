@@ -8,8 +8,10 @@ import { families, organizations, users } from "@/db/schema";
 export default async function ProfilePage() {
   const { user } = await auth();
 
+  if (!user) return null;
+
   const userData = await db.query.users.findFirst({
-    where: eq(users.id, user?.id!),
+    where: eq(users.id, user.id),
     columns: {
       hashedPassword: false,
     },

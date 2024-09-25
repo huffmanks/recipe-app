@@ -31,4 +31,4 @@ declare module "lucia" {
   }
 }
 
-interface DatabaseUserAttributes extends Omit<SelectUser, "organizationId" | "familyId"> {}
+type DatabaseUserAttributes = Omit<SelectUser, "organizationId" | "familyId">;

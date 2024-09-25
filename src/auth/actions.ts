@@ -23,7 +23,7 @@ import { auth } from "@/auth/validate-request";
 import { db } from "@/db";
 import { passwordResetTokens, users } from "@/db/schema";
 
-export interface ActionResponse<T> {
+export interface ActionResponse<_T> {
   error: string;
 }
 
@@ -149,7 +149,7 @@ export async function handleForgotPassword(
     const token = await generatePasswordResetToken(user.id);
 
     return { token };
-  } catch (error) {
+  } catch (_error) {
     return { error: "Failed to send verification email." };
   }
 }

@@ -75,6 +75,7 @@ export function FamilyForm({ familyData }: FamilyFormProps) {
       const slug = slugify(titleInput, { lower: true });
       form.setValue("slug", slug);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [titleInput]);
 
   return (

@@ -1,7 +1,13 @@
 import type db from "@/db";
-
-import { families, favorites, organizations, recipes, schedules, users } from "../schema";
-import { familyData, favoriteData, orgData, recipeData, scheduleData, userData } from "./data";
+import { families, favorites, organizations, recipes, schedules, users } from "@/db/schema";
+import {
+  familyData,
+  favoriteData,
+  orgData,
+  recipeData,
+  scheduleData,
+  userData,
+} from "@/db/seeds/data";
 
 export async function seedOrganizations(db: db) {
   await db.insert(organizations).values(orgData);

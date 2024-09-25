@@ -41,7 +41,7 @@ export default function RegisterForm() {
       if (result?.error) {
         toast.error(result.error);
       }
-    } catch (error) {
+    } catch (_error) {
       toast.error("An unexpected error occurred. Please try again.");
     }
   };

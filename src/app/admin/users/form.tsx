@@ -129,6 +129,7 @@ export function UserForm({ isAdmin, userData, orgData, famData }: UserFormProps)
       updateFamilySelect();
       form.setValue("familyId", "");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orgSelect]);
 
   return (

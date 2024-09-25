@@ -22,6 +22,12 @@ export const families = pgTable("families", {
 
 export const UserRole = pgEnum("role", ["admin", "member", "guest"]);
 
+export const USER_ROLES = {
+  ADMIN: "admin",
+  MEMBER: "member",
+  GUEST: "guest",
+} as const;
+
 export const users = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
   firstName: text("first_name").notNull(),
@@ -97,6 +103,11 @@ export const favorites = pgTable("favorites", {
 });
 
 export const ScheduleMeal = pgEnum("meal", ["breakfast", "lunch", "dinner"]);
+export const SCHEDULE_MEALS = {
+  BREAKFAST: "breakfast",
+  LUNCH: "lunch",
+  DINNER: "dinner",
+} as const;
 
 export const schedules = pgTable("schedules", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),

@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 
 const jiti = createJiti(fileURLToPath(import.meta.url));
 
-const env = jiti("./src/env/index.ts");
+const { env } = jiti("./src/env/index.ts");
 
 const withSerwist = withSerwistInit({
   swSrc: "src/app/sw.ts",
@@ -13,10 +13,6 @@ const withSerwist = withSerwistInit({
   disable: env.NODE_ENV === "development" ? true : false,
 });
 
-const nextConfig = {
-  experimental: {
-    typedRoutes: true,
-  },
-};
+const nextConfig = {};
 
 export default withSerwist(nextConfig);

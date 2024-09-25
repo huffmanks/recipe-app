@@ -3,7 +3,7 @@
 import puppeteer from "puppeteer";
 import slugify from "slugify";
 
-import { parseRecipeForTags } from "@/lib/parseRecipeForTags";
+import { parseRecipeForTags } from "@/lib/parse-recipe-for-tags";
 
 export interface ScrapedRecipe {
   title: string;
@@ -28,12 +28,13 @@ export async function getRecipeFromUrl(url: string): Promise<ScrapedRecipe | Err
     await page.goto(url, { waitUntil: "networkidle2" });
 
     const jsonLdData = await page.evaluate(() => {
-      const script = document.querySelector('script[type="application/ld+json"]');
+      const script = document.querySelector("script[type='application/ld+json']");
       if (!script) return null;
 
       try {
         const json = JSON.parse(script.textContent || "{}");
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         function findRecipeSchema(data: any): any {
           if (!data) return null;
           if (
@@ -58,7 +59,7 @@ export async function getRecipeFromUrl(url: string): Promise<ScrapedRecipe | Err
         }
 
         return findRecipeSchema(json);
-      } catch (e) {
+      } catch (_error) {
         return null;
       }
     });
@@ -81,6 +82,7 @@ export async function getRecipeFromUrl(url: string): Promise<ScrapedRecipe | Err
       categories: jsonLdData.recipeCategory,
       cuisines: jsonLdData.recipeCuisine,
       ingredients: jsonLdData.recipeIngredient,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       instructions: jsonLdData.recipeInstructions?.map((instruction: any) =>
         typeof instruction === "string" ? instruction : instruction.text
       ),

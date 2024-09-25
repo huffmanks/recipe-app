@@ -1,26 +1,37 @@
 {
-    "extends": ["next/core-web-vitals", "next/typescript", "prettier"],
-    "plugins": ["check-file", "n"],
-    "rules": {
-      "prefer-arrow-callback": ["error"],
-      "prefer-template": ["error"],
-      "semi": ["error"],
-      "quotes": ["error", "double"],
-      "n/no-process-env": ["error"],
-      "check-file/filename-naming-convention": [
-        "error",
-        {
-          "**/*.{ts,tsx}": "KEBAB_CASE"
-        },
-        {
-          "ignoreMiddleExtensions": true
-        }
-      ],
-      "check-file/folder-naming-convention": [
-        "error",
-        {
-          "src/**/!^[.*": "KEBAB_CASE"
-        }
-      ]
-    }
+  "extends": ["next/core-web-vitals", "next/typescript", "prettier"],
+  "plugins": ["check-file", "n"],
+  "rules": {
+    "@next/next/no-img-element": "off",
+    "prefer-arrow-callback": ["error"],
+    "prefer-template": ["error"],
+    "semi": ["error"],
+    "quotes": ["error", "double"],
+    "n/no-process-env": ["error"],
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_",
+        "destructuredArrayIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "ignoreRestSiblings": true
+      }
+    ],
+    "check-file/filename-naming-convention": [
+      "error",
+      {
+        "**/*.{ts,tsx}": "KEBAB_CASE"
+      },
+      {
+        "ignoreMiddleExtensions": true
+      }
+    ],
+    "check-file/folder-naming-convention": [
+      "error",
+      {
+        "src/**/!^[.*": "KEBAB_CASE"
+      }
+    ]
   }
+}

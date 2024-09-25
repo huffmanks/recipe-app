@@ -44,7 +44,7 @@ export default function ForgotPasswordForm() {
       if (result?.token) {
         router.push(`/reset-password/${result.token}`);
       }
-    } catch (error) {
+    } catch (_error) {
       toast.error("An unexpected error occurred. Please try again.");
     }
   };

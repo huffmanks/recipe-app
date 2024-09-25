@@ -8,11 +8,14 @@ import RecipeCard from "@/components/custom/recipe-card";
 
 export default async function FavoritesPage() {
   const { user } = await auth();
+
+  if (!user) return null;
+
   const result = await db
     .select()
     .from(recipes)
     .innerJoin(favorites, eq(favorites.recipeId, recipes.id))
-    .where(eq(favorites.userId, user?.id!));
+    .where(eq(favorites.userId, user.id));
 
   const favoriteRecipes = result.map(({ recipes }) => recipes);
 

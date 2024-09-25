@@ -37,15 +37,18 @@ interface UserPieChartProps {
 }
 
 export function UserPieChart({ adminCount, memberCount, guestCount }: UserPieChartProps) {
-  const chartData = [
-    { role: "admin", users: adminCount, fill: "var(--color-admin)" },
-    { role: "member", users: memberCount, fill: "var(--color-member)" },
-    { role: "guest", users: guestCount, fill: "var(--color-guest)" },
-  ];
+  const chartData = useMemo(
+    () => [
+      { role: "admin", users: adminCount, fill: "var(--color-admin)" },
+      { role: "member", users: memberCount, fill: "var(--color-member)" },
+      { role: "guest", users: guestCount, fill: "var(--color-guest)" },
+    ],
+    [adminCount, memberCount, guestCount]
+  );
 
   const totalUsers = useMemo(() => {
     return chartData.reduce((acc, curr) => acc + curr.users, 0);
-  }, []);
+  }, [chartData]);
 
   return (
     <Card className="flex flex-col">

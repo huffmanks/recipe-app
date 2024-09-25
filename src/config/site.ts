@@ -8,7 +8,7 @@ export interface SiteLink {
   href: string;
 }
 
-export const siteLinks = [
+export const siteLinks: SiteLink[] = [
   {
     label: "Home",
     href: "/dashboard",

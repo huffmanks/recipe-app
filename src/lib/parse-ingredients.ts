@@ -118,7 +118,6 @@ export function parseIngredients(ingredientStrings: string[]): Ingredient[] {
   return ingredientStrings.map((ingredientStr) => {
     let amount: number | null = null;
     let unit: string | null = null;
-    let name: string;
 
     const rangeMatch = ingredientStr.match(rangeRegex);
     if (rangeMatch) {
@@ -150,12 +149,12 @@ export function parseIngredients(ingredientStrings: string[]): Ingredient[] {
       }
     }
 
-    name = ingredientStr.trim().toLowerCase();
+    const name = ingredientStr.trim().toLowerCase();
 
     return {
       amount: amount || null,
       unit: unit || null,
-      name: name,
+      name,
     };
   });
 }

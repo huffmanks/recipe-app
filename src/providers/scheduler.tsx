@@ -93,6 +93,7 @@ export const SchedulerProvider = ({ children, schedules }: SchedulerProviderProp
     const meals = generateMealsForWeek(filteredItems);
 
     setCurrentWeekMeals(meals);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [weekInfo.selectedDate, schedules]);
 
   function generateMealsForWeek(items: ScheduleItem[]): DayMeals[] {

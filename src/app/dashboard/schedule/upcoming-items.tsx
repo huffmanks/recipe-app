@@ -1,6 +1,6 @@
 "use client";
 
-import { formatWeekHeading } from "@/lib/formatWeekHeading";
+import { formatWeekHeading } from "@/lib/format-week-heading";
 import { useScheduler } from "@/providers/scheduler";
 
 import { Separator } from "@/components/ui/separator";

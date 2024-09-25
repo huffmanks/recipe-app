@@ -15,7 +15,7 @@ export default function SidebarAvatar({ user }: SidebarAvatarProps) {
     <div className="flex w-full items-center justify-between">
       <div className="flex items-center gap-2">
         <Avatar className="size-8">
-          <AvatarImage src={user?.image!} />
+          <AvatarImage src={user.image!} />
           <AvatarFallback className="bg-primary">{userInitial}</AvatarFallback>
         </Avatar>
         <span>{user.name}</span>

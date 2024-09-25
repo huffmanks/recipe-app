@@ -12,7 +12,7 @@ interface RecentCarouselProps {
 }
 
 export default function RecentCarousel({ recentRecipes }: RecentCarouselProps) {
-  const isDesktop = useMediaQuery("(min-width: 1024px)", {
+  const _isDesktop = useMediaQuery("(min-width: 1024px)", {
     initializeWithValue: false,
   });
 

@@ -1,7 +1,7 @@
 import { defineConfig } from "drizzle-kit";
 
 import { DATABASE_PREFIX } from "@/config/site";
-import env from "@/env";
+import { env } from "@/env";
 
 export default defineConfig({
   schema: "./src/db/schema.ts",

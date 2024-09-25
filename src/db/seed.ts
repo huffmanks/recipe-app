@@ -2,8 +2,6 @@ import { Table, getTableName, sql } from "drizzle-orm";
 
 import { connection, db } from "@/db";
 import * as schema from "@/db/schema";
-import env from "@/env";
-
 import {
   seedFamilies,
   seedFavorites,
@@ -11,10 +9,11 @@ import {
   seedRecipes,
   seedSchedules,
   seedUsers,
-} from "./seeds";
+} from "@/db/seeds";
+import { env } from "@/env";
 
 if (!env.DATABASE_DROP && !env.DATABASE_SEEDING) {
-  throw new Error('You must set DATABASE_SEEDING or DATABASE_DROP to "true" run this!');
+  throw new Error("You must set DATABASE_SEEDING or DATABASE_DROP to 'true' run this!");
 }
 
 async function resetTable(db: db, table: Table) {

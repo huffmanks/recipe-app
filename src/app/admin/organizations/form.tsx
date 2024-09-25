@@ -75,6 +75,7 @@ export function OrganizationForm({ organizationData }: OrganizationFormProps) {
       const slug = slugify(titleInput, { lower: true });
       form.setValue("slug", slug);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [titleInput]);
 
   return (

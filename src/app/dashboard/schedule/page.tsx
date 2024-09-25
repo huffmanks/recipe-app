@@ -10,6 +10,9 @@ import UpcomingItems from "./upcoming-items";
 
 export default async function SchedulesPage() {
   const { user } = await auth();
+
+  if (!user) return null;
+
   const userFamilySchedules = await db
     .select({
       id: schedules.id,
@@ -25,7 +28,7 @@ export default async function SchedulesPage() {
     .from(schedules)
     .innerJoin(users, eq(schedules.familyId, users.familyId))
     .innerJoin(recipes, eq(schedules.recipeId, recipes.id))
-    .where(eq(users.id, user?.id!))
+    .where(eq(users.id, user.id))
     .orderBy(schedules.dateTime, schedules.meal);
 
   return (
