@@ -129,7 +129,7 @@ export const userData = [
     email: "gaiacalliope@example.com",
     hashedPassword,
     role: USER_ROLES.MEMBER,
-    organizationId: org1,
+    organizationId: org2,
     familyId: fam3,
   },
   {
@@ -139,7 +139,7 @@ export const userData = [
     email: "heracalliope@example.com",
     hashedPassword,
     role: USER_ROLES.GUEST,
-    organizationId: org1,
+    organizationId: org2,
     familyId: fam3,
   },
   {

@@ -5,6 +5,7 @@ import { desc, sql } from "drizzle-orm";
 import db from "@/db";
 import { recipes } from "@/db/schema";
 
+import { SearchForm } from "@/components/search";
 import { Button } from "@/components/ui/button";
 
 import RecentCarousel from "./recent-carousel";
@@ -25,6 +26,8 @@ export default async function DashboardPage() {
   return (
     <>
       <h1 className="mb-6 text-3xl font-medium tracking-wide">Dashboard</h1>
+
+      <SearchForm />
 
       <div className="relative mb-10 h-48 overflow-hidden rounded-lg lg:h-64">
         <img

@@ -23,7 +23,7 @@ export default async function FavoritesPage() {
     <>
       <h1 className="mb-6 text-3xl font-medium tracking-wide">Favorites</h1>
 
-      <div className="grid gap-8">
+      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         {favoriteRecipes &&
           favoriteRecipes.map((recipe) => (
             <RecipeCard
