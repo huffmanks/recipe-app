@@ -8,10 +8,7 @@ import { z } from "zod";
 import { handleResetPassword } from "@/auth/actions";
 import { resetPasswordSchema } from "@/auth/schema";
 
-import GoBackButton from "@/components/custom/go-back-button";
 import LoadingButton from "@/components/custom/loading-button";
-import LogoLink from "@/components/logo-link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -48,59 +45,50 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <GoBackButton href="/forgot-password" />
-        <CardHeader className="items-center gap-8 space-y-0">
-          <LogoLink />
-          <CardTitle className="text-center text-2xl font-bold">Reset password</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-8">
-              <FormField
-                control={form.control}
-                name="token"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        type="hidden"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+    <div className="mb-8">
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="grid gap-4">
+          <FormField
+            control={form.control}
+            name="token"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    type="hidden"
+                    {...field}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
 
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="Enter a new password."
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="Enter a new password."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-              <LoadingButton
-                pending={form.formState.isSubmitting}
-                text="Submit"
-              />
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
+          <LoadingButton
+            pending={form.formState.isSubmitting}
+            text="Reset password"
+          />
+        </form>
+      </Form>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { auth } from "@/auth/validate-request";
+import { landingLinks } from "@/config/site";
 
-import Navbar from "@/components/navbar";
+import { Navigation } from "@/components/navigation";
 
 export default async function LandingLayout({
   children,
@@ -11,8 +12,11 @@ export default async function LandingLayout({
 
   return (
     <>
-      <Navbar isLoggedIn={!!session} />
-      <main className="p-8">{children}</main>
+      <Navigation
+        isLoggedIn={!!session}
+        navLinks={landingLinks}>
+        {children}
+      </Navigation>
     </>
   );
 }

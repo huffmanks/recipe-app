@@ -11,8 +11,6 @@ import { handleLogin } from "@/auth/actions";
 import { loginSchema } from "@/auth/schema";
 
 import LoadingButton from "@/components/custom/loading-button";
-import LogoLink from "@/components/logo-link";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -45,115 +43,60 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="items-center gap-8 space-y-0">
-          <LogoLink />
-          <CardTitle className="text-center text-2xl font-bold">Welcome back!</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-8">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="lysanderartemis@example.com"
-                        autoComplete="off"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+    <div className="mb-8">
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="grid gap-4">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="lysanderartemis@example.com"
+                    autoComplete="off"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="flex items-center justify-between gap-4">
-                      <FormLabel>Password</FormLabel>
-                      <Link
-                        href="/forgot-password"
-                        className="text-sm underline decoration-primary underline-offset-4">
-                        Forgot?
-                      </Link>
-                    </div>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="Enter password."
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <div className="flex items-center justify-between gap-4">
+                  <FormLabel>Password</FormLabel>
+                  <Link
+                    href="/forgot-password"
+                    className="text-sm underline">
+                    Forgot your password?
+                  </Link>
+                </div>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="Enter password."
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-              <LoadingButton
-                pending={form.formState.isSubmitting}
-                text="Login"
-              />
-            </form>
-          </Form>
-
-          {/* <span className="my-2 block text-center text-sm text-gray-500">or</span>
-          <form
-            className="w-full"
-            action={handleGoogleLogin}>
-            <Button
-              variant="outline"
-              className="w-full"
-              type="submit">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="mr-2 size-4"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="#2c3e50"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round">
-                <path
-                  stroke="none"
-                  d="M0 0h24v24H0z"
-                  fill="none"
-                />
-                <path
-                  d="M12 2a9.96 9.96 0 0 1 6.29 2.226a1 1 0 0 1 .04 1.52l-1.51 1.362a1 1 0 0 1 -1.265 .06a6 6 0 1 0 2.103 6.836l.001 -.004h-3.66a1 1 0 0 1 -.992 -.883l-.007 -.117v-2a1 1 0 0 1 1 -1h6.945a1 1 0 0 1 .994 .89c.04 .367 .061 .737 .061 1.11c0 5.523 -4.477 10 -10 10s-10 -4.477 -10 -10s4.477 -10 10 -10z"
-                  strokeWidth="0"
-                  fill="currentColor"
-                />
-              </svg>
-              Login with Google
-            </Button>
-          </form> */}
-        </CardContent>
-
-        <CardFooter className="justify-center">
-          <div className="px-1.5 pb-2 pt-3">
-            <p className="text-sm">
-              <span>Need an account? </span>
-              <Link
-                href="/register"
-                className="underline decoration-primary underline-offset-4">
-                Sign up
-              </Link>
-            </p>
-          </div>
-        </CardFooter>
-      </Card>
+          <LoadingButton
+            pending={form.formState.isSubmitting}
+            text="Login"
+          />
+        </form>
+      </Form>
     </div>
   );
 }

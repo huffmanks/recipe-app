@@ -1,8 +1,9 @@
 import { redirect } from "next/navigation";
 
 import { auth } from "@/auth/validate-request";
+import { adminLinks } from "@/config/site";
 
-import Sidebar from "@/components/sidebar";
+import { Navigation } from "@/components/navigation";
 
 export default async function AdminLayout({
   children,
@@ -21,11 +22,12 @@ export default async function AdminLayout({
 
   return (
     <>
-      <Sidebar
-        user={user}
+      <Navigation
         isAdmin={user.role === "admin"}
-      />
-      <main className="px-5 pb-8 pt-20 sm:pl-[300px] sm:pt-5">{children}</main>
+        isLoggedIn={!!user}
+        navLinks={adminLinks}>
+        {children}
+      </Navigation>
     </>
   );
 }

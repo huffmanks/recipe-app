@@ -33,15 +33,38 @@ export const siteLinks: SiteLink[] = [
 
 export const adminLinks = [
   {
-    label: "Families",
-    href: "/admin/families",
+    label: "Admin",
+    href: "/admin",
   },
   {
     label: "Organizations",
     href: "/admin/organizations",
   },
   {
+    label: "Families",
+    href: "/admin/families",
+  },
+  {
     label: "Users",
     href: "/admin/users",
+  },
+];
+
+export const landingLinks = [
+  {
+    label: "About",
+    href: "/about",
+  },
+  {
+    label: "Pricing",
+    href: "/pricing",
+  },
+  {
+    label: "Login",
+    href: "/login",
+  },
+  {
+    label: "Register",
+    href: "/register",
   },
 ];

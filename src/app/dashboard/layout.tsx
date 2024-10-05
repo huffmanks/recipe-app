@@ -1,8 +1,9 @@
 import { redirect } from "next/navigation";
 
 import { auth } from "@/auth/validate-request";
+import { siteLinks } from "@/config/site";
 
-import Sidebar from "@/components/sidebar";
+import { Navigation } from "@/components/navigation";
 
 export default async function DashboardLayout({
   children,
@@ -17,11 +18,12 @@ export default async function DashboardLayout({
 
   return (
     <>
-      <Sidebar
-        user={user}
+      <Navigation
         isAdmin={user.role === "admin"}
-      />
-      <main className="px-5 pb-8 pt-20 sm:pl-[300px] sm:pt-5">{children}</main>
+        isLoggedIn={!!user}
+        navLinks={siteLinks}>
+        {children}
+      </Navigation>
     </>
   );
 }

@@ -3,8 +3,6 @@ import { like, or, sql } from "drizzle-orm";
 import db from "@/db";
 import { recipes } from "@/db/schema";
 
-import { SearchForm } from "@/components/search";
-
 interface RecipesPageProps {
   searchParams: { [key: string]: string | undefined };
 }
@@ -48,7 +46,6 @@ export default async function RecipesPage({ searchParams }: RecipesPageProps) {
     <>
       <h1 className="mb-6 text-3xl font-medium tracking-wide">Recipes</h1>
 
-      <SearchForm searchTerm={searchParams?.q} />
       {allRecipes && allRecipes.length > 0 ? (
         allRecipes.map((item) => <div key={item.id}>{item.title}</div>)
       ) : (
