@@ -16,6 +16,7 @@ export const registerSchema = z.object({
     message: "Please enter a valid email.",
   }),
   password: z.string().min(8, "Password is too short. Minimum 8 characters required.").max(64),
+  familyId: z.string().min(1, "A family must be selected."),
 });
 
 export type RegisterInput = z.infer<typeof registerSchema>;

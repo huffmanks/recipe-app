@@ -5,7 +5,12 @@ import { auth } from "@/auth/validate-request";
 
 import RegisterForm from "./form";
 
-export default async function RegisterPage() {
+interface RegisterPageProps {
+  searchParams: { familyId?: string };
+}
+
+export default async function RegisterPage({ searchParams }: RegisterPageProps) {
+  if (!searchParams?.familyId) redirect("/");
   const { user } = await auth();
 
   if (user) redirect("/dashboard");
@@ -17,7 +22,7 @@ export default async function RegisterPage() {
           Enter your information to create an account
         </p>
       </div>
-      <RegisterForm />
+      <RegisterForm familyId={searchParams.familyId} />
       <div className="text-center text-sm">
         Already have an account?{" "}
         <Link

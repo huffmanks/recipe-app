@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-export default function RegisterForm() {
+export default function RegisterForm({ familyId }: { familyId: string }) {
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
@@ -32,7 +32,7 @@ export default function RegisterForm() {
 
   const onSubmit = async (values: z.infer<typeof registerSchema>) => {
     try {
-      const result = await handleRegister(values);
+      const result = await handleRegister({ ...values, familyId });
 
       if (result?.error) {
         toast.error(result.error);

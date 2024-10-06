@@ -21,9 +21,9 @@ export default async function LoginPage() {
       <div className="text-center text-sm">
         Don&apos;t have an account?{" "}
         <Link
-          href="/register"
+          href="/join"
           className="underline">
-          Sign up
+          Join
         </Link>
       </div>
     </div>

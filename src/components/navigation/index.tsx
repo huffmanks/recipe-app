@@ -26,6 +26,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 interface NavigationProps {
   isAdmin?: boolean;
   isLoggedIn: boolean;
+  userName?: string;
   navLinks: SiteLink[];
   children: React.ReactNode;
 }
@@ -33,6 +34,7 @@ interface NavigationProps {
 export function Navigation({
   isAdmin = false,
   isLoggedIn = false,
+  userName,
   navLinks,
   children,
 }: NavigationProps) {
@@ -52,6 +54,9 @@ export function Navigation({
     }
     router.push(`/dashboard/recipes?${params}`);
   }
+
+  const showSearchBar =
+    !pathname.startsWith("/admin") && !["/", "/about", "/join", "/pricing"].includes(pathname);
 
   return (
     <div className="flex min-h-screen w-full flex-col">
@@ -110,7 +115,7 @@ export function Navigation({
           </SheetContent>
         </Sheet>
         <div className="flex w-full items-center gap-4 lg:ml-auto">
-          {!pathname.startsWith("/admin") && pathname !== "/" && (
+          {showSearchBar && (
             <form
               className="ml-auto flex-1 sm:flex-initial"
               onSubmit={handleSubmit}>
@@ -139,7 +144,7 @@ export function Navigation({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuLabel>{userName ? userName : "Account"}</DropdownMenuLabel>
                 {isLoggedIn && (
                   <>
                     <DropdownMenuSeparator />
@@ -188,7 +193,7 @@ export function Navigation({
                   <DropdownMenuItem
                     className="cursor-pointer"
                     asChild>
-                    <Link href="/register">Register</Link>
+                    <Link href="/join">Join</Link>
                   </DropdownMenuItem>
                 )}
               </DropdownMenuContent>

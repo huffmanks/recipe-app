@@ -41,7 +41,9 @@ const FormSchema = z.object({
     message: "Username must be at least 2 characters.",
   }),
   role: z.enum(["admin", "member", "guest"]),
-  familyId: z.string().nullish(),
+  familyId: z.string().min(1, {
+    message: "A family must be selected.",
+  }),
 });
 
 interface UserFormProps {
@@ -72,8 +74,8 @@ export function UserForm({ isAdmin, userData, famData }: UserFormProps) {
     const { role, ...rest } = data;
 
     const result = isUpdateMode
-      ? await updateUser(userData.id, isAdmin ? data : rest)
-      : await createUser(data);
+      ? await updateUser(userData.id, isAdmin ? data : rest) // error 1
+      : await createUser(data); // error 2
 
     if (result) {
       toast.success(

@@ -10,7 +10,7 @@ export interface SiteLink {
 
 export const siteLinks: SiteLink[] = [
   {
-    label: "Home",
+    label: "Dashboard",
     href: "/dashboard",
   },
   {
@@ -24,10 +24,6 @@ export const siteLinks: SiteLink[] = [
   {
     label: "Favorites",
     href: "/dashboard/favorites",
-  },
-  {
-    label: "Profile",
-    href: "/dashboard/profile",
   },
 ];
 
@@ -56,11 +52,7 @@ export const landingLinks = [
     href: "/pricing",
   },
   {
-    label: "Login",
-    href: "/login",
-  },
-  {
-    label: "Register",
-    href: "/register",
+    label: "Join",
+    href: "/join",
   },
 ];

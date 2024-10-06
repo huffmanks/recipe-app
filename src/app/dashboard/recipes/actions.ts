@@ -1,5 +1,7 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+
 import { and, eq } from "drizzle-orm";
 
 import db from "@/db";
@@ -11,6 +13,7 @@ export async function createRecipe(recipe: InsertRecipe) {
   } catch (error) {
     console.log(error);
   }
+  revalidatePath("/dashboard/recipes");
 }
 
 export async function updateRecipe(id: string, recipe: Partial<InsertRecipe>) {
@@ -19,6 +22,7 @@ export async function updateRecipe(id: string, recipe: Partial<InsertRecipe>) {
   } catch (error) {
     console.log(error);
   }
+  revalidatePath("/dashboard/recipes");
 }
 
 export async function toggleFavorite(userId: string, recipeId: string) {
@@ -38,6 +42,8 @@ export async function toggleFavorite(userId: string, recipeId: string) {
       .delete(favorites)
       .where(and(eq(favorites.recipeId, recipeId), eq(favorites.userId, userId)));
   }
+
+  revalidatePath("/dashboard/recipes");
 }
 
 export async function deleteRecipe(id: string) {
@@ -46,4 +52,5 @@ export async function deleteRecipe(id: string) {
   } catch (error) {
     console.log(error);
   }
+  revalidatePath("/dashboard/recipes");
 }

@@ -105,6 +105,7 @@ export async function handleRegister(
     lastName: values.lastName,
     email,
     hashedPassword,
+    familyId: values.familyId,
   });
 
   const session = await lucia.createSession(newUserId, {});

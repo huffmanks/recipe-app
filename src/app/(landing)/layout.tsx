@@ -8,12 +8,13 @@ export default async function LandingLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { session } = await auth();
+  const { session, user } = await auth();
 
   return (
     <>
       <Navigation
         isLoggedIn={!!session}
+        userName={user?.name}
         navLinks={landingLinks}>
         {children}
       </Navigation>

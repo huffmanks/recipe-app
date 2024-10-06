@@ -25,6 +25,7 @@ export default async function AdminLayout({
       <Navigation
         isAdmin={user.role === "admin"}
         isLoggedIn={!!user}
+        userName={user.name}
         navLinks={adminLinks}>
         {children}
       </Navigation>

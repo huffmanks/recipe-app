@@ -21,6 +21,7 @@ export default async function DashboardLayout({
       <Navigation
         isAdmin={user.role === "admin"}
         isLoggedIn={!!user}
+        userName={user.name}
         navLinks={siteLinks}>
         {children}
       </Navigation>
