@@ -43,7 +43,9 @@ export function Navigation({
   const params = new URLSearchParams(searchParams.toString());
   const pathname = usePathname();
 
-  function handleSubmit() {
+  function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+
     params.set("q", search);
     if (search === "") {
       params.delete("q");
@@ -194,7 +196,7 @@ export function Navigation({
           </div>
         </div>
       </header>
-      <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">{children}</main>
+      <main className="mx-auto w-full max-w-4xl p-4 md:p-8">{children}</main>
     </div>
   );
 }

@@ -2,14 +2,7 @@ import { Table, getTableName, sql } from "drizzle-orm";
 
 import { connection, db } from "@/db";
 import * as schema from "@/db/schema";
-import {
-  seedFamilies,
-  seedFavorites,
-  seedOrganizations,
-  seedRecipes,
-  seedSchedules,
-  seedUsers,
-} from "@/db/seeds";
+import { seedFamilies, seedFavorites, seedRecipes, seedSchedules, seedUsers } from "@/db/seeds";
 import { env } from "@/env";
 
 if (!env.DATABASE_DROP && !env.DATABASE_SEEDING) {
@@ -22,7 +15,6 @@ async function resetTable(db: db, table: Table) {
 
 async function run() {
   for (const table of [
-    schema.organizations,
     schema.families,
     schema.users,
     schema.recipes,
@@ -37,7 +29,6 @@ async function run() {
     return;
   }
 
-  await seedOrganizations(db);
   await seedFamilies(db);
   await seedUsers(db);
   await seedRecipes(db);
@@ -48,5 +39,5 @@ async function run() {
 }
 
 run()
-  .then(() => console.log("Seeding completed!"))
+  .then(() => console.log(`${env.DATABASE_DROP ? "Dropping" : "Seeding"} completed!`))
   .catch(console.error);

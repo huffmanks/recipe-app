@@ -20,7 +20,6 @@ export default function RecentCarousel({ recentRecipes }: RecentCarouselProps) {
 
   return (
     <Carousel
-      className=""
       plugins={plugins}
       opts={{
         align: "start",
@@ -31,7 +30,10 @@ export default function RecentCarousel({ recentRecipes }: RecentCarouselProps) {
           <CarouselItem
             key={item.id}
             className="basis-48 pl-4">
-            <RecipeCard item={item} />
+            <RecipeCard
+              item={item}
+              isCarousel
+            />
           </CarouselItem>
         ))}
       </CarouselContent>

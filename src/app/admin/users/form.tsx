@@ -1,14 +1,13 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { SelectFamily, SelectOrganization, SelectUser } from "@/db/schema";
+import { SelectFamily, SelectUser } from "@/db/schema";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -42,21 +41,16 @@ const FormSchema = z.object({
     message: "Username must be at least 2 characters.",
   }),
   role: z.enum(["admin", "member", "guest"]),
-  organizationId: z.string().nullish(),
   familyId: z.string().nullish(),
 });
 
 interface UserFormProps {
   isAdmin: boolean;
   userData?: SelectUser;
-  orgData: SelectOrganization[] | null;
   famData: SelectFamily[] | null;
 }
 
-export function UserForm({ isAdmin, userData, orgData, famData }: UserFormProps) {
-  const [familyArr, setFamilyArr] = useState<SelectFamily[] | null>(famData);
-  const [isLoaded, setIsLoaded] = useState(false);
-
+export function UserForm({ isAdmin, userData, famData }: UserFormProps) {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -70,7 +64,6 @@ export function UserForm({ isAdmin, userData, orgData, famData }: UserFormProps)
       lastName: "",
       email: "",
       role: "member",
-      organizationId: "",
       familyId: "",
     },
   });
@@ -104,33 +97,6 @@ export function UserForm({ isAdmin, userData, orgData, famData }: UserFormProps)
       );
     }
   }
-
-  const orgSelect = form.watch("organizationId");
-
-  function updateFamilySelect() {
-    const filteredFam = famData?.filter((fam) => fam.organizationId === orgSelect);
-
-    if (filteredFam && filteredFam.length > 0) {
-      setFamilyArr(filteredFam);
-    }
-  }
-
-  useEffect(() => {
-    if (!isLoaded) {
-      setIsLoaded(true);
-
-      if (orgSelect !== "") {
-        updateFamilySelect();
-      }
-      return;
-    }
-
-    if (famData && orgSelect !== "") {
-      updateFamilySelect();
-      form.setValue("familyId", "");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [orgSelect]);
 
   return (
     <Form {...form}>
@@ -220,38 +186,6 @@ export function UserForm({ isAdmin, userData, orgData, famData }: UserFormProps)
 
         <FormField
           control={form.control}
-          name="organizationId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Organizations</FormLabel>
-              <Select
-                onValueChange={field.onChange}
-                value={field.value ?? ""}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select an organization" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {orgData &&
-                    orgData.length > 0 &&
-                    orgData.map((org) => (
-                      <SelectItem
-                        key={org.id}
-                        value={org.id}>
-                        {org.title}
-                      </SelectItem>
-                    ))}
-                </SelectContent>
-              </Select>
-              <FormDescription>You must join an organization.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
           name="familyId"
           render={({ field }) => (
             <FormItem>
@@ -265,9 +199,9 @@ export function UserForm({ isAdmin, userData, orgData, famData }: UserFormProps)
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {familyArr &&
-                    familyArr.length > 0 &&
-                    familyArr.map((fam) => (
+                  {famData &&
+                    famData.length > 0 &&
+                    famData.map((fam) => (
                       <SelectItem
                         key={fam.id}
                         value={fam.id}>

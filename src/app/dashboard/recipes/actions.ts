@@ -1,9 +1,9 @@
 "use server";
 
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 
 import db from "@/db";
-import { InsertRecipe, recipes } from "@/db/schema";
+import { InsertRecipe, favorites, recipes } from "@/db/schema";
 
 export async function createRecipe(recipe: InsertRecipe) {
   try {
@@ -18,6 +18,25 @@ export async function updateRecipe(id: string, recipe: Partial<InsertRecipe>) {
     return db.update(recipes).set(recipe).where(eq(recipes.id, id)).returning();
   } catch (error) {
     console.log(error);
+  }
+}
+
+export async function toggleFavorite(userId: string, recipeId: string) {
+  const existingFavorite = await db
+    .select()
+    .from(favorites)
+    .where(and(eq(favorites.recipeId, recipeId), eq(favorites.userId, userId)))
+    .limit(1);
+
+  if (existingFavorite.length === 0) {
+    await db.insert(favorites).values({
+      userId: userId,
+      recipeId: recipeId,
+    });
+  } else {
+    await db
+      .delete(favorites)
+      .where(and(eq(favorites.recipeId, recipeId), eq(favorites.userId, userId)));
   }
 }
 

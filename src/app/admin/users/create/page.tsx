@@ -1,11 +1,10 @@
 import { UserForm } from "@/app/admin/users/form";
 import { auth } from "@/auth/validate-request";
 import db from "@/db";
-import { families, organizations } from "@/db/schema";
+import { families } from "@/db/schema";
 
 export default async function AdminCreateUserPage() {
   const { user } = await auth();
-  const orgData = await db.select().from(organizations);
   const famData = await db.select().from(families);
 
   const isAdmin = user?.role === "admin" ? true : false;
@@ -16,7 +15,6 @@ export default async function AdminCreateUserPage() {
 
       <UserForm
         isAdmin={isAdmin}
-        orgData={orgData}
         famData={famData}
       />
     </>

@@ -15,7 +15,6 @@ export default async function AdminUsersPage() {
       hashedPassword: false,
     },
     with: {
-      organization: true,
       family: true,
     },
   });
@@ -42,7 +41,6 @@ export default async function AdminUsersPage() {
               <TableHead>Last name</TableHead>
               <TableHead>Email</TableHead>
               <TableHead>Role</TableHead>
-              <TableHead>Organization</TableHead>
               <TableHead>Family</TableHead>
             </TableRow>
           </TableHeader>

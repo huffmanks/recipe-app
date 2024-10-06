@@ -3,14 +3,13 @@ import { eq } from "drizzle-orm";
 import { UserForm } from "@/app/admin/users/form";
 import { auth } from "@/auth/validate-request";
 import db from "@/db";
-import { families, organizations, users } from "@/db/schema";
+import { families, users } from "@/db/schema";
 
 export default async function AdminUpdateUserPage({ params }: { params: { slug: string } }) {
   const { user } = await auth();
 
   const userData = await db.select().from(users).where(eq(users.username, params.slug));
 
-  const orgData = await db.select().from(organizations);
   const famData = await db.select().from(families);
 
   if (!user || !userData[0]) return null;
@@ -23,7 +22,6 @@ export default async function AdminUpdateUserPage({ params }: { params: { slug: 
       <UserForm
         isAdmin={isAdmin}
         userData={userData[0]}
-        orgData={orgData}
         famData={famData}
       />
     </>

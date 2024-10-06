@@ -20,6 +20,7 @@ export const lucia = new Lucia(adapter, {
       email: attributes.email,
       image: attributes.image,
       role: attributes.role,
+      familyId: attributes.familyId,
     };
   },
 });
@@ -27,8 +28,6 @@ export const lucia = new Lucia(adapter, {
 declare module "lucia" {
   interface Register {
     Lucia: typeof lucia;
-    DatabaseUserAttributes: DatabaseUserAttributes;
+    DatabaseUserAttributes: SelectUser;
   }
 }
-
-type DatabaseUserAttributes = Omit<SelectUser, "organizationId" | "familyId">;

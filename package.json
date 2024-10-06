@@ -14,7 +14,7 @@
     "db:migrate": "cross-env DATABASE_MIGRATING=true tsx src/db/migrate.ts",
     "db:seed": "cross-env DATABASE_SEEDING=true tsx src/db/seed.ts",
     "db:drop": "cross-env DATABASE_DROP=true tsx src/db/seed.ts",
-    "db:studio": "drizzle-kit studio --host 0.0.0.0 --port 3002"
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.4.2",

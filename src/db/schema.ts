@@ -1,23 +1,23 @@
 import { SQL, relations, sql } from "drizzle-orm";
-import { integer, pgEnum, pgTableCreator, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import {
+  integer,
+  pgEnum,
+  pgTableCreator,
+  text,
+  timestamp,
+  uniqueIndex,
+  uuid,
+} from "drizzle-orm/pg-core";
 
 import { DATABASE_PREFIX } from "@/config/site";
 
 export const pgTable = pgTableCreator((name) => `${DATABASE_PREFIX}_${name}`);
-
-export const organizations = pgTable("organizations", {
-  id: uuid("id").primaryKey().defaultRandom().notNull(),
-  title: text("title").notNull().unique(),
-  slug: text("slug").notNull().unique(),
-  image: text("image"),
-});
 
 export const families = pgTable("families", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
   title: text("title").notNull().unique(),
   slug: text("slug").notNull().unique(),
   image: text("image"),
-  organizationId: uuid("organization_id").references(() => organizations.id),
 });
 
 export const UserRole = pgEnum("role", ["admin", "member", "guest"]);
@@ -39,8 +39,9 @@ export const users = pgTable("users", {
   hashedPassword: text("hashed_password").default("password").notNull(),
   image: text("image"),
   role: UserRole("role").default("member").notNull(),
-  organizationId: uuid("organization_id").references(() => organizations.id),
-  familyId: uuid("family_id").references(() => families.id),
+  familyId: uuid("family_id")
+    .references(() => families.id)
+    .notNull(),
 });
 
 export const sessions = pgTable("sessions", {
@@ -85,22 +86,28 @@ export const recipes = pgTable("recipes", {
   instructions: text("instructions").array().notNull(),
   status: Status("status").default("draft").notNull(),
   visibility: Visibility("visibility").default("public").notNull(),
-  userId: uuid("user_id")
-    .references(() => users.id)
-    .notNull(),
+  userId: uuid("user_id").references(() => users.id, { onDelete: "set null" }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
-export const favorites = pgTable("favorites", {
-  id: uuid("id").primaryKey().defaultRandom().notNull(),
-  userId: uuid("user_id")
-    .references(() => users.id)
-    .notNull(),
-  recipeId: uuid("recipe_id")
-    .references(() => recipes.id)
-    .notNull(),
-});
+export const favorites = pgTable(
+  "favorites",
+  {
+    id: uuid("id").primaryKey().defaultRandom().notNull(),
+    userId: uuid("user_id")
+      .references(() => users.id, { onDelete: "cascade" })
+      .notNull(),
+    recipeId: uuid("recipe_id")
+      .references(() => recipes.id, { onDelete: "cascade" })
+      .notNull(),
+  },
+  (table) => {
+    return {
+      uniqueUserRecipe: uniqueIndex("unique_user_recipe").on(table.userId, table.recipeId),
+    };
+  }
+);
 
 export const ScheduleMeal = pgEnum("meal", ["breakfast", "lunch", "dinner"]);
 export const SCHEDULE_MEALS = {
@@ -112,20 +119,16 @@ export const SCHEDULE_MEALS = {
 export const schedules = pgTable("schedules", {
   id: uuid("id").primaryKey().defaultRandom().notNull(),
   familyId: uuid("family_id")
-    .references(() => families.id)
+    .references(() => families.id, { onDelete: "cascade" })
     .notNull(),
   recipeId: uuid("recipe_id")
-    .references(() => recipes.id)
+    .references(() => recipes.id, { onDelete: "cascade" })
     .notNull(),
   dateTime: timestamp("date_time").notNull(),
   meal: ScheduleMeal("meal").notNull(),
 });
 
 export const userRelations = relations(users, ({ one, many }) => ({
-  organization: one(organizations, {
-    fields: [users.organizationId],
-    references: [organizations.id],
-  }),
   family: one(families, {
     fields: [users.familyId],
     references: [families.id],
@@ -134,11 +137,7 @@ export const userRelations = relations(users, ({ one, many }) => ({
   favorites: many(favorites),
 }));
 
-export const familyRelations = relations(families, ({ one, many }) => ({
-  organization: one(organizations, {
-    fields: [families.organizationId],
-    references: [organizations.id],
-  }),
+export const familyRelations = relations(families, ({ many }) => ({
   users: many(users),
   schedules: many(schedules),
 }));
@@ -174,8 +173,6 @@ export const scheduleRelations = relations(schedules, ({ one }) => ({
   }),
 }));
 
-export type SelectOrganization = typeof organizations.$inferSelect;
-export type InsertOrganization = typeof organizations.$inferInsert;
 export type SelectFamily = typeof families.$inferSelect;
 export type InsertFamily = typeof families.$inferInsert;
 export type SelectUser = Omit<typeof users.$inferSelect, "hashedPassword">;

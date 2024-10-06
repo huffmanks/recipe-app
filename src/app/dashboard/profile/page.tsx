@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import { UserForm } from "@/app/admin/users/form";
 import { auth } from "@/auth/validate-request";
 import db from "@/db";
-import { families, organizations, users } from "@/db/schema";
+import { families, users } from "@/db/schema";
 
 export default async function ProfilePage() {
   const { user } = await auth();
@@ -17,7 +17,6 @@ export default async function ProfilePage() {
     },
   });
 
-  const orgData = await db.select().from(organizations);
   const famData = await db.select().from(families);
 
   const isAdmin = user?.role === "admin" ? true : false;
@@ -28,7 +27,6 @@ export default async function ProfilePage() {
       <UserForm
         isAdmin={isAdmin}
         userData={userData}
-        orgData={orgData}
         famData={famData}
       />
     </>

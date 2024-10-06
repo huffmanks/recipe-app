@@ -1,7 +1,10 @@
-import { like, or, sql } from "drizzle-orm";
+import { and, eq, like, or, sql } from "drizzle-orm";
 
+import { auth } from "@/auth/validate-request";
 import db from "@/db";
-import { recipes } from "@/db/schema";
+import { favorites, recipes } from "@/db/schema";
+
+import RecipeCard from "@/components/custom/recipe-card";
 
 interface RecipesPageProps {
   searchParams: { [key: string]: string | undefined };
@@ -9,10 +12,41 @@ interface RecipesPageProps {
 
 export default async function RecipesPage({ searchParams }: RecipesPageProps) {
   const searchPattern = searchParams?.q ? `%${searchParams.q}%` : null;
+
+  const { user } = await auth();
+
   const allRecipes = searchPattern
     ? await db
-        .select()
+        .select({
+          id: recipes.id,
+          title: recipes.title,
+          slug: recipes.slug,
+          description: recipes.description,
+          image: recipes.image,
+          prepTime: recipes.prepTime,
+          cookTime: recipes.cookTime,
+          totalTime: recipes.totalTime,
+          servingSize: recipes.servingSize,
+          categories: recipes.categories,
+          cuisines: recipes.cuisines,
+          tags: recipes.tags,
+          ingredients: recipes.ingredients,
+          instructions: recipes.instructions,
+          status: recipes.status,
+          visibility: recipes.visibility,
+          userId: recipes.userId,
+          createdAt: recipes.createdAt,
+          updatedAt: recipes.updatedAt,
+          isFavorite:
+            sql<boolean>`CASE WHEN ${favorites.id} IS NOT NULL THEN true ELSE false END`.as(
+              "isFavorite"
+            ),
+        })
         .from(recipes)
+        .leftJoin(
+          favorites,
+          and(eq(favorites.recipeId, recipes.id), eq(favorites.userId, user!.id))
+        )
         .where(
           or(
             like(recipes.title, searchPattern),
@@ -40,14 +74,53 @@ export default async function RecipesPage({ searchParams }: RecipesPageProps) {
             `
           )
         )
-    : await db.select().from(recipes);
+    : await db
+        .select({
+          id: recipes.id,
+          title: recipes.title,
+          slug: recipes.slug,
+          description: recipes.description,
+          image: recipes.image,
+          prepTime: recipes.prepTime,
+          cookTime: recipes.cookTime,
+          totalTime: recipes.totalTime,
+          servingSize: recipes.servingSize,
+          categories: recipes.categories,
+          cuisines: recipes.cuisines,
+          tags: recipes.tags,
+          ingredients: recipes.ingredients,
+          instructions: recipes.instructions,
+          status: recipes.status,
+          visibility: recipes.visibility,
+          userId: recipes.userId,
+          createdAt: recipes.createdAt,
+          updatedAt: recipes.updatedAt,
+          isFavorite:
+            sql<boolean>`CASE WHEN ${favorites.id} IS NOT NULL THEN true ELSE false END`.as(
+              "isFavorite"
+            ),
+        })
+        .from(recipes)
+        .leftJoin(
+          favorites,
+          and(eq(favorites.recipeId, recipes.id), eq(favorites.userId, user!.id))
+        );
 
   return (
     <>
       <h1 className="mb-6 text-3xl font-medium tracking-wide">Recipes</h1>
 
       {allRecipes && allRecipes.length > 0 ? (
-        allRecipes.map((item) => <div key={item.id}>{item.title}</div>)
+        <div className="grid grid-cols-[repeat(auto-fill,_minmax(min(250px,_100%),_1fr))] gap-8">
+          {allRecipes.map((recipe) => (
+            <RecipeCard
+              key={recipe.id}
+              item={recipe}
+              isFavorite={recipe.isFavorite}
+              userId={user!.id}
+            />
+          ))}
+        </div>
       ) : (
         <>
           <div>No results.</div>

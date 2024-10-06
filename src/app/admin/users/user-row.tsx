@@ -2,13 +2,12 @@
 
 import { useRouter } from "next/navigation";
 
-import { SelectFamily, SelectOrganization, SelectUser } from "@/db/schema";
+import { SelectFamily, SelectUser } from "@/db/schema";
 
 import { TableCell, TableRow } from "@/components/ui/table";
 
 type ExtendedSelectUser = SelectUser & {
   family: SelectFamily | null;
-  organization: SelectOrganization | null;
 };
 
 interface UserRowProps {
@@ -30,7 +29,6 @@ export default function UserRow({ user }: UserRowProps) {
         <TableCell>{user.lastName}</TableCell>
         <TableCell>{user.email}</TableCell>
         <TableCell>{user.role}</TableCell>
-        <TableCell>{user.organization?.title}</TableCell>
         <TableCell>{user.family?.title}</TableCell>
       </TableRow>
     </>

@@ -27,7 +27,6 @@ CREATE TABLE IF NOT EXISTS "recipe_families" (
 	"title" text NOT NULL,
 	"slug" text NOT NULL,
 	"image" text,
-	"organization_id" uuid,
 	CONSTRAINT "recipe_families_title_unique" UNIQUE("title"),
 	CONSTRAINT "recipe_families_slug_unique" UNIQUE("slug")
 );
@@ -36,15 +35,6 @@ CREATE TABLE IF NOT EXISTS "recipe_favorites" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"user_id" uuid NOT NULL,
 	"recipe_id" uuid NOT NULL
-);
---> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "recipe_organizations" (
-	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-	"title" text NOT NULL,
-	"slug" text NOT NULL,
-	"image" text,
-	CONSTRAINT "recipe_organizations_title_unique" UNIQUE("title"),
-	CONSTRAINT "recipe_organizations_slug_unique" UNIQUE("slug")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "recipe_password_reset_tokens" (
@@ -70,7 +60,7 @@ CREATE TABLE IF NOT EXISTS "recipe_recipes" (
 	"instructions" text[] NOT NULL,
 	"status" "status" DEFAULT 'draft' NOT NULL,
 	"visibility" "visibility" DEFAULT 'public' NOT NULL,
-	"user_id" uuid NOT NULL,
+	"user_id" uuid,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL,
 	CONSTRAINT "recipe_recipes_title_unique" UNIQUE("title"),
@@ -100,25 +90,18 @@ CREATE TABLE IF NOT EXISTS "recipe_users" (
 	"hashed_password" text DEFAULT 'password' NOT NULL,
 	"image" text,
 	"role" "role" DEFAULT 'member' NOT NULL,
-	"organization_id" uuid,
 	"family_id" uuid,
 	CONSTRAINT "recipe_users_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "recipe_families" ADD CONSTRAINT "recipe_families_organization_id_recipe_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "public"."recipe_organizations"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "recipe_favorites" ADD CONSTRAINT "recipe_favorites_user_id_recipe_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."recipe_users"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "recipe_favorites" ADD CONSTRAINT "recipe_favorites_user_id_recipe_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."recipe_users"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "recipe_favorites" ADD CONSTRAINT "recipe_favorites_recipe_id_recipe_recipes_id_fk" FOREIGN KEY ("recipe_id") REFERENCES "public"."recipe_recipes"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "recipe_favorites" ADD CONSTRAINT "recipe_favorites_recipe_id_recipe_recipes_id_fk" FOREIGN KEY ("recipe_id") REFERENCES "public"."recipe_recipes"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
@@ -130,19 +113,19 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "recipe_recipes" ADD CONSTRAINT "recipe_recipes_user_id_recipe_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."recipe_users"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "recipe_recipes" ADD CONSTRAINT "recipe_recipes_user_id_recipe_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."recipe_users"("id") ON DELETE set null ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "recipe_schedules" ADD CONSTRAINT "recipe_schedules_family_id_recipe_families_id_fk" FOREIGN KEY ("family_id") REFERENCES "public"."recipe_families"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "recipe_schedules" ADD CONSTRAINT "recipe_schedules_family_id_recipe_families_id_fk" FOREIGN KEY ("family_id") REFERENCES "public"."recipe_families"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "recipe_schedules" ADD CONSTRAINT "recipe_schedules_recipe_id_recipe_recipes_id_fk" FOREIGN KEY ("recipe_id") REFERENCES "public"."recipe_recipes"("id") ON DELETE no action ON UPDATE no action;
+ ALTER TABLE "recipe_schedules" ADD CONSTRAINT "recipe_schedules_recipe_id_recipe_recipes_id_fk" FOREIGN KEY ("recipe_id") REFERENCES "public"."recipe_recipes"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
@@ -154,13 +137,9 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "recipe_users" ADD CONSTRAINT "recipe_users_organization_id_recipe_organizations_id_fk" FOREIGN KEY ("organization_id") REFERENCES "public"."recipe_organizations"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
  ALTER TABLE "recipe_users" ADD CONSTRAINT "recipe_users_family_id_recipe_families_id_fk" FOREIGN KEY ("family_id") REFERENCES "public"."recipe_families"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
+--> statement-breakpoint
+CREATE UNIQUE INDEX IF NOT EXISTS "unique_user_recipe" ON "recipe_favorites" USING btree ("user_id","recipe_id");

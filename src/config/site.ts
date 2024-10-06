@@ -37,10 +37,6 @@ export const adminLinks = [
     href: "/admin",
   },
   {
-    label: "Organizations",
-    href: "/admin/organizations",
-  },
-  {
     label: "Families",
     href: "/admin/families",
   },

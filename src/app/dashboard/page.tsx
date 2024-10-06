@@ -26,7 +26,7 @@ export default async function DashboardPage() {
     <>
       <h1 className="mb-6 text-3xl font-medium tracking-wide">Dashboard</h1>
 
-      <div className="relative mb-10 h-48 overflow-hidden rounded-lg lg:h-64">
+      <div className="relative -z-10 mb-10 h-48 overflow-hidden rounded-lg lg:h-64">
         <img
           className="absolute right-0 h-full w-5/6 object-cover"
           src={featuredRecipe[0].image}

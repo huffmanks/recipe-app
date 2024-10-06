@@ -11,8 +11,6 @@ const today = startOfToday();
 const generateUUIDs = (count: number) => Array.from({ length: count }, () => uuidv4());
 
 const [
-  org1,
-  org2,
   fam1,
   fam2,
   fam3,
@@ -41,43 +39,26 @@ const [
   sched6,
 ] = generateUUIDs(52);
 
-export const orgData = [
-  {
-    id: org1,
-    title: "Aurelia",
-    slug: "aurelia",
-  },
-  {
-    id: org2,
-    title: "Nebulon",
-    slug: "nebulon",
-  },
-];
-
 export const familyData = [
   {
     id: fam1,
     title: "Artemis",
     slug: "artemis",
-    organizationId: org1,
   },
   {
     id: fam2,
     title: "Bellona",
     slug: "bellona",
-    organizationId: org1,
   },
   {
     id: fam3,
     title: "Nyx",
     slug: "nyx",
-    organizationId: org2,
   },
   {
     id: fam4,
     title: "Oberon",
     slug: "oberon",
-    organizationId: org2,
   },
 ];
 
@@ -89,7 +70,6 @@ export const userData = [
     email: "aquilaartemis@example.com",
     hashedPassword,
     role: USER_ROLES.MEMBER,
-    organizationId: org1,
     familyId: fam1,
   },
   {
@@ -99,7 +79,6 @@ export const userData = [
     email: "lysanderartemis@example.com",
     hashedPassword,
     role: USER_ROLES.GUEST,
-    organizationId: org1,
     familyId: fam1,
   },
   {
@@ -109,7 +88,6 @@ export const userData = [
     email: "ceresbellona@example.com",
     hashedPassword,
     role: USER_ROLES.MEMBER,
-    organizationId: org1,
     familyId: fam2,
   },
   {
@@ -119,7 +97,6 @@ export const userData = [
     email: "erisbellona@example.com",
     hashedPassword,
     role: USER_ROLES.GUEST,
-    organizationId: org1,
     familyId: fam2,
   },
   {
@@ -129,7 +106,6 @@ export const userData = [
     email: "gaiacalliope@example.com",
     hashedPassword,
     role: USER_ROLES.MEMBER,
-    organizationId: org2,
     familyId: fam3,
   },
   {
@@ -139,7 +115,6 @@ export const userData = [
     email: "heracalliope@example.com",
     hashedPassword,
     role: USER_ROLES.GUEST,
-    organizationId: org2,
     familyId: fam3,
   },
   {
@@ -149,7 +124,6 @@ export const userData = [
     email: "aegisnyx@example.com",
     hashedPassword,
     role: USER_ROLES.MEMBER,
-    organizationId: org2,
     familyId: fam4,
   },
   {
@@ -159,7 +133,6 @@ export const userData = [
     email: "echonyx@example.com",
     hashedPassword,
     role: USER_ROLES.GUEST,
-    organizationId: org2,
     familyId: fam4,
   },
   {
@@ -169,7 +142,6 @@ export const userData = [
     email: "admin@example.com",
     hashedPassword,
     role: USER_ROLES.ADMIN,
-    organizationId: org1,
     familyId: fam1,
   },
   {
@@ -179,7 +151,6 @@ export const userData = [
     email: "member@example.com",
     hashedPassword,
     role: USER_ROLES.MEMBER,
-    organizationId: org1,
     familyId: fam1,
   },
   {
@@ -189,7 +160,6 @@ export const userData = [
     email: "guest@example.com",
     hashedPassword,
     role: USER_ROLES.GUEST,
-    organizationId: org1,
     familyId: fam1,
   },
 ];
