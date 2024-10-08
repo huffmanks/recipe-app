@@ -37,7 +37,7 @@ const FormSchema = z.object({
     }),
 });
 
-export function RecipeFormUrl() {
+export function RecipeFormUrl({ userId }: { userId: string }) {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -48,18 +48,28 @@ export function RecipeFormUrl() {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    for (const url of data.urls) {
-      const recipe = await getRecipeFromUrl(url.text);
-      // add userId
-      const result = await createRecipe(recipe);
+    try {
+      await Promise.all(data.urls.map(async (url) => processRecipeUrl(url.text)));
+    } catch (_error) {
+      toast.error("An error occurred while processing the recipes.");
+    }
+  }
 
-      if (result) {
-        toast.success(`Successfully created recipe ${result[0].title}!`);
+  async function processRecipeUrl(url: string) {
+    const recipe = await getRecipeFromUrl(url);
 
-        router.push("/admin/recipes");
-      } else {
-        toast.error("Creating recipe failed!");
-      }
+    if (recipe instanceof Error) {
+      toast.error(recipe.message);
+      return;
+    }
+
+    const result = await createRecipe(userId, recipe);
+
+    if (result) {
+      toast.success(`Successfully created recipe ${result[0].title}!`);
+      router.push("/admin/recipes");
+    } else {
+      toast.error("Creating recipe failed!");
     }
   }
 

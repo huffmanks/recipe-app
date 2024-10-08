@@ -7,9 +7,12 @@ import { and, eq } from "drizzle-orm";
 import db from "@/db";
 import { InsertRecipe, favorites, recipes } from "@/db/schema";
 
-export async function createRecipe(recipe: InsertRecipe) {
+export async function createRecipe(userId: string, recipe: InsertRecipe) {
   try {
-    return db.insert(recipes).values(recipe).returning();
+    return db
+      .insert(recipes)
+      .values({ ...recipe, userId })
+      .returning();
   } catch (error) {
     console.log(error);
   }

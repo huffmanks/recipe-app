@@ -10,7 +10,7 @@ import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components
 import FamilyRow from "./family-row";
 
 export default async function AdminFamiliesPage() {
-  const familyData = await db.query.families.findMany();
+  const familyData = await db.query.families.findMany({ with: { users: true } });
 
   return (
     <>
@@ -33,6 +33,7 @@ export default async function AdminFamiliesPage() {
               <TableHead>Id</TableHead>
               <TableHead>Title</TableHead>
               <TableHead>Slug</TableHead>
+              <TableHead>Users</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

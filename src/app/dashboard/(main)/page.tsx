@@ -1,32 +1,50 @@
 import Link from "next/link";
 
-import { desc, sql } from "drizzle-orm";
+import { desc, eq, sql } from "drizzle-orm";
 
+import { auth } from "@/auth/validate-request";
 import db from "@/db";
-import { recipes } from "@/db/schema";
+import { recipes, schedules, users } from "@/db/schema";
 
 import { Button } from "@/components/ui/button";
 
 import RecentCarousel from "./recent-carousel";
+import UpcomingMeals from "./upcoming-meals";
 
-// Grid, box, dashboard thing
-// 1. featured recipe (random meal)
-// 2. upcoming scheduled meal (first day today or upcoming and show multiple meals if more than one for that day)
-// 3. recent (show last 5 created recipes)
 export default async function DashboardPage() {
+  const { user } = await auth();
+  if (!user) return null;
   const featuredRecipe = await db
     .select()
     .from(recipes)
     .orderBy(sql`RANDOM()`)
     .limit(1);
 
-  const recentRecipes = await db.select().from(recipes).orderBy(desc(recipes.createdAt)).limit(5);
+  const recentRecipes = await db.select().from(recipes).orderBy(desc(recipes.createdAt)).limit(10);
+
+  const scheduledMeals = await db
+    .select({
+      id: schedules.id,
+      familyId: schedules.familyId,
+      recipeId: schedules.recipeId,
+      dateTime: schedules.dateTime,
+      meal: schedules.meal,
+      title: recipes.title,
+      slug: recipes.slug,
+      description: recipes.description,
+      image: recipes.image,
+    })
+    .from(schedules)
+    .innerJoin(users, eq(schedules.familyId, users.familyId))
+    .innerJoin(recipes, eq(schedules.recipeId, recipes.id))
+    .where(eq(users.id, user.id))
+    .orderBy(schedules.dateTime, schedules.meal);
 
   return (
     <>
       <h1 className="mb-6 text-3xl font-medium tracking-wide">Dashboard</h1>
 
-      <div className="relative -z-10 mb-10 h-48 overflow-hidden rounded-lg lg:h-64">
+      <section className="relative mb-10 h-48 overflow-hidden rounded-lg lg:h-64">
         <img
           className="absolute right-0 h-full w-5/6 object-cover"
           src={featuredRecipe[0].image}
@@ -48,12 +66,10 @@ export default async function DashboardPage() {
             <Link href={`/recipes/${featuredRecipe[0].slug}`}>View</Link>
           </Button>
         </div>
-      </div>
+      </section>
 
-      <h3 className="text-bold mb-4 text-xl">Upcoming</h3>
-      <div className="mb-10">TODO: scheduled meals</div>
+      <UpcomingMeals scheduledMeals={scheduledMeals} />
 
-      <h3 className="text-bold mb-4 text-xl">Recently added</h3>
       <RecentCarousel recentRecipes={recentRecipes} />
     </>
   );

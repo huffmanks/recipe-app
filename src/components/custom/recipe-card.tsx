@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { EllipsisVerticalIcon, HeartIcon, PencilIcon, TrashIcon } from "lucide-react";
 
-import { deleteRecipe, toggleFavorite } from "@/app/dashboard/recipes/actions";
+import { deleteRecipe, toggleFavorite } from "@/app/dashboard/(main)/recipes/actions";
 import { SelectRecipe } from "@/db/schema";
 import { cn } from "@/lib/utils";
 

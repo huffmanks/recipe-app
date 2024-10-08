@@ -27,7 +27,7 @@ export const siteLinks: SiteLink[] = [
   },
 ];
 
-export const adminLinks = [
+export const adminLinks: SiteLink[] = [
   {
     label: "Admin",
     href: "/admin",
@@ -42,7 +42,7 @@ export const adminLinks = [
   },
 ];
 
-export const landingLinks = [
+export const landingLinks: SiteLink[] = [
   {
     label: "About",
     href: "/about",
@@ -54,5 +54,24 @@ export const landingLinks = [
   {
     label: "Join",
     href: "/join",
+  },
+];
+
+export const profileLinks: SiteLink[] = [
+  {
+    label: "General",
+    href: "/dashboard/profile",
+  },
+  {
+    label: "Account",
+    href: "/dashboard/profile/account",
+  },
+  {
+    label: "Family",
+    href: "/dashboard/profile/family",
+  },
+  {
+    label: "Settings",
+    href: "/dashboard/profile/settings",
   },
 ];

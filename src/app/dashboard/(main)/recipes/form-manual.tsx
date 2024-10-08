@@ -93,9 +93,10 @@ const FormSchema = z.object({
 
 interface RecipeFormProps {
   recipeData?: SelectRecipe;
+  userId: string;
 }
 
-export function RecipeFormManual({ recipeData }: RecipeFormProps) {
+export function RecipeFormManual({ recipeData, userId }: RecipeFormProps) {
   const router = useRouter();
 
   const isUpdateMode = !!recipeData;
@@ -120,10 +121,9 @@ export function RecipeFormManual({ recipeData }: RecipeFormProps) {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    // const newData = {userId, ...data}
     const result = isUpdateMode
       ? await updateRecipe(recipeData.id, data)
-      : await createRecipe(data);
+      : await createRecipe(userId, data);
 
     if (result) {
       toast.success(

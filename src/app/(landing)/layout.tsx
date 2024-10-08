@@ -16,7 +16,7 @@ export default async function LandingLayout({
         isLoggedIn={!!session}
         userName={user?.name}
         navLinks={landingLinks}>
-        {children}
+        <main className="mx-auto w-full max-w-4xl p-4 md:p-8">{children}</main>
       </Navigation>
     </>
   );

@@ -60,7 +60,7 @@ export function Navigation({
 
   return (
     <div className="flex min-h-screen w-full flex-col">
-      <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 lg:px-6">
+      <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background px-4 lg:px-6">
         <nav className="hidden items-center gap-6 text-lg font-medium lg:flex lg:text-sm">
           <Link
             href="/"
@@ -157,7 +157,7 @@ export function Navigation({
                     <DropdownMenuItem
                       className="cursor-pointer"
                       asChild>
-                      <Link href="/profile">Profile</Link>
+                      <Link href="/dashboard/profile">Profile</Link>
                     </DropdownMenuItem>
                   </>
                 )}
@@ -201,7 +201,7 @@ export function Navigation({
           </div>
         </div>
       </header>
-      <main className="mx-auto w-full max-w-4xl p-4 md:p-8">{children}</main>
+      {children}
     </div>
   );
 }

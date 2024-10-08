@@ -1,7 +1,7 @@
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="w-full lg:grid lg:grid-cols-2">
-      <div className="flex h-screen items-center justify-center lg:h-auto">{children}</div>
+      <main className="flex h-screen items-center justify-center lg:h-auto">{children}</main>
       <div className="hidden h-screen bg-muted lg:block">
         <img
           src="/placeholder.svg"

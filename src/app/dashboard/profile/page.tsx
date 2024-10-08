@@ -23,7 +23,6 @@ export default async function ProfilePage() {
 
   return (
     <>
-      <h1 className="mb-6 text-3xl font-medium tracking-wide">Profile</h1>
       <UserForm
         isAdmin={isAdmin}
         userData={userData}
