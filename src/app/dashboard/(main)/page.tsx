@@ -1,6 +1,7 @@
 import Link from "next/link";
 
-import { desc, eq, sql } from "drizzle-orm";
+import { startOfToday } from "date-fns";
+import { and, desc, eq, gte, sql } from "drizzle-orm";
 
 import { auth } from "@/auth/validate-request";
 import db from "@/db";
@@ -22,6 +23,7 @@ export default async function DashboardPage() {
 
   const recentRecipes = await db.select().from(recipes).orderBy(desc(recipes.createdAt)).limit(10);
 
+  const today = startOfToday();
   const scheduledMeals = await db
     .select({
       id: schedules.id,
@@ -37,7 +39,7 @@ export default async function DashboardPage() {
     .from(schedules)
     .innerJoin(users, eq(schedules.familyId, users.familyId))
     .innerJoin(recipes, eq(schedules.recipeId, recipes.id))
-    .where(eq(users.id, user.id))
+    .where(and(eq(users.id, user.id), gte(schedules.dateTime, today)))
     .orderBy(schedules.dateTime, schedules.meal);
 
   return (

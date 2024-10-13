@@ -4,7 +4,18 @@ import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
-import { MenuIcon, Package2Icon, SearchIcon, User2Icon } from "lucide-react";
+import {
+  LayoutDashboardIcon,
+  LogInIcon,
+  LogOutIcon,
+  MenuIcon,
+  MergeIcon,
+  Package2Icon,
+  SearchIcon,
+  ShieldIcon,
+  User2Icon,
+  UserCog2Icon,
+} from "lucide-react";
 
 import { handleLogout } from "@/auth/actions";
 import { SiteLink } from "@/config/site";
@@ -143,7 +154,9 @@ export function Navigation({
                   <span className="sr-only">Toggle user menu</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent
+                align="end"
+                className="w-40">
                 <DropdownMenuLabel>{userName ? userName : "Account"}</DropdownMenuLabel>
                 {isLoggedIn && (
                   <>
@@ -151,13 +164,19 @@ export function Navigation({
                     <DropdownMenuItem
                       className="cursor-pointer"
                       asChild>
-                      <Link href="/dashboard">Dashboard</Link>
+                      <Link href="/dashboard">
+                        <LayoutDashboardIcon className="mr-2 size-4" />
+                        <span>Dashboard</span>
+                      </Link>
                     </DropdownMenuItem>
 
                     <DropdownMenuItem
                       className="cursor-pointer"
                       asChild>
-                      <Link href="/dashboard/profile">Profile</Link>
+                      <Link href="/dashboard/profile">
+                        <UserCog2Icon className="mr-2 size-4" />
+                        <span>Profile</span>
+                      </Link>
                     </DropdownMenuItem>
                   </>
                 )}
@@ -168,7 +187,10 @@ export function Navigation({
                     <DropdownMenuItem
                       className="cursor-pointer"
                       asChild>
-                      <Link href="/admin">Admin</Link>
+                      <Link href="/admin">
+                        <ShieldIcon className="mr-2 size-4" />
+                        <span>Admin</span>
+                      </Link>
                     </DropdownMenuItem>
                   </>
                 )}
@@ -182,18 +204,25 @@ export function Navigation({
                         variant="ghost"
                         size="unset"
                         type="submit">
-                        Logout
+                        <LogOutIcon className="mr-2 size-4" />
+                        <span>Logout</span>
                       </Button>
                     </form>
                   ) : (
-                    <Link href="/login">Login</Link>
+                    <Link href="/login">
+                      <LogInIcon className="mr-2 size-4" />
+                      <span>Login</span>
+                    </Link>
                   )}
                 </DropdownMenuItem>
                 {!isLoggedIn && (
                   <DropdownMenuItem
                     className="cursor-pointer"
                     asChild>
-                    <Link href="/join">Join</Link>
+                    <Link href="/join">
+                      <MergeIcon className="mr-2 size-4" />
+                      <span>Join</span>
+                    </Link>
                   </DropdownMenuItem>
                 )}
               </DropdownMenuContent>

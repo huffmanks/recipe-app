@@ -74,16 +74,16 @@ export function UserForm({ isAdmin, userData, famData }: UserFormProps) {
     const { role, ...rest } = data;
 
     const result = isUpdateMode
-      ? await updateUser(userData.id, isAdmin ? data : rest) // error 1
-      : await createUser(data); // error 2
+      ? await updateUser(userData.id, isAdmin ? data : rest)
+      : await createUser(data);
 
-    if (result) {
+    if (result?.success) {
       toast.success(
         isProfilePage
           ? "Successfully updated your profile!"
           : isUpdateMode
-            ? `Successfully updated user ${result[0].firstName}!`
-            : `Successfully created user ${result[0].firstName}!`
+            ? `Successfully updated user ${result.success[0].firstName}!`
+            : `Successfully created user ${result.success[0].firstName}!`
       );
 
       if (!isProfilePage) {

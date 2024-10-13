@@ -38,10 +38,12 @@ export default function RecentCarousel({ recentRecipes }: RecentCarouselProps) {
             ))}
           </CarouselContent>
 
-          <div className="hidden md:block">
-            <CarouselPrevious />
-            <CarouselNext />
-          </div>
+          {recentRecipes.length > 3 && (
+            <div className="hidden md:block">
+              <CarouselPrevious />
+              <CarouselNext />
+            </div>
+          )}
         </Carousel>
       </div>
     </section>
