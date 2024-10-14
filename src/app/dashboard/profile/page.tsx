@@ -16,7 +16,10 @@ export default async function ProfilePage() {
   const userData = await db.query.users.findFirst({
     where: eq(users.id, user.id),
     columns: {
-      hashedPassword: false,
+      id: true,
+      firstName: true,
+      lastName: true,
+      email: true,
     },
   });
 

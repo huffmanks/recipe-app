@@ -21,7 +21,7 @@ export default async function ProfileLayout({ children }: { children: React.Reac
         userName={user.name}
         navLinks={siteLinks}>
         <main className="min-h-[calc(100vh_-_theme(spacing.16))] bg-muted/40 p-4 md:p-8">
-          <div className="grid gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
+          <div className="mx-auto grid max-w-[1200px] gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
             <div>
               <h1 className="mb-8 text-3xl font-semibold">Profile</h1>
               <nav className="grid gap-4 text-sm text-muted-foreground">

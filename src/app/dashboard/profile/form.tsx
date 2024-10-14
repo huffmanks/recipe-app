@@ -5,10 +5,15 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { SelectUser } from "@/db/schema";
-
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -34,16 +39,21 @@ const FormSchema = z.object({
 });
 
 interface UserFormProps {
-  userData: SelectUser;
+  userData: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+  };
 }
 
 export default function ProfileForm({ userData }: UserFormProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: userData || {
-      firstName: "",
-      lastName: "",
-      email: "",
+    defaultValues: {
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      email: userData.email,
     },
   });
 
@@ -58,21 +68,21 @@ export default function ProfileForm({ userData }: UserFormProps) {
   }
 
   return (
-    <Card className="bg-background">
-      <CardHeader>
-        <CardTitle>Store Name</CardTitle>
-        <CardDescription>Used to identify your store in the marketplace.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="w-2/3 space-y-6">
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <Card className="bg-background">
+          <CardHeader>
+            <CardTitle>Edit personal info</CardTitle>
+            <CardDescription>
+              Keep your information up to date for a personalized experience.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
             <FormField
               control={form.control}
               name="firstName"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="w-2/3">
                   <FormLabel>First name</FormLabel>
                   <FormControl>
                     <Input
@@ -90,7 +100,7 @@ export default function ProfileForm({ userData }: UserFormProps) {
               control={form.control}
               name="lastName"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="w-2/3">
                   <FormLabel>Last name</FormLabel>
                   <FormControl>
                     <Input
@@ -108,7 +118,7 @@ export default function ProfileForm({ userData }: UserFormProps) {
               control={form.control}
               name="email"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="w-2/3">
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
@@ -120,11 +130,12 @@ export default function ProfileForm({ userData }: UserFormProps) {
                 </FormItem>
               )}
             />
-
+          </CardContent>
+          <CardFooter className="border-t px-6 py-4">
             <Button type="submit">Update</Button>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+          </CardFooter>
+        </Card>
+      </form>
+    </Form>
   );
 }
