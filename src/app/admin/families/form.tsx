@@ -37,7 +37,7 @@ interface FamilyFormProps {
   familyData?: SelectFamily;
 }
 
-export function FamilyForm({ familyData }: FamilyFormProps) {
+export default function FamilyForm({ familyData }: FamilyFormProps) {
   const router = useRouter();
 
   const isUpdateMode = !!familyData;
@@ -55,11 +55,11 @@ export function FamilyForm({ familyData }: FamilyFormProps) {
       ? await updateFamily(familyData.id, data)
       : await createFamily(data);
 
-    if (result) {
+    if (result?.success) {
       toast.success(
         isUpdateMode
-          ? `Successfully updated family ${result[0].title}!`
-          : `Successfully created family ${result[0].title}!`
+          ? `Successfully updated family ${result.success[0].title}!`
+          : `Successfully created family ${result.success[0].title}!`
       );
 
       router.push("/admin/families");

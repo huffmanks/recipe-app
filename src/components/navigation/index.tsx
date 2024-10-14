@@ -42,7 +42,7 @@ interface NavigationProps {
   children: React.ReactNode;
 }
 
-export function Navigation({
+export default function Navigation({
   isAdmin = false,
   isLoggedIn = false,
   userName,

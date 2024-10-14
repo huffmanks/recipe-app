@@ -1,7 +1,7 @@
 import { auth } from "@/auth/validate-request";
 import { landingLinks } from "@/config/site";
 
-import { Navigation } from "@/components/navigation";
+import Navigation from "@/components/navigation";
 
 export default async function LandingLayout({
   children,

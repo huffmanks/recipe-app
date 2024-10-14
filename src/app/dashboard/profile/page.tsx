@@ -1,14 +1,17 @@
+import { redirect } from "next/navigation";
+
 import { eq } from "drizzle-orm";
 
-import { UserForm } from "@/app/admin/users/form";
 import { auth } from "@/auth/validate-request";
 import db from "@/db";
-import { families, users } from "@/db/schema";
+import { users } from "@/db/schema";
+
+import ProfileForm from "./form";
 
 export default async function ProfilePage() {
   const { user } = await auth();
 
-  if (!user) return null;
+  if (!user) redirect("/login");
 
   const userData = await db.query.users.findFirst({
     where: eq(users.id, user.id),
@@ -17,17 +20,11 @@ export default async function ProfilePage() {
     },
   });
 
-  const famData = await db.select().from(families);
-
-  const isAdmin = user?.role === "admin" ? true : false;
+  if (!userData) return null;
 
   return (
     <>
-      <UserForm
-        isAdmin={isAdmin}
-        userData={userData}
-        famData={famData}
-      />
+      <ProfileForm userData={userData} />
     </>
   );
 }

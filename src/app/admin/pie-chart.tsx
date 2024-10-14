@@ -36,7 +36,7 @@ interface UserPieChartProps {
   guestCount: number;
 }
 
-export function UserPieChart({ adminCount, memberCount, guestCount }: UserPieChartProps) {
+export default function UserPieChart({ adminCount, memberCount, guestCount }: UserPieChartProps) {
   const chartData = useMemo(
     () => [
       { role: "admin", users: adminCount, fill: "var(--color-admin)" },

@@ -37,7 +37,7 @@ const FormSchema = z.object({
     }),
 });
 
-export function RecipeFormUrl({ userId }: { userId: string }) {
+export default function RecipeFormUrl({ userId }: { userId: string }) {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof FormSchema>>({

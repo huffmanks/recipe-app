@@ -96,7 +96,7 @@ interface RecipeFormProps {
   userId: string;
 }
 
-export function RecipeFormManual({ recipeData, userId }: RecipeFormProps) {
+export default function RecipeFormManual({ recipeData, userId }: RecipeFormProps) {
   const router = useRouter();
 
   const isUpdateMode = !!recipeData;

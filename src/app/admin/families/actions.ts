@@ -19,7 +19,11 @@ export async function createFamily(family: InsertFamily) {
 
 export async function updateFamily(id: string, family: Partial<InsertFamily>) {
   try {
-    const updatedFamily = db.update(families).set(family).where(eq(families.id, id)).returning();
+    const updatedFamily = await db
+      .update(families)
+      .set(family)
+      .where(eq(families.id, id))
+      .returning();
     revalidatePath("/admin/families");
     return { success: updatedFamily, error: null };
   } catch (_error) {

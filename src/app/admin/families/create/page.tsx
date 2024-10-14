@@ -1,4 +1,4 @@
-import { FamilyForm } from "@/app/admin/families/form";
+import FamilyForm from "@/app/admin/families/form";
 
 export default async function AdminCreateFamilyPage() {
   return (

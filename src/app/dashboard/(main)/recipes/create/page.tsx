@@ -2,8 +2,8 @@ import { auth } from "@/auth/validate-request";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import { RecipeFormManual } from "../form-manual";
-import { RecipeFormUrl } from "../form-url";
+import RecipeFormManual from "../form-manual";
+import RecipeFormUrl from "../form-url";
 
 export default async function RecipeCreatePage() {
   const { user } = await auth();

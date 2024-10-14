@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 
-import { FamilyForm } from "@/app/admin/families/form";
+import FamilyForm from "@/app/admin/families/form";
 import db from "@/db";
 import { families } from "@/db/schema";
 

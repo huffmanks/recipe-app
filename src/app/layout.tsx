@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 
 import { SITE_DESCRIPTION, SITE_TITLE, SITE_TITLE_TEMPLATE } from "@/config/site";
-import { ThemeProvider } from "@/providers/theme";
+import ThemeProvider from "@/providers/theme";
 
 import { Toaster } from "@/components/ui/sonner";
 

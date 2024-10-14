@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/auth/validate-request";
 import { adminLinks } from "@/config/site";
 
-import { Navigation } from "@/components/navigation";
+import Navigation from "@/components/navigation";
 
 export default async function AdminLayout({
   children,

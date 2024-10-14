@@ -1,4 +1,4 @@
-import { UserForm } from "@/app/admin/users/form";
+import UserForm from "@/app/admin/users/form";
 import { auth } from "@/auth/validate-request";
 import db from "@/db";
 import { families } from "@/db/schema";

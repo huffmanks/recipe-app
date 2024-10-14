@@ -3,7 +3,7 @@ import { count, eq } from "drizzle-orm";
 import db from "@/db";
 import { users } from "@/db/schema";
 
-import { UserPieChart } from "./pie-chart";
+import UserPieChart from "./pie-chart";
 
 export default async function AdminPage() {
   const adminCount = await db.select({ count: count() }).from(users).where(eq(users.role, "admin"));

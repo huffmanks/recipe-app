@@ -38,7 +38,7 @@ const FormSchema = z.object({
     message: "Last name must be at least 2 characters.",
   }),
   email: z.string().email({
-    message: "Username must be at least 2 characters.",
+    message: "Email must be at least 2 characters.",
   }),
   role: z.enum(["admin", "member", "guest"]),
   familyId: z.string().min(1, {
@@ -52,7 +52,7 @@ interface UserFormProps {
   famData: SelectFamily[] | null;
 }
 
-export function UserForm({ isAdmin, userData, famData }: UserFormProps) {
+export default function UserForm({ isAdmin, userData, famData }: UserFormProps) {
   const pathname = usePathname();
   const router = useRouter();
 
